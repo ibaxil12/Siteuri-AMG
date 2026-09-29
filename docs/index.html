@@ -1,220 +1,316 @@
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0F2233">
-<title>AMG și Tehnică Dentară · ULBS Medicină</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --paper:#F4F7F9; --surface:#fff; --ink:#0F2233; --muted:#5B6B7A; --line:#DCE4EA;
-  --brand:#0B5FA5; --tint:#E3EFF9; --band:#0F2233; --mark:#FFE58A;
-  --k-anunt:#0B5FA5; --k-pagina:#5B6B7A; --k-document:#A5490B; --new:#0B7A4B;
-}
-@media (prefers-color-scheme:dark){:root{
-  --paper:#0C1620; --surface:#13212E; --ink:#E6EEF5; --muted:#93A4B4; --line:#22344A;
-  --brand:#5AA9F0; --tint:#16324A; --band:#0A1824; --mark:#6B4E00;
-  --k-anunt:#5AA9F0; --k-pagina:#93A4B4; --k-document:#F0A15A; --new:#4FD08F;
-}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Figtree,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
-.band{background:var(--band);color:#fff;padding:28px 16px 26px}
-.in,.wrap{max-width:760px;margin:0 auto}
-h1{font-size:clamp(1.8rem,6vw,2.5rem);line-height:1.1;margin:0 0 6px;font-weight:700;letter-spacing:-.02em}
-.band p{margin:0 0 16px;color:#B9C8D6}
-.seg{display:inline-flex;flex-wrap:wrap;background:var(--tint);border-radius:12px;padding:4px}
-.seg button{min-height:40px;padding:0 14px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-size:.95rem;font-weight:500;cursor:pointer}
-.seg button.on{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.12)}
-.band .seg{background:rgba(255,255,255,.12);margin-bottom:14px}
-.band .seg button{color:#C9D6E2}
-.band .seg button.on{background:#fff;color:#0F2233;box-shadow:none}
-.search{position:relative}
-.search input{width:100%;height:58px;padding:0 52px 0 18px;font:inherit;font-size:1.1rem;border:0;border-radius:14px;background:#fff;color:#0F2233}
-.search input::placeholder{color:#6B7B8A}
-#clr{position:absolute;right:6px;top:7px;width:44px;height:44px;border:0;border-radius:10px;background:transparent;color:#4B5B6A;font-size:1.2rem;cursor:pointer}
-.links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.links a{display:flex;align-items:center;justify-content:center;min-height:52px;padding:0 14px;border-radius:14px;border:1px solid #35516A;color:#fff;text-decoration:none;font-weight:600;text-align:center}
-.links a.main{grid-column:1/-1;min-height:64px;background:#1A6FD1;border-color:#1A6FD1;font-size:1.2rem}
-.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.quick button{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid #35516A;background:transparent;color:#DCE7F1;font:inherit;font-size:.95rem;cursor:pointer}
-.quick button.on{background:#fff;color:#0F2233;border-color:#fff}
-.wrap{padding:20px 16px 56px}
-.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-select{min-height:48px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:.95rem}
-.count{margin:18px 0 4px;color:var(--muted);font-size:.95rem}
-.list{list-style:none;margin:0;padding:0}
-.row{padding:16px 0 16px 14px;border-bottom:1px solid var(--line);border-left:3px solid var(--kc,var(--line))}
-.t-anunt{--kc:var(--k-anunt)}.t-pagina{--kc:var(--k-pagina)}.t-document{--kc:var(--k-document)}
-.title{display:block;color:var(--ink);font-size:1.12rem;font-weight:600;line-height:1.35;text-decoration:none;overflow-wrap:anywhere}
-.title:hover{color:var(--brand);text-decoration:underline}
-.snip{margin:6px 0 0;color:var(--muted);font-size:.97rem;overflow-wrap:anywhere}
-.meta{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-size:.88rem;color:var(--muted)}
-.kind{color:var(--kc);font-weight:600}
-.prog{background:var(--tint);color:var(--brand);border-radius:6px;padding:0 7px;font-weight:600}
-.new{color:var(--new);font-weight:600}
-mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
-.empty{padding:36px 0;text-align:center;color:var(--muted)}
-.empty button,#more{min-height:48px;padding:0 22px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:600;cursor:pointer;margin-top:12px}
-#more{display:block;margin:22px auto 0}
-.foot{margin-top:36px;color:var(--muted);font-size:.85rem}
-</style>
-</head>
-<body>
-<header class="band"><div class="in">
-  <h1>AMG și Tehnică Dentară</h1>
-  <p>Anunțuri, orare și link-uri utile, într-un singur loc.</p>
-  <div class="seg" id="prog" role="group" aria-label="Program">
-    <button type="button" data-v="AMG">AMG</button>
-    <button type="button" data-v="TD">Tehnică dentară</button>
-    <button type="button" data-v="both" class="on">Ambele</button>
-  </div>
-  <div class="search">
-    <input id="q" type="search" placeholder="Ce cauți? De exemplu: burse, examen, restanțe" enterkeyhint="search" autocomplete="off" aria-label="Caută">
-    <button id="clr" type="button" aria-label="Șterge căutarea" hidden>✕</button>
-  </div>
-  <nav class="links" id="links" aria-label="Acces rapid"></nav>
-  <div class="quick" id="quick"></div>
-</div></header>
+#!/usr/bin/env python3
+"""Crawler pentru site-urile ULBS / Facultatea de Medicină.
 
-<main class="wrap">
-  <div class="bar">
-    <div class="seg" id="types" role="group" aria-label="Tip">
-      <button type="button" data-v="" class="on">Toate</button>
-      <button type="button" data-v="anunt">Anunțuri</button>
-      <button type="button" data-v="pagina">Pagini</button>
-      <button type="button" data-v="document">PDF</button>
-    </div>
-    <select id="src" aria-label="Site"><option value="">Toate site-urile</option></select>
-  </div>
+Strategie, pentru fiecare sursă din SOURCES:
+  1. Dacă site-ul e WordPress, folosește API-ul public /wp-json (rapid, curat).
+  2. Altfel citește sitemap-ul, iar dacă nu există, urmărește linkurile din prima pagină.
+Rezultatul se scrie în docs/data.json, folosit de pagina de căutare.
+"""
+import html
+import json
+import os
+import re
+import smtplib
+import sys
+import time
+import unicodedata
+from collections import deque
+from datetime import datetime, timezone
+from email.message import EmailMessage
+from pathlib import Path
+from urllib.parse import unquote, urldefrag, urljoin, urlparse
+from urllib.robotparser import RobotFileParser
 
-  <p class="count" id="count" aria-live="polite">Se încarcă…</p>
-  <ol class="list" id="results"></ol>
-  <button id="more" type="button" hidden>Arată mai multe</button>
-  <p class="foot" id="foot">Proiect studentesc, neoficial. Verifică mereu informația pe site-ul sursă.</p>
-</main>
+import requests
+from bs4 import BeautifulSoup
 
-<script>
-/* ===== ACCES RAPID: editezi doar lista asta. Primul link cu main:true e butonul mare. ===== */
-const LINKS=[
-  {t:"Orare",u:"https://schedule.ulbsibiu.ro/",main:true},
-  {t:"Facultatea de Medicină",u:"https://medicina.ulbsibiu.ro/"},
-  {t:"Site ULBS",u:"https://www.ulbsibiu.ro/"},
-  // {t:"Nume buton",u:"https://exemplu.ro/"},
-];
-/* ========================================================================================= */
-const PAGE=30, TOPICS=["orar","burse","examen","restanțe","cămin","taxe","practică"];
-const KIND={anunt:"Anunț",pagina:"Pagină",document:"PDF"};
-const $=id=>document.getElementById(id);
-const fold=s=>(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-const esc=s=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-let DATA=[],shown=PAGE,cur=[],prog="both",type="";
-try{prog=localStorage.getItem("prog")||"both"}catch(e){}
+# ----------------------------------------------------------------------------
+# CONFIGURARE — adaugi/scoți site-uri aici
+# ----------------------------------------------------------------------------
+SOURCES = [
+    {"name": "Facultatea de Medicină", "url": "https://medicina.ulbsibiu.ro"},
+    {"name": "ULBS", "url": "https://www.ulbsibiu.ro", "filter": True},  # filter: păstrează doar ce ține de studenți/AMG/TD
+]
+MAX_PAGES_PER_SOURCE = 400   # limită pentru crawl-ul clasic (nu pentru API-ul WordPress)
+MAX_TEXT = 1500              # caractere de text păstrate per pagină
+DELAY = 0.5                  # pauză între cereri (secunde), ca să nu încărcăm serverul
+TIMEOUT = 25
 
-function hl(orig,toks){
-  const f=fold(orig),r=[];
-  for(const t of toks){let i=0;while((i=f.indexOf(t,i))!==-1){r.push([i,i+t.length]);i+=t.length}}
-  r.sort((a,b)=>a[0]-b[0]);
-  let out="",p=0;
-  for(const[s,e]of r){if(e<=p)continue;const st=Math.max(s,p);out+=esc(orig.slice(p,st))+"<mark>"+esc(orig.slice(st,e))+"</mark>";p=e}
-  return out+esc(orig.slice(p));
-}
-function snip(text,toks){
-  if(!text)return"";
-  const f=fold(text);let at=-1;
-  for(const t of toks){const i=f.indexOf(t);if(i!==-1&&(at===-1||i<at))at=i}
-  const st=at>80?at-80:0,part=text.slice(st,st+240);
-  return(st>0?"… ":"")+hl(part,toks)+(st+240<text.length?" …":"");
-}
-const tokens=()=>fold($("q").value).split(/\s+/).filter(Boolean);
-function setSeg(id,val){document.querySelectorAll("#"+id+" button").forEach(b=>b.classList.toggle("on",b.dataset.v===val))}
-function saveUrl(){
-  const p=new URLSearchParams();
-  if($("q").value.trim())p.set("q",$("q").value.trim());
-  if(type)p.set("tip",type);
-  if($("src").value)p.set("site",$("src").value);
-  history.replaceState(null,"",p.toString()?"?"+p:location.pathname);
-}
+UA = "Mozilla/5.0 (compatible; AMG-Search-Bot/1.0; proiect studentesc)"
+OUT = Path(__file__).resolve().parent.parent / "docs" / "data.json"
 
-function run(){
-  const toks=tokens(),src=$("src").value;
-  $("clr").hidden=!$("q").value;
-  document.querySelectorAll("#quick button").forEach(b=>b.classList.toggle("on",fold($("q").value.trim())===fold(b.textContent)));
-  cur=[];
-  for(const d of DATA){
-    if(prog!=="both"&&!d.prog.includes(prog))continue;
-    if(type&&d.type!==type)continue;
-    if(src&&d.source!==src)continue;
-    let sc=d.spec?2:0;
-    if(toks.length){
-      let ok=true;
-      for(const t of toks){const a=d._t.includes(t),b=d._b.includes(t);if(!a&&!b){ok=false;break}sc+=(a?5:0)+(b?1:0)}
-      if(!ok)continue;
+session = requests.Session()
+session.headers.update({"User-Agent": UA, "Accept-Language": "ro,en;q=0.8"})
+
+
+def get(url, **kw):
+    for _ in range(2):
+        try:
+            return session.get(url, timeout=TIMEOUT, **kw)
+        except requests.RequestException:
+            time.sleep(1.5)
+    return None
+
+
+def fold(s):
+    """Minuscule, fără diacritice (ă/â/î/ș/ț -> a/a/i/s/t)."""
+    s = unicodedata.normalize("NFKD", s or "")
+    return "".join(c for c in s if not unicodedata.combining(c)).lower()
+
+
+STUDENT_RE = re.compile(r"student|burs|camin|cazare|taxe|orar|examen|sesiune|restant|admitere|practica|secretariat|licenta|calendar|medicin")
+AMG_RE = re.compile(r"\bamg\b|asistent[ai]? medical|asistenta medicala")
+TD_RE = re.compile(r"\btd\b|tehnic(?:a|ian)\w* dentar")
+
+
+def programs(*parts):
+    """Întoarce (programe, specific). Ce nu pomenește niciun program e general -> ambele."""
+    s = fold(" ".join(parts))
+    found = []
+    if AMG_RE.search(s):
+        found.append("AMG")
+    if TD_RE.search(s):
+        found.append("TD")
+    return (found or ["AMG", "TD"]), bool(found)
+
+
+def html_to_text(markup):
+    soup = BeautifulSoup(markup or "", "html.parser")
+    for t in soup(["script", "style", "noscript"]):
+        t.decompose()
+    return re.sub(r"\s+", " ", soup.get_text(" ", strip=True)).strip()
+
+
+def make_doc(source, url, title, date, text, kind):
+    title = re.sub(r"\s+", " ", title or "").strip() or url
+    text = (text or "")[:MAX_TEXT]
+    prog, spec = programs(title, text, unquote(url))
+    return {
+        "title": title,
+        "url": url,
+        "date": (date or "")[:10],
+        "source": source,
+        "type": kind,  # anunt | pagina | document
+        "prog": prog,  # ["AMG"], ["TD"] sau ambele
+        "spec": spec,  # True dacă pomenește explicit un program
+        "text": text,
     }
-    cur.push({d,sc});
-  }
-  const byDate=(a,b)=>(b.d.date||"").localeCompare(a.d.date||"");
-  cur.sort(toks.length?(a,b)=>b.sc-a.sc||byDate(a,b):byDate);
-  shown=PAGE;saveUrl();render(toks);
-}
 
-function render(toks){
-  const n=cur.length;
-  $("count").textContent=n?(n+(n===1?" rezultat":" rezultate")+(toks.length?"":", cele mai noi primele")):"";
-  const box=$("results");
-  if(!n){
-    box.innerHTML='<li class="empty">Niciun rezultat.'+(prog!=="both"?'<br><button type="button" id="all">Arată ambele programe</button>':'<br>Încearcă alt cuvânt.')+'</li>';
-    const b=$("all");if(b)b.onclick=()=>setProg("both");
-    $("more").hidden=true;return;
-  }
-  const now=Date.now();
-  box.innerHTML=cur.slice(0,shown).map(({d})=>{
-    const dt=d.date?new Date(d.date+"T00:00:00"):null;
-    const fresh=dt&&now-dt<14*864e5;
-    const ds=dt?dt.toLocaleDateString("ro-RO",{day:"numeric",month:"short",year:"numeric"}):"";
-    const tags=d.spec?d.prog.map(p=>'<span class="prog">'+p+"</span>").join(""):"";
-    return`<li class="row t-${esc(d.type)}">
-      <a class="title" href="${esc(d.url)}" target="_blank" rel="noopener">${hl(d.title,toks)}</a>
-      ${d.text?'<p class="snip">'+snip(d.text,toks)+"</p>":""}
-      <div class="meta"><span class="kind">${KIND[d.type]||""}</span>${tags}<span>${esc(d.source)}</span>${ds?"<span>"+ds+"</span>":""}${fresh?'<span class="new">Nou</span>':""}</div>
-    </li>`}).join("");
-  $("more").hidden=shown>=n;
-}
 
-function setProg(v){
-  prog=v;setSeg("prog",v);
-  try{localStorage.setItem("prog",v)}catch(e){}
-  run();
-}
+# ----------------------------------------------------------------------------
+# 1) WordPress REST API
+# ----------------------------------------------------------------------------
+def wp_collect(name, base):
+    docs = []
+    for endpoint, kind in (("posts", "anunt"), ("pages", "pagina"), ("media", "document")):
+        fields = "source_url,title,date,mime_type" if endpoint == "media" else "link,title,date,content"
+        page = 1
+        while True:
+            r = get(
+                f"{base}/wp-json/wp/v2/{endpoint}",
+                params={"per_page": 100, "page": page, "_fields": fields},
+            )
+            if r is None or r.status_code != 200:
+                break
+            try:
+                data = r.json()
+            except ValueError:
+                break
+            if not isinstance(data, list) or not data:
+                break
+            for p in data:
+                title = html_to_text((p.get("title") or {}).get("rendered", ""))
+                if endpoint == "media":
+                    if "pdf" not in (p.get("mime_type") or "") or not p.get("source_url"):
+                        continue
+                    docs.append(make_doc(name, p["source_url"], title, p.get("date"), "", kind))
+                else:
+                    if not p.get("link"):
+                        continue
+                    text = html_to_text((p.get("content") or {}).get("rendered", ""))
+                    docs.append(make_doc(name, p["link"], title, p.get("date"), text, kind))
+            try:
+                total = int(r.headers.get("X-WP-TotalPages", "1") or 1)
+            except ValueError:
+                total = 1
+            if page >= total or page >= 50:
+                break
+            page += 1
+            time.sleep(DELAY)
+    return docs
 
-let timer;
-$("q").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(run,150)});
-$("clr").onclick=()=>{$("q").value="";run();$("q").focus()};
-$("src").onchange=run;
-$("more").onclick=()=>{shown+=PAGE;render(tokens())};
-$("prog").onclick=e=>{const b=e.target.closest("button");if(b)setProg(b.dataset.v)};
-$("types").onclick=e=>{const b=e.target.closest("button");if(!b)return;type=b.dataset.v;setSeg("types",type);run()};
-$("links").innerHTML=LINKS.map(l=>`<a href="${esc(l.u)}" target="_blank" rel="noopener"${l.main?' class="main"':""}>${esc(l.t)}</a>`).join("");
-$("quick").innerHTML=TOPICS.map(t=>`<button type="button">${t}</button>`).join("");
-$("quick").onclick=e=>{const b=e.target.closest("button");if(!b)return;$("q").value=fold($("q").value.trim())===fold(b.textContent)?"":b.textContent;run()};
-document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==$("q")){e.preventDefault();$("q").focus()}});
-setSeg("prog",prog);
 
-fetch("data.json",{cache:"no-cache"}).then(r=>r.json()).then(j=>{
-  DATA=j.items.map(d=>({...d,
-    prog:d.prog||(d.amg?["AMG"]:["AMG","TD"]),spec:d.spec??!!d.amg,
-    _t:fold(d.title),_b:fold(d.text+" "+decodeURIComponent(d.url))}));
-  $("src").innerHTML+=[...new Set(DATA.map(d=>d.source))].map(s=>`<option>${esc(s)}</option>`).join("");
-  const p=new URLSearchParams(location.search);
-  $("q").value=p.get("q")||"";
-  if(p.get("tip")){type=p.get("tip");setSeg("types",type)}
-  if(p.get("site"))$("src").value=p.get("site");
-  $("foot").textContent=(j.count?j.count+" pagini indexate, actualizat pe "+new Date(j.updated).toLocaleDateString("ro-RO")+". ":"Indexul e gol: rulează workflow-ul din GitHub Actions. ")+"Proiect studentesc, neoficial. Verifică mereu informația pe site-ul sursă.";
-  run();
-}).catch(()=>{$("count").textContent="Nu am putut încărca datele (data.json)."});
-</script>
-</body>
-</html>
+# ----------------------------------------------------------------------------
+# 2) Crawl clasic (sitemap sau linkuri)
+# ----------------------------------------------------------------------------
+def sitemap_urls(base):
+    seen, urls, queue = set(), [], []
+    r = get(base + "/robots.txt")
+    if r is not None and r.status_code == 200:
+        queue += re.findall(r"(?im)^sitemap:\s*(\S+)", r.text)
+    queue += [base + "/sitemap.xml", base + "/wp-sitemap.xml"]
+    while queue and len(seen) < 30:
+        sm = queue.pop(0)
+        if sm in seen:
+            continue
+        seen.add(sm)
+        r = get(sm)
+        if r is None or r.status_code != 200:
+            continue
+        for loc in re.findall(r"<loc>\s*(.*?)\s*</loc>", r.text, re.S):
+            loc = html.unescape(loc)
+            if loc.lower().endswith(".xml"):
+                queue.append(loc)
+            else:
+                urls.append(loc)
+    return list(dict.fromkeys(urls))
+
+
+def parse_page(name, url, markup):
+    soup = BeautifulSoup(markup, "html.parser")
+    links = [a["href"] for a in soup.find_all("a", href=True)]
+    h1 = soup.find("h1")
+    title = h1.get_text(" ", strip=True) if h1 and h1.get_text(strip=True) else (
+        soup.title.get_text(" ", strip=True) if soup.title else ""
+    )
+    date = ""
+    meta = soup.find("meta", attrs={"property": "article:published_time"})
+    if meta and meta.get("content"):
+        date = meta["content"]
+    else:
+        t = soup.find("time", attrs={"datetime": True})
+        if t:
+            date = t["datetime"]
+    for t in soup(["script", "style", "noscript", "nav", "header", "footer", "aside", "form"]):
+        t.decompose()
+    root = soup.find("main") or soup.find("article") or soup.body or soup
+    text = re.sub(r"\s+", " ", root.get_text(" ", strip=True)).strip()
+    return make_doc(name, url, title, date, text, "pagina"), links
+
+
+def generic_collect(name, base):
+    host = urlparse(base).netloc.replace("www.", "")
+
+    rp = RobotFileParser()
+    r = get(base + "/robots.txt")
+    rp.parse(r.text.splitlines() if r is not None and r.status_code == 200 else [])
+
+    def allowed(u):
+        try:
+            return rp.can_fetch(UA, u)
+        except Exception:
+            return True
+
+    def same_site(u):
+        return urlparse(u).netloc.replace("www.", "") == host
+
+    seeds = sitemap_urls(base)
+    queue = deque(seeds or [base])
+    seen, docs, fetched = set(), [], 0
+    while queue and fetched < MAX_PAGES_PER_SOURCE:
+        url = urldefrag(queue.popleft())[0]
+        if url in seen or not url.startswith("http") or not same_site(url) or not allowed(url):
+            continue
+        seen.add(url)
+        path = urlparse(url).path.lower()
+        if path.endswith(".pdf"):
+            fname = unquote(path.rsplit("/", 1)[-1])[:-4]
+            docs.append(make_doc(name, url, re.sub(r"[-_]+", " ", fname), "", "", "document"))
+            continue
+        if re.search(r"\.(jpe?g|png|gif|webp|svg|zip|rar|docx?|xlsx?|pptx?|mp4|mp3)$", path):
+            continue
+        r = get(url)
+        time.sleep(DELAY)
+        if r is None or r.status_code != 200 or "text/html" not in r.headers.get("Content-Type", ""):
+            continue
+        fetched += 1
+        doc, links = parse_page(name, url, r.text)
+        docs.append(doc)
+        for link in links:
+            full = urljoin(url, link)
+            is_pdf = urlparse(full).path.lower().endswith(".pdf")
+            if is_pdf or not seeds:  # fără sitemap: urmărim și linkurile HTML
+                queue.append(full)
+    return docs
+
+
+# ----------------------------------------------------------------------------
+def notify(new):
+    """Trimite anunțurile noi pe Telegram și/sau email (doar dacă ai setat secretele în GitHub)."""
+    lines = [f"Anunțuri noi AMG/TD ({len(new)}):"]
+    lines += [f"• {d['title']}\n{d['url']}" for d in new[:10]]
+    if len(new) > 10:
+        lines.append(f"… și încă {len(new) - 10}")
+    msg = "\n\n".join(lines)
+    tok, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
+    if tok and chat:
+        try:
+            requests.post(f"https://api.telegram.org/bot{tok}/sendMessage", timeout=20,
+                          data={"chat_id": chat, "text": msg[:4000], "disable_web_page_preview": "true"})
+        except requests.RequestException as e:
+            print("Telegram eșuat:", e)
+    host, user, pw, to = (os.environ.get(k) for k in ("SMTP_HOST", "SMTP_USER", "SMTP_PASS", "EMAIL_TO"))
+    if user and pw and to:
+        try:
+            m = EmailMessage()
+            m["Subject"], m["From"], m["To"] = f"AMG/TD: {len(new)} anunțuri noi", user, to
+            m.set_content(msg)
+            with smtplib.SMTP_SSL(host or "smtp.gmail.com", 465, timeout=30) as smtp:
+                smtp.login(user, pw)
+                smtp.send_message(m)
+        except Exception as e:
+            print("Email eșuat:", e)
+
+
+def main():
+    old_items = []
+    if OUT.exists():
+        try:
+            old_items = json.loads(OUT.read_text("utf-8")).get("items", [])
+        except ValueError:
+            pass
+
+    items = []
+    for s in SOURCES:
+        name, base = s["name"], s["url"].rstrip("/")
+        print(f"→ {name} ({base})", flush=True)
+        docs = wp_collect(name, base)
+        method = "wp-api"
+        if not any(d["type"] != "document" for d in docs):
+            docs = generic_collect(name, base)
+            method = "crawl"
+        if not docs:
+            docs = [d for d in old_items if d.get("source") == name]
+            method = "păstrat din rularea anterioară"
+        if s.get("filter"):
+            docs = [d for d in docs if d.get("spec") or STUDENT_RE.search(fold(d["title"] + " " + unquote(d["url"])))]
+        print(f"  {len(docs)} intrări ({method})", flush=True)
+        items += docs
+
+    uniq = {}
+    for d in items:
+        uniq.setdefault(d["url"], d)
+    items = sorted(uniq.values(), key=lambda d: d["date"], reverse=True)
+
+    if not items:
+        print("Nicio intrare găsită — nu suprascriu data.json.", file=sys.stderr)
+        sys.exit(1)
+
+    old_urls = {d["url"] for d in old_items}
+    new = [d for d in items if d["url"] not in old_urls and d.get("spec")]
+    if old_items and new:
+        notify(new)
+
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "updated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "count": len(items),
+        "sources": [s["name"] for s in SOURCES],
+        "items": items,
+    }
+    OUT.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), "utf-8")
+    print(f"Gata: {len(items)} intrări în {OUT}")
+
+
+if __name__ == "__main__":
+    main()
