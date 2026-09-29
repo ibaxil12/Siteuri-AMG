@@ -56,10 +56,18 @@ def fold(s):
 
 
 AMG_RE = re.compile(r"\bamg\b|asistent[ai]? medical|asistenta medicala")
+TD_RE = re.compile(r"\btd\b|tehnic(?:a|ian)\w* dentar")
 
 
-def is_amg(*parts):
-    return bool(AMG_RE.search(fold(" ".join(parts))))
+def programs(*parts):
+    """Întoarce (programe, specific). Ce nu pomenește niciun program e general -> ambele."""
+    s = fold(" ".join(parts))
+    found = []
+    if AMG_RE.search(s):
+        found.append("AMG")
+    if TD_RE.search(s):
+        found.append("TD")
+    return (found or ["AMG", "TD"]), bool(found)
 
 
 def html_to_text(markup):
@@ -72,13 +80,15 @@ def html_to_text(markup):
 def make_doc(source, url, title, date, text, kind):
     title = re.sub(r"\s+", " ", title or "").strip() or url
     text = (text or "")[:MAX_TEXT]
+    prog, spec = programs(title, text, unquote(url))
     return {
         "title": title,
         "url": url,
         "date": (date or "")[:10],
         "source": source,
         "type": kind,  # anunt | pagina | document
-        "amg": is_amg(title, text, unquote(url)),
+        "prog": prog,  # ["AMG"], ["TD"] sau ambele
+        "spec": spec,  # True dacă pomenește explicit un program
         "text": text,
     }
 
