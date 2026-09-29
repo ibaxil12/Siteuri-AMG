@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0F2233">
-<title>Anunțuri AMG · ULBS Medicină</title>
+<title>AMG și Tehnică Dentară · ULBS Medicină</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -22,22 +22,28 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Figtree,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 :focus-visible{outline:3px solid var(--brand);outline-offset:2px}
-.band{background:var(--band);color:#fff;padding:32px 16px 28px}
+.band{background:var(--band);color:#fff;padding:28px 16px 26px}
 .in,.wrap{max-width:760px;margin:0 auto}
-h1{font-size:clamp(1.9rem,6vw,2.6rem);line-height:1.1;margin:0 0 8px;font-weight:700;letter-spacing:-.02em}
-.band p{margin:0 0 20px;color:#B9C8D6}
+h1{font-size:clamp(1.8rem,6vw,2.5rem);line-height:1.1;margin:0 0 6px;font-weight:700;letter-spacing:-.02em}
+.band p{margin:0 0 16px;color:#B9C8D6}
+.seg{display:inline-flex;flex-wrap:wrap;background:var(--tint);border-radius:12px;padding:4px}
+.seg button{min-height:40px;padding:0 14px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-size:.95rem;font-weight:500;cursor:pointer}
+.seg button.on{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.band .seg{background:rgba(255,255,255,.12);margin-bottom:14px}
+.band .seg button{color:#C9D6E2}
+.band .seg button.on{background:#fff;color:#0F2233;box-shadow:none}
 .search{position:relative}
 .search input{width:100%;height:58px;padding:0 52px 0 18px;font:inherit;font-size:1.1rem;border:0;border-radius:14px;background:#fff;color:#0F2233}
 .search input::placeholder{color:#6B7B8A}
 #clr{position:absolute;right:6px;top:7px;width:44px;height:44px;border:0;border-radius:10px;background:transparent;color:#4B5B6A;font-size:1.2rem;cursor:pointer}
+.links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.links a{display:flex;align-items:center;justify-content:center;min-height:52px;padding:0 14px;border-radius:14px;border:1px solid #35516A;color:#fff;text-decoration:none;font-weight:600;text-align:center}
+.links a.main{grid-column:1/-1;min-height:64px;background:#1A6FD1;border-color:#1A6FD1;font-size:1.2rem}
 .quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .quick button{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid #35516A;background:transparent;color:#DCE7F1;font:inherit;font-size:.95rem;cursor:pointer}
 .quick button.on{background:#fff;color:#0F2233;border-color:#fff}
 .wrap{padding:20px 16px 56px}
 .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.seg{display:inline-flex;background:var(--tint);border-radius:12px;padding:4px}
-.seg button{min-height:40px;padding:0 14px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-size:.95rem;font-weight:500;cursor:pointer}
-.seg button.on{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.12)}
 select{min-height:48px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:.95rem}
 .count{margin:18px 0 4px;color:var(--muted);font-size:.95rem}
 .list{list-style:none;margin:0;padding:0}
@@ -48,6 +54,7 @@ select{min-height:48px;padding:0 12px;border-radius:12px;border:1px solid var(--
 .snip{margin:6px 0 0;color:var(--muted);font-size:.97rem;overflow-wrap:anywhere}
 .meta{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-size:.88rem;color:var(--muted)}
 .kind{color:var(--kc);font-weight:600}
+.prog{background:var(--tint);color:var(--brand);border-radius:6px;padding:0 7px;font-weight:600}
 .new{color:var(--new);font-weight:600}
 mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
 .empty{padding:36px 0;text-align:center;color:var(--muted)}
@@ -58,21 +65,23 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
 </head>
 <body>
 <header class="band"><div class="in">
-  <h1>Anunțuri AMG</h1>
-  <p>Caută în site-urile ULBS și ale Facultății de Medicină.</p>
+  <h1>AMG și Tehnică Dentară</h1>
+  <p>Anunțuri, orare și link-uri utile, într-un singur loc.</p>
+  <div class="seg" id="prog" role="group" aria-label="Program">
+    <button type="button" data-v="AMG">AMG</button>
+    <button type="button" data-v="TD">Tehnică dentară</button>
+    <button type="button" data-v="both" class="on">Ambele</button>
+  </div>
   <div class="search">
-    <input id="q" type="search" placeholder="Ce cauți? De exemplu: orar, burse, examen" enterkeyhint="search" autocomplete="off" aria-label="Caută">
+    <input id="q" type="search" placeholder="Ce cauți? De exemplu: burse, examen, restanțe" enterkeyhint="search" autocomplete="off" aria-label="Caută">
     <button id="clr" type="button" aria-label="Șterge căutarea" hidden>✕</button>
   </div>
+  <nav class="links" id="links" aria-label="Acces rapid"></nav>
   <div class="quick" id="quick"></div>
 </div></header>
 
 <main class="wrap">
   <div class="bar">
-    <div class="seg" id="scope" role="group" aria-label="Domeniu">
-      <button type="button" data-v="amg" class="on">AMG</button>
-      <button type="button" data-v="all">Tot site-ul</button>
-    </div>
     <div class="seg" id="types" role="group" aria-label="Tip">
       <button type="button" data-v="" class="on">Toate</button>
       <button type="button" data-v="anunt">Anunțuri</button>
@@ -89,12 +98,21 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
 </main>
 
 <script>
+/* ===== ACCES RAPID: editezi doar lista asta. Primul link cu main:true e butonul mare. ===== */
+const LINKS=[
+  {t:"Orare",u:"https://schedule.ulbsibiu.ro/",main:true},
+  {t:"Facultatea de Medicină",u:"https://medicina.ulbsibiu.ro/"},
+  {t:"Site ULBS",u:"https://www.ulbsibiu.ro/"},
+  // {t:"Nume buton",u:"https://exemplu.ro/"},
+];
+/* ========================================================================================= */
 const PAGE=30, TOPICS=["orar","burse","examen","restanțe","cămin","taxe","practică"];
 const KIND={anunt:"Anunț",pagina:"Pagină",document:"PDF"};
 const $=id=>document.getElementById(id);
 const fold=s=>(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 const esc=s=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-let DATA=[],shown=PAGE,cur=[],scope="amg",type="";
+let DATA=[],shown=PAGE,cur=[],prog="both",type="";
+try{prog=localStorage.getItem("prog")||"both"}catch(e){}
 
 function hl(orig,toks){
   const f=fold(orig),r=[];
@@ -112,12 +130,10 @@ function snip(text,toks){
   return(st>0?"… ":"")+hl(part,toks)+(st+240<text.length?" …":"");
 }
 const tokens=()=>fold($("q").value).split(/\s+/).filter(Boolean);
-
 function setSeg(id,val){document.querySelectorAll("#"+id+" button").forEach(b=>b.classList.toggle("on",b.dataset.v===val))}
 function saveUrl(){
   const p=new URLSearchParams();
   if($("q").value.trim())p.set("q",$("q").value.trim());
-  if(scope!=="amg")p.set("scope",scope);
   if(type)p.set("tip",type);
   if($("src").value)p.set("site",$("src").value);
   history.replaceState(null,"",p.toString()?"?"+p:location.pathname);
@@ -129,10 +145,10 @@ function run(){
   document.querySelectorAll("#quick button").forEach(b=>b.classList.toggle("on",fold($("q").value.trim())===fold(b.textContent)));
   cur=[];
   for(const d of DATA){
-    if(scope==="amg"&&!d.amg)continue;
+    if(prog!=="both"&&!d.prog.includes(prog))continue;
     if(type&&d.type!==type)continue;
     if(src&&d.source!==src)continue;
-    let sc=0;
+    let sc=d.spec?2:0;
     if(toks.length){
       let ok=true;
       for(const t of toks){const a=d._t.includes(t),b=d._b.includes(t);if(!a&&!b){ok=false;break}sc+=(a?5:0)+(b?1:0)}
@@ -150,8 +166,8 @@ function render(toks){
   $("count").textContent=n?(n+(n===1?" rezultat":" rezultate")+(toks.length?"":", cele mai noi primele")):"";
   const box=$("results");
   if(!n){
-    box.innerHTML='<li class="empty">Niciun rezultat.'+(scope==="amg"?'<br><button type="button" id="all">Caută în tot site-ul</button>':'<br>Încearcă alt cuvânt.')+'</li>';
-    const b=$("all");if(b)b.onclick=()=>{scope="all";setSeg("scope","all");run()};
+    box.innerHTML='<li class="empty">Niciun rezultat.'+(prog!=="both"?'<br><button type="button" id="all">Arată ambele programe</button>':'<br>Încearcă alt cuvânt.')+'</li>';
+    const b=$("all");if(b)b.onclick=()=>setProg("both");
     $("more").hidden=true;return;
   }
   const now=Date.now();
@@ -159,12 +175,19 @@ function render(toks){
     const dt=d.date?new Date(d.date+"T00:00:00"):null;
     const fresh=dt&&now-dt<14*864e5;
     const ds=dt?dt.toLocaleDateString("ro-RO",{day:"numeric",month:"short",year:"numeric"}):"";
+    const tags=d.spec?d.prog.map(p=>'<span class="prog">'+p+"</span>").join(""):"";
     return`<li class="row t-${esc(d.type)}">
       <a class="title" href="${esc(d.url)}" target="_blank" rel="noopener">${hl(d.title,toks)}</a>
       ${d.text?'<p class="snip">'+snip(d.text,toks)+"</p>":""}
-      <div class="meta"><span class="kind">${KIND[d.type]||""}</span><span>${esc(d.source)}</span>${ds?"<span>"+ds+"</span>":""}${fresh?'<span class="new">Nou</span>':""}</div>
+      <div class="meta"><span class="kind">${KIND[d.type]||""}</span>${tags}<span>${esc(d.source)}</span>${ds?"<span>"+ds+"</span>":""}${fresh?'<span class="new">Nou</span>':""}</div>
     </li>`}).join("");
   $("more").hidden=shown>=n;
+}
+
+function setProg(v){
+  prog=v;setSeg("prog",v);
+  try{localStorage.setItem("prog",v)}catch(e){}
+  run();
 }
 
 let timer;
@@ -172,18 +195,21 @@ $("q").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(run,15
 $("clr").onclick=()=>{$("q").value="";run();$("q").focus()};
 $("src").onchange=run;
 $("more").onclick=()=>{shown+=PAGE;render(tokens())};
-$("scope").onclick=e=>{const b=e.target.closest("button");if(!b)return;scope=b.dataset.v;setSeg("scope",scope);run()};
+$("prog").onclick=e=>{const b=e.target.closest("button");if(b)setProg(b.dataset.v)};
 $("types").onclick=e=>{const b=e.target.closest("button");if(!b)return;type=b.dataset.v;setSeg("types",type);run()};
+$("links").innerHTML=LINKS.map(l=>`<a href="${esc(l.u)}" target="_blank" rel="noopener"${l.main?' class="main"':""}>${esc(l.t)}</a>`).join("");
 $("quick").innerHTML=TOPICS.map(t=>`<button type="button">${t}</button>`).join("");
 $("quick").onclick=e=>{const b=e.target.closest("button");if(!b)return;$("q").value=fold($("q").value.trim())===fold(b.textContent)?"":b.textContent;run()};
 document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==$("q")){e.preventDefault();$("q").focus()}});
+setSeg("prog",prog);
 
 fetch("data.json",{cache:"no-cache"}).then(r=>r.json()).then(j=>{
-  DATA=j.items.map(d=>({...d,_t:fold(d.title),_b:fold(d.text+" "+decodeURIComponent(d.url))}));
+  DATA=j.items.map(d=>({...d,
+    prog:d.prog||(d.amg?["AMG"]:["AMG","TD"]),spec:d.spec??!!d.amg,
+    _t:fold(d.title),_b:fold(d.text+" "+decodeURIComponent(d.url))}));
   $("src").innerHTML+=[...new Set(DATA.map(d=>d.source))].map(s=>`<option>${esc(s)}</option>`).join("");
   const p=new URLSearchParams(location.search);
   $("q").value=p.get("q")||"";
-  if(p.get("scope")==="all"){scope="all";setSeg("scope","all")}
   if(p.get("tip")){type=p.get("tip");setSeg("types",type)}
   if(p.get("site"))$("src").value=p.get("site");
   $("foot").textContent=(j.count?j.count+" pagini indexate, actualizat pe "+new Date(j.updated).toLocaleDateString("ro-RO")+". ":"Indexul e gol: rulează workflow-ul din GitHub Actions. ")+"Proiect studentesc, neoficial. Verifică mereu informația pe site-ul sursă.";
