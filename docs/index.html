@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Căutare AMG · ULBS Medicină</title>
+<style>
+  :root {
+    --bg:#f6f7f9; --card:#fff; --text:#1c2230; --muted:#667085; --line:#e4e7ec;
+    --accent:#0f766e; --accent-soft:#ccfbf1; --mark:#fde68a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#12151b; --card:#1a1f28; --text:#e8ebf0; --muted:#98a2b3; --line:#2a303b;
+            --accent:#2dd4bf; --accent-soft:#134e4a; --mark:#854d0e; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+         font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  .wrap { max-width:820px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:1.5rem; margin:8px 0 4px; }
+  .sub { color:var(--muted); font-size:.9rem; margin-bottom:16px; }
+  input[type=search] { width:100%; padding:14px 16px; font-size:1.05rem; border-radius:12px;
+         border:1px solid var(--line); background:var(--card); color:var(--text); outline:none; }
+  input[type=search]:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
+  .filters { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; align-items:center; }
+  .chip, select { border:1px solid var(--line); background:var(--card); color:var(--text);
+         padding:6px 12px; border-radius:999px; font-size:.88rem; cursor:pointer; }
+  .chip.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+  @media (prefers-color-scheme: dark) { .chip.on { color:#042f2e; } }
+  .count { color:var(--muted); font-size:.85rem; margin:4px 0 12px; }
+  .item { background:var(--card); border:1px solid var(--line); border-radius:12px;
+          padding:14px 16px; margin-bottom:10px; }
+  .item a.t { color:var(--text); font-weight:600; text-decoration:none; overflow-wrap:anywhere; }
+  .item a.t:hover { color:var(--accent); text-decoration:underline; }
+  .meta { color:var(--muted); font-size:.8rem; margin:2px 0 6px; display:flex; gap:6px; flex-wrap:wrap; }
+  .badge { background:var(--accent-soft); color:var(--accent); border-radius:6px; padding:0 6px; font-weight:600; }
+  .snip { font-size:.92rem; color:var(--muted); overflow-wrap:anywhere; }
+  mark { background:var(--mark); color:inherit; border-radius:3px; padding:0 1px; }
+  button.more { display:block; margin:16px auto; padding:10px 20px; border-radius:10px;
+          border:1px solid var(--line); background:var(--card); color:var(--text); cursor:pointer; }
+  .empty, .foot { color:var(--muted); text-align:center; padding:24px 0; font-size:.85rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Căutare AMG · ULBS Medicină</h1>
+  <div class="sub" id="updated">Se încarcă…</div>
+
+  <input type="search" id="q" placeholder="Caută: orar, burse, examen, cămin, restanțe…" autofocus>
+
+  <div class="filters">
+    <button class="chip on" id="fAmg" type="button">Doar AMG</button>
+    <select id="fSource"><option value="">Toate sursele</option></select>
+    <select id="fType">
+      <option value="">Toate tipurile</option>
+      <option value="anunt">Anunțuri</option>
+      <option value="pagina">Pagini</option>
+      <option value="document">Documente PDF</option>
+    </select>
+    <select id="fSort">
+      <option value="rel">Relevanță</option>
+      <option value="date">Cele mai noi</option>
+    </select>
+  </div>
+
+  <div class="count" id="count"></div>
+  <div id="results"></div>
+  <button class="more" id="more" hidden>Arată mai multe</button>
+  <div class="foot">Proiect studentesc, neoficial. Verifică mereu informația pe site-ul sursă.</div>
+</div>
+
+<script>
+const PAGE = 30;
+let DATA = [], shown = PAGE, current = [];
+const $ = id => document.getElementById(id);
+const TYPE_LABEL = { anunt: "Anunț", pagina: "Pagină", document: "PDF" };
+
+const fold = s => (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const esc = s => s.replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+
+function highlight(orig, tokens) {
+  const f = fold(orig), ranges = [];
+  for (const t of tokens) {
+    let i = 0;
+    while ((i = f.indexOf(t, i)) !== -1) { ranges.push([i, i + t.length]); i += t.length; }
+  }
+  ranges.sort((a, b) => a[0] - b[0]);
+  let out = "", pos = 0;
+  for (const [s, e] of ranges) {
+    if (e <= pos) continue;
+    const start = Math.max(s, pos);
+    out += esc(orig.slice(pos, start)) + "<mark>" + esc(orig.slice(start, e)) + "</mark>";
+    pos = e;
+  }
+  return out + esc(orig.slice(pos));
+}
+
+function snippet(text, tokens) {
+  if (!text) return "";
+  const f = fold(text);
+  let at = -1;
+  for (const t of tokens) { const i = f.indexOf(t); if (i !== -1 && (at === -1 || i < at)) at = i; }
+  const start = at > 80 ? at - 80 : 0;
+  const part = text.slice(start, start + 260);
+  return (start > 0 ? "… " : "") + highlight(part, tokens) + (start + 260 < text.length ? " …" : "");
+}
+
+function run() {
+  const tokens = fold($("q").value).split(/\s+/).filter(Boolean);
+  const amgOnly = $("fAmg").classList.contains("on");
+  const src = $("fSource").value, type = $("fType").value;
+  let sort = $("fSort").value;
+  if (!tokens.length) sort = "date";
+
+  current = [];
+  for (const d of DATA) {
+    if (amgOnly && !d.amg) continue;
+    if (src && d.source !== src) continue;
+    if (type && d.type !== type) continue;
+    let score = 0;
+    if (tokens.length) {
+      let ok = true;
+      for (const t of tokens) {
+        const inT = d._t.includes(t), inB = d._b.includes(t);
+        if (!inT && !inB) { ok = false; break; }
+        score += (inT ? 5 : 0) + (inB ? 1 : 0);
+      }
+      if (!ok) continue;
+    }
+    current.push({ d, score });
+  }
+  current.sort(sort === "date"
+    ? (a, b) => (b.d.date || "").localeCompare(a.d.date || "")
+    : (a, b) => b.score - a.score || (b.d.date || "").localeCompare(a.d.date || ""));
+  shown = PAGE;
+  render(tokens);
+}
+
+function render(tokens) {
+  $("count").textContent = current.length + (current.length === 1 ? " rezultat" : " rezultate");
+  const box = $("results");
+  if (!current.length) {
+    box.innerHTML = '<div class="empty">Niciun rezultat. Încearcă alt cuvânt sau debifează „Doar AMG”.</div>';
+    $("more").hidden = true;
+    return;
+  }
+  box.innerHTML = current.slice(0, shown).map(({ d }) => `
+    <div class="item">
+      <a class="t" href="${esc(d.url)}" target="_blank" rel="noopener">${highlight(d.title, tokens)}</a>
+      <div class="meta">
+        ${d.amg ? '<span class="badge">AMG</span>' : ""}
+        <span>${esc(d.source)}</span>·<span>${TYPE_LABEL[d.type] || ""}</span>${d.date ? "·<span>" + esc(d.date) + "</span>" : ""}
+      </div>
+      ${d.text ? '<div class="snip">' + snippet(d.text, tokens) + "</div>" : ""}
+    </div>`).join("");
+  $("more").hidden = shown >= current.length;
+}
+
+let timer;
+$("q").addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(run, 150); });
+$("fAmg").addEventListener("click", e => { e.currentTarget.classList.toggle("on"); run(); });
+["fSource", "fType", "fSort"].forEach(id => $(id).addEventListener("change", run));
+$("more").addEventListener("click", () => { shown += PAGE; render(fold($("q").value).split(/\s+/).filter(Boolean)); });
+
+fetch("data.json", { cache: "no-cache" })
+  .then(r => r.json())
+  .then(j => {
+    DATA = j.items.map(d => ({ ...d, _t: fold(d.title), _b: fold(d.text + " " + decodeURIComponent(d.url)) }));
+    const sources = [...new Set(DATA.map(d => d.source))];
+    $("fSource").innerHTML += sources.map(s => `<option>${esc(s)}</option>`).join("");
+    $("updated").textContent = j.count
+      ? j.count + " pagini indexate · actualizat " + new Date(j.updated).toLocaleDateString("ro-RO")
+      : "Indexul e gol. Rulează workflow-ul din GitHub Actions prima dată.";
+    run();
+  })
+  .catch(() => { $("updated").textContent = "Nu am putut încărca data.json."; });
+</script>
+</body>
+</html>
