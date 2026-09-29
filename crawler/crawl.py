@@ -8,12 +8,15 @@ Rezultatul se scrie în docs/data.json, folosit de pagina de căutare.
 """
 import html
 import json
+import os
 import re
+import smtplib
 import sys
 import time
 import unicodedata
 from collections import deque
 from datetime import datetime, timezone
+from email.message import EmailMessage
 from pathlib import Path
 from urllib.parse import unquote, urldefrag, urljoin, urlparse
 from urllib.robotparser import RobotFileParser
@@ -26,7 +29,7 @@ from bs4 import BeautifulSoup
 # ----------------------------------------------------------------------------
 SOURCES = [
     {"name": "Facultatea de Medicină", "url": "https://medicina.ulbsibiu.ro"},
-    {"name": "ULBS", "url": "https://www.ulbsibiu.ro"},
+    {"name": "ULBS", "url": "https://www.ulbsibiu.ro", "filter": True},  # filter: păstrează doar ce ține de studenți/AMG/TD
 ]
 MAX_PAGES_PER_SOURCE = 400   # limită pentru crawl-ul clasic (nu pentru API-ul WordPress)
 MAX_TEXT = 1500              # caractere de text păstrate per pagină
@@ -55,6 +58,7 @@ def fold(s):
     return "".join(c for c in s if not unicodedata.combining(c)).lower()
 
 
+STUDENT_RE = re.compile(r"student|burs|camin|cazare|taxe|orar|examen|sesiune|restant|admitere|practica|secretariat|licenta|calendar|medicin")
 AMG_RE = re.compile(r"\bamg\b|asistent[ai]? medical|asistenta medicala")
 TD_RE = re.compile(r"\btd\b|tehnic(?:a|ian)\w* dentar")
 
@@ -231,6 +235,33 @@ def generic_collect(name, base):
 
 
 # ----------------------------------------------------------------------------
+def notify(new):
+    """Trimite anunțurile noi pe Telegram și/sau email (doar dacă ai setat secretele în GitHub)."""
+    lines = [f"Anunțuri noi AMG/TD ({len(new)}):"]
+    lines += [f"• {d['title']}\n{d['url']}" for d in new[:10]]
+    if len(new) > 10:
+        lines.append(f"… și încă {len(new) - 10}")
+    msg = "\n\n".join(lines)
+    tok, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
+    if tok and chat:
+        try:
+            requests.post(f"https://api.telegram.org/bot{tok}/sendMessage", timeout=20,
+                          data={"chat_id": chat, "text": msg[:4000], "disable_web_page_preview": "true"})
+        except requests.RequestException as e:
+            print("Telegram eșuat:", e)
+    host, user, pw, to = (os.environ.get(k) for k in ("SMTP_HOST", "SMTP_USER", "SMTP_PASS", "EMAIL_TO"))
+    if user and pw and to:
+        try:
+            m = EmailMessage()
+            m["Subject"], m["From"], m["To"] = f"AMG/TD: {len(new)} anunțuri noi", user, to
+            m.set_content(msg)
+            with smtplib.SMTP_SSL(host or "smtp.gmail.com", 465, timeout=30) as smtp:
+                smtp.login(user, pw)
+                smtp.send_message(m)
+        except Exception as e:
+            print("Email eșuat:", e)
+
+
 def main():
     old_items = []
     if OUT.exists():
@@ -251,6 +282,8 @@ def main():
         if not docs:
             docs = [d for d in old_items if d.get("source") == name]
             method = "păstrat din rularea anterioară"
+        if s.get("filter"):
+            docs = [d for d in docs if d.get("spec") or STUDENT_RE.search(fold(d["title"] + " " + unquote(d["url"])))]
         print(f"  {len(docs)} intrări ({method})", flush=True)
         items += docs
 
@@ -262,6 +295,11 @@ def main():
     if not items:
         print("Nicio intrare găsită — nu suprascriu data.json.", file=sys.stderr)
         sys.exit(1)
+
+    old_urls = {d["url"] for d in old_items}
+    new = [d for d in items if d["url"] not in old_urls and d.get("spec")]
+    if old_items and new:
+        notify(new)
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     payload = {
