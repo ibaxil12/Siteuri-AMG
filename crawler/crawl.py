@@ -38,7 +38,7 @@ DELAY = 0.5                  # pauză între cereri (secunde), ca să nu încăr
 TIMEOUT = 25
 
 UA = "Mozilla/5.0 (compatible; AMG-Search-Bot/1.0; proiect studentesc)"
-OUT = Path(__file__).resolve().parent.parent / "docs" / "data.json"
+OUT = Path(__file__).resolve().parent.parent / "docs" / "data.json.gz"
 
 session = requests.Session()
 session.headers.update({"User-Agent": UA, "Accept-Language": "ro,en;q=0.8"})
