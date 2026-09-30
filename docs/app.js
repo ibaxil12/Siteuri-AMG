@@ -73,7 +73,7 @@ function renderShell(){
 
   $("siteFooter").innerHTML=`<footer class="footer"><div class="shell footer-row">
     <span>Proiect studențesc, neoficial. Verifică informația pe site-ul sursă.</span>
-    <div class="footer-actions"><button class="footer-install" id="installApp" type="button" hidden>Instalează aplicația</button><a href="feedback.html">Feedback & buguri</a></div>
+    <div class="footer-actions"><button class="footer-install" id="installApp" type="button" hidden>Instalează aplicația</button><a href="feedback.html">Trimite feedback</a><a class="admin-entry" href="admin-feedback.html">Admin</a></div>
   </div></footer>`;
 
   $("mobileNav").innerHTML=`<nav class="bottom-nav" aria-label="Navigație mobilă">
@@ -85,7 +85,7 @@ function renderShell(){
 
   $("drawerRoot").innerHTML=`<div class="drawer-backdrop" id="drawerBackdrop"></div>
   <aside class="drawer" id="drawer" aria-label="Meniu mobil"><div class="drawer-head"><strong>Meniu</strong><button class="drawer-close" id="drawerClose" type="button" aria-label="Închide meniul">✕</button></div>
-  <nav>${nav}<a href="anul1.html"${page==="anul1"?' class="active" aria-current="page"':""}>Anul I · Start aici</a><a href="calendar.html">Calendar academic</a><a href="faq.html">FAQ / Pentru boboci</a><a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a></nav></aside>`;
+  <nav>${nav}<a href="anul1.html"${page==="anul1"?' class="active" aria-current="page"':""}>Anul I · Start aici</a><a href="admin-feedback.html">Admin feedback</a><a href="calendar.html">Calendar academic</a><a href="faq.html">FAQ / Pentru boboci</a><a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a></nav></aside>`;
 
   document.querySelectorAll("[data-program]").forEach(b=>b.onclick=()=>setProgram(b.dataset.program));
   setProgram(program);
