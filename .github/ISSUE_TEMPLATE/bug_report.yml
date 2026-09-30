@@ -1,0 +1,64 @@
+name: "🐞 Raportare bug"
+description: "Semnalează o problemă tehnică sau de afișare în portal."
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Mulțumim pentru raport. Completează cât mai clar informațiile de mai jos.
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: Dispozitiv
+      options:
+        - Telefon
+        - Tabletă
+        - Laptop
+        - Desktop / PC
+        - Altul
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      description: "Ex.: Chrome, Safari, Firefox, Edge"
+      placeholder: "Chrome"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Ce problemă ai întâlnit?
+      description: "Descrie ce s-a întâmplat."
+      placeholder: "Ex.: apăs pe butonul Burse, dar nu se afișează rezultate."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pași pentru reproducere
+      description: "Spune-ne cum putem reproduce problema."
+      placeholder: |
+        1. Am deschis pagina...
+        2. Am selectat AMG...
+        3. Am apăsat...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Ce te așteptai să se întâmple?
+      placeholder: "Descrie rezultatul așteptat."
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Alte detalii
+      description: "Poți adăuga capturi de ecran sau alte informații utile."
