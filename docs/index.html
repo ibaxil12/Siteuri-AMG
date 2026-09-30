@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0F2233">
+<meta name="description" content="Caută anunțuri, orare și informații utile pentru AMG și Tehnică Dentară la ULBS.">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="canonical" href="https://ibaxil12.github.io/Siteuri-AMG/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AMG și Tehnică Dentară · ULBS Medicină">
+<meta property="og:description" content="Anunțuri, orare și link-uri utile pentru AMG și Tehnică Dentară.">
+<meta property="og:url" content="https://ibaxil12.github.io/Siteuri-AMG/">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -125,11 +132,12 @@ const PAGE=30, TOPICS=["orar","burse","examen","restanțe","cămin","taxe","prac
 const KIND={anunt:"Anunț",pagina:"Pagină",document:"PDF"};
 const $=id=>document.getElementById(id);
 const fold=s=>(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-const esc=s=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
-const today=()=>new Date().toISOString().slice(0,10);
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+const dateDaysAgo=n=>{const d=new Date();d.setDate(d.getDate()-n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
 let DATA=[],shown=PAGE,cur=[],prog=ls.get("prog")||"both",type="",strict=ls.get("strict")==="1",onlyNew=false;
-let seen=ls.get("seen")||new Date(Date.now()-7*864e5).toISOString().slice(0,10);
+let seen=ls.get("seen")||dateDaysAgo(7);
 const isNew=d=>!!d.date&&d.date>=seen&&(d.spec||d.type==="anunt");
 const inProg=d=>prog==="both"||d.prog.includes(prog);
 
@@ -149,7 +157,7 @@ function snip(text,toks){
   return(st>0?"… ":"")+hl(part,toks)+(st+240<text.length?" …":"");
 }
 const tokens=()=>fold($("q").value).split(/\s+/).filter(Boolean);
-function setSeg(id,val){document.querySelectorAll("#"+id+" button").forEach(b=>b.classList.toggle("on",b.dataset.v===val))}
+function setSeg(id,val){document.querySelectorAll("#"+id+" button").forEach(b=>{const on=b.dataset.v===val;b.classList.toggle("on",on);b.setAttribute("aria-pressed",String(on))})}
 function saveUrl(){
   const p=new URLSearchParams();
   if($("q").value.trim())p.set("q",$("q").value.trim());
@@ -233,8 +241,10 @@ Promise.all([getJson("data.json"),getJson("manual.json").catch(()=>[])]).then(([
   const manual=(Array.isArray(man)?man:[]).filter(m=>m&&m.title).map(m=>({
     title:m.title,url:m.url||"",date:m.date||"",text:m.text||"",source:"Adăugat manual",
     type:"anunt",prog:m.prog&&m.prog.length?m.prog:["AMG","TD"],spec:true}));
-  const auto=j.items.map(d=>({...d,prog:d.prog||(d.amg?["AMG"]:["AMG","TD"]),spec:d.spec??!!d.amg}));
-  DATA=[...manual,...auto].map(d=>({...d,_t:fold(d.title),_b:fold(d.text+" "+decodeURIComponent(d.url))}));
+  if(!j || !Array.isArray(j.items))throw new Error("Format invalid pentru data.json");
+  const auto=j.items.map(d=>({...d,prog:Array.isArray(d.prog)&&d.prog.length?d.prog:(d.amg?["AMG"]:["AMG","TD"]),spec:d.spec??!!d.amg}));
+  const safeDecode=u=>{try{return decodeURIComponent(u||"")}catch(e){return u||""}};
+  DATA=[...manual,...auto].map(d=>({...d,_t:fold(d.title),_b:fold((d.text||"")+" "+safeDecode(d.url))}));
   $("src").innerHTML+=[...new Set(DATA.map(d=>d.source))].map(s=>`<option>${esc(s)}</option>`).join("");
   const p=new URLSearchParams(location.search);
   $("q").value=p.get("q")||"";
