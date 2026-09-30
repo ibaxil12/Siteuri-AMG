@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#52606d">
+  <meta name="description" content="Trimite feedback, sugestii sau raportează probleme pentru portalul AMG și Tehnică Dentară.">
+  <link rel="icon" href="icon-192.png" type="image/png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <title>Feedback & Buguri · AMG și Tehnică Dentară</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+<a class="skip" href="#main">Sari la conținut</a>
+
+<header class="site-header">
+  <div class="shell header-row">
+    <a class="brand" href="./" aria-label="Înapoi la portal">
+      <span class="brand-mark">A+</span>
+      <span>AMG · Tehnică Dentară</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Navigație feedback">
+      <a href="./">Acasă</a>
+      <a href="./#acces">Acces rapid</a>
+      <a href="./#noutati">Noutăți</a>
+      <a href="./#cauta">Caută</a>
+      <a href="feedback.html" aria-current="page">Feedback</a>
+    </nav>
+    <a class="secondary-btn feedback-back" href="./">← Înapoi la portal</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="feedback-hero">
+    <div class="shell feedback-shell">
+      <span class="eyebrow">Ajută-ne să îmbunătățim portalul</span>
+      <h1>Feedback & raportare buguri</h1>
+      <p class="hero-copy">Ai găsit ceva care nu funcționează sau ai o idee care ar face portalul mai util? Alege tipul mesajului și completează formularul.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell feedback-shell">
+      <div class="feedback-grid">
+        <article class="feedback-card feedback-bug">
+          <div class="feedback-icon" aria-hidden="true">!</div>
+          <div>
+            <span class="feedback-kicker">Problemă tehnică</span>
+            <h2>Raportează un bug</h2>
+            <p>Folosește această opțiune dacă o pagină nu se încarcă, un buton nu funcționează, rezultatele sunt greșite sau observi o problemă de afișare.</p>
+          </div>
+          <a class="primary-btn feedback-action" href="https://github.com/ibaxil12/Siteuri-AMG/issues/new?template=bug_report.yml" target="_blank" rel="noopener">Raportează problema ↗</a>
+        </article>
+
+        <article class="feedback-card feedback-idea">
+          <div class="feedback-icon" aria-hidden="true">✦</div>
+          <div>
+            <span class="feedback-kicker">Sugestie</span>
+            <h2>Trimite feedback sau o idee</h2>
+            <p>Spune ce ai schimba, ce informație lipsește sau ce funcție nouă ți-ar fi utilă în portal.</p>
+          </div>
+          <a class="primary-btn feedback-action" href="https://github.com/ibaxil12/Siteuri-AMG/issues/new?template=feedback.yml" target="_blank" rel="noopener">Trimite feedback ↗</a>
+        </article>
+      </div>
+
+      <div class="feedback-info">
+        <div>
+          <h2>Ce se întâmplă după trimitere?</h2>
+          <p>Mesajul este salvat ca un ticket în proiect. Acolo se poate urmări problema, se pot adăuga răspunsuri și se poate marca drept rezolvată.</p>
+        </div>
+        <a class="secondary-btn" href="https://github.com/ibaxil12/Siteuri-AMG/issues" target="_blank" rel="noopener">Vezi rapoartele existente ↗</a>
+      </div>
+
+      <div class="feedback-note">
+        <strong>Notă:</strong> formularele sunt găzduite pe GitHub, deci pentru trimitere este necesar un cont GitHub. Nu include date personale, parole sau alte informații sensibile în raport.
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="shell footer-row">
+    <span>Proiect studențesc, neoficial.</span>
+    <a href="./">Înapoi la pagina principală</a>
+  </div>
+</footer>
+
+<script>
+  (() => {
+    const p = localStorage.getItem("prog");
+    if (p === "AMG") document.body.classList.add("theme-amg");
+    if (p === "TD") document.body.classList.add("theme-td");
+  })();
+</script>
+</body>
+</html>
