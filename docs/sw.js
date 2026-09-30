@@ -17,7 +17,7 @@ self.addEventListener("fetch", event => {
   if (request.method !== "GET" || url.origin !== location.origin) return;
 
   // Data changes daily: always request the current copy instead of serving a stale cached copy.
-  if (url.pathname.endsWith("/data.json") || url.pathname.endsWith("/manual.json")) {
+  if (url.pathname.endsWith("/data.json") || url.pathname.endsWith("/data.json.gz") || url.pathname.endsWith("/manual.json")) {
     event.respondWith(fetch(request, {cache: "no-cache"}));
     return;
   }
