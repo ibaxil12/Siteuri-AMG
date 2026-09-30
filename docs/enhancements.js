@@ -43,14 +43,26 @@
   obs.observe(document.documentElement,{subtree:true,childList:true});
   enhanceResults(); renderRecent();
 
+  async function loadIndex(){
+    const gz=await fetch("data.json.gz",{cache:"no-cache"});
+    if(gz.ok && "DecompressionStream" in window && gz.body){
+      const text=await new Response(gz.body.pipeThrough(new DecompressionStream("gzip"))).text();
+      return JSON.parse(text);
+    }
+    const r=await fetch("data.json",{cache:"no-cache"}); if(!r.ok)throw 0; return r.json();
+  }
   async function updateNewsBadge(){
     try{
-      const r=await fetch("data.json",{cache:"no-cache"}); if(!r.ok)return;
-      const j=await r.json(); if(!Array.isArray(j.items))return;
+      const j=await loadIndex(); if(!Array.isArray(j.items))return;
       const seen=lsGet("seen")||localDate(new Date(Date.now()-7*86400000));
       const p=program();
       const n=j.items.filter(d=>d.type==="anunt"&&d.date&&d.date>=seen&&(p==="both"||((d.prog||[]).includes(p)))).length;
       lsSet("newCount",String(n));
+      const s=$("sourceStatus");
+      if(s){
+        const d=j.updated?new Date(j.updated):null;
+        s.textContent=d&&!isNaN(d)?"Index actualizat: "+d.toLocaleString("ro-RO")+" · "+j.items.length+" intrări":"Index disponibil";
+      }
       document.querySelectorAll('.desktop-nav a[href="anunturi.html"]').forEach(a=>{
         let b=a.querySelector(".nav-badge");
         if(n&&!b){b=document.createElement("span");b.className="nav-badge";a.append(" ",b);}
