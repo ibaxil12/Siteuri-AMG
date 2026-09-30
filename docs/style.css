@@ -785,3 +785,61 @@ body.theme-campusmed.theme-dark .badge,
 body.theme-campusmed.theme-dark .result-kind{color:#ff7b83}
 @media(max-width:980px){.header-row>.theme-switch{margin-left:auto}.menu-btn{margin-left:0}}
 @media(max-width:520px){.header-row>.theme-switch{display:none}}
+
+
+/* === Friendlier action buttons v26 === */
+.primary-btn,.secondary-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:auto;
+  min-height:42px;
+  padding:0 15px;
+  border-radius:11px;
+  font-size:.9rem;
+  line-height:1;
+  font-weight:750;
+  white-space:nowrap;
+  text-decoration:none;
+  transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .12s ease,box-shadow .16s ease;
+}
+.primary-btn{
+  min-height:44px;
+  padding-inline:17px;
+}
+.secondary-btn{
+  background:color-mix(in srgb,var(--surface) 88%,var(--brand-soft));
+  border-color:color-mix(in srgb,var(--line) 78%,var(--brand));
+  color:var(--text);
+  box-shadow:0 2px 7px rgba(18,41,54,.045);
+}
+.secondary-btn:hover{
+  background:var(--brand-soft);
+  border-color:color-mix(in srgb,var(--brand) 55%,var(--line));
+  color:var(--brand);
+  transform:translateY(-1px);
+}
+.primary-btn:hover{transform:translateY(-1px)}
+.primary-btn:active,.secondary-btn:active{transform:translateY(0) scale(.98)}
+.section-actions>.secondary-btn{flex:0 0 auto}
+body.theme-campusmed.theme-dark .secondary-btn{
+  background:#21171a;
+  border-color:#5b3941;
+  color:#f8e9eb;
+  box-shadow:none;
+}
+body.theme-campusmed.theme-dark .secondary-btn:hover{
+  background:var(--brand-soft);
+  border-color:var(--brand);
+  color:#ff858d;
+}
+@media(max-width:560px){
+  .section-actions{gap:10px}
+  .section-actions>.secondary-btn{
+    align-self:flex-start;
+    min-height:38px;
+    padding:0 13px;
+    border-radius:10px;
+    font-size:.86rem;
+  }
+}
