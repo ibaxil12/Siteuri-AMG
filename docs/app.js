@@ -56,6 +56,8 @@ function applyTheme(mode=getUiTheme()){
   document.body.classList.remove("theme-amg","theme-td","theme-light","theme-dark");
   document.body.classList.add("theme-campusmed","theme-"+theme);
   document.documentElement.style.colorScheme=theme;
+  const themeMeta=document.querySelector('meta[name="theme-color"]');
+  if(themeMeta)themeMeta.setAttribute("content",theme==="dark"?"#110d0f":"#f8fafb");
   document.querySelectorAll("[data-ui-theme]").forEach(b=>{
     const on=b.dataset.uiTheme===theme;
     b.classList.toggle("on",on);
