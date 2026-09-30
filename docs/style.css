@@ -623,3 +623,8 @@ main li a:hover,
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+
+/* === CampusMed Updates & Roadmap v22 === */
+.updates-preview-grid,.updates-page-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.updates-preview-grid>div,.updates-page-grid>section{min-width:0}.updates-preview-grid h3{margin:0 0 10px;font-size:1rem}.update-mini-list,.updates-list{display:grid;gap:10px}.update-mini,.update-card{padding:15px 16px;border:1px solid var(--line);border-radius:15px;background:var(--surface)}.update-card{padding:18px}.update-mini strong,.update-card strong{display:block;margin-top:7px}.update-mini p,.update-card p{margin:5px 0 0;color:var(--muted);line-height:1.5}.update-mini p{font-size:.87rem}.update-meta{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.76rem}.update-status{padding:4px 8px;border-radius:999px;background:var(--brand-soft);color:var(--brand);font-weight:800}.status-publicat{background:color-mix(in srgb,#15945b 15%,var(--surface));color:#15945b}.status-in_lucru{background:var(--brand-soft);color:var(--brand)}.admin-tabs{display:flex;gap:8px;margin-bottom:20px}.update-editor{margin-bottom:18px}.admin-visible-check{display:flex;align-items:center;gap:9px;margin:12px 0;font-weight:700}.admin-visible-check input{width:19px;height:19px;accent-color:var(--brand)}
+@media(max-width:760px){.updates-preview-grid,.updates-page-grid{grid-template-columns:1fr}}
