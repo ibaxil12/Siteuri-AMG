@@ -628,3 +628,55 @@ main li a:hover,
 /* === CampusMed Updates & Roadmap v22 === */
 .updates-preview-grid,.updates-page-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.updates-preview-grid>div,.updates-page-grid>section{min-width:0}.updates-preview-grid h3{margin:0 0 10px;font-size:1rem}.update-mini-list,.updates-list{display:grid;gap:10px}.update-mini,.update-card{padding:15px 16px;border:1px solid var(--line);border-radius:15px;background:var(--surface)}.update-card{padding:18px}.update-mini strong,.update-card strong{display:block;margin-top:7px}.update-mini p,.update-card p{margin:5px 0 0;color:var(--muted);line-height:1.5}.update-mini p{font-size:.87rem}.update-meta{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.76rem}.update-status{padding:4px 8px;border-radius:999px;background:var(--brand-soft);color:var(--brand);font-weight:800}.status-publicat{background:color-mix(in srgb,#15945b 15%,var(--surface));color:#15945b}.status-in_lucru{background:var(--brand-soft);color:var(--brand)}.admin-tabs{display:flex;gap:8px;margin-bottom:20px}.update-editor{margin-bottom:18px}.admin-visible-check{display:flex;align-items:center;gap:9px;margin:12px 0;font-weight:700}.admin-visible-check input{width:19px;height:19px;accent-color:var(--brand)}
 @media(max-width:760px){.updates-preview-grid,.updates-page-grid{grid-template-columns:1fr}}
+
+
+/* === Result cards responsive layout v23 === */
+.results{display:grid;gap:14px}
+.result{
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  height:auto;
+  min-height:0;
+  padding:20px 22px;
+  overflow:visible;
+}
+.result-top{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:start;
+  gap:14px 18px;
+}
+.result-top .result-title{
+  min-width:0;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+.result-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:7px;
+  flex-wrap:wrap;
+  max-width:150px;
+}
+.result-text{
+  display:block;
+  max-width:none;
+  margin:10px 0 0;
+  line-height:1.62;
+  overflow-wrap:anywhere;
+  white-space:normal;
+}
+.result-meta{
+  margin-top:12px;
+  align-items:center;
+  row-gap:8px;
+}
+@media(max-width:680px){
+  .result{padding:17px 16px}
+  .result-top{grid-template-columns:1fr;gap:10px}
+  .result-actions{max-width:none;justify-content:flex-start;order:2}
+  .result-text{margin-top:9px;line-height:1.58}
+  .result-meta{margin-top:11px}
+}
