@@ -32,4 +32,4 @@ jobs:
           test -f docs/icon-192.png
           test -f docs/icon-512.png
           grep -q 'CampusMed' docs/manifest.webmanifest
-          grep -q 'campusmed-v26' docs/sw.js
+          grep -q 'campusmed-v27' docs/sw.js
