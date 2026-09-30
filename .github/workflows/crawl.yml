@@ -47,5 +47,6 @@ jobs:
           git add docs/data.json.gz
           if ! git diff --staged --quiet; then
             git commit -m "Actualizare date"
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
