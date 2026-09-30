@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ibaxil12.github.io/Siteuri-AMG/sitemap.xml
