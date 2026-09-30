@@ -236,8 +236,17 @@ document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!=
 setSeg("prog",prog);
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 
-const getJson=u=>fetch(u,{cache:"no-cache"}).then(r=>{if(!r.ok)throw 0;return r.json()});
-Promise.all([getJson("data.json"),getJson("manual.json").catch(()=>[])]).then(([j,man])=>{
+const getJson=u=>fetch(u,{cache:"no-cache"}).then(async r=>{if(!r.ok)throw 0;return r.json()});
+const getCompressedJson=async u=>{
+  const r=await fetch(u,{cache:"no-cache"});
+  if(!r.ok)throw 0;
+  if(!("DecompressionStream" in window)||!r.body)throw 0;
+  const ds=new DecompressionStream("gzip");
+  const text=await new Response(r.body.pipeThrough(ds)).text();
+  return JSON.parse(text);
+};
+const getData=()=>getCompressedJson("data.json.gz").catch(()=>getJson("data.json"));
+Promise.all([getData(),getJson("manual.json").catch(()=>[])]).then(([j,man])=>{
   const manual=(Array.isArray(man)?man:[]).filter(m=>m&&m.title).map(m=>({
     title:m.title,url:m.url||"",date:m.date||"",text:m.text||"",source:"Adăugat manual",
     type:"anunt",prog:m.prog&&m.prog.length?m.prog:["AMG","TD"],spec:true}));
