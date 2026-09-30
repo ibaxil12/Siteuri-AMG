@@ -1,0 +1,50 @@
+name: "💡 Feedback / sugestie"
+description: "Propune o îmbunătățire sau spune-ne ce ai schimba în portal."
+title: "[Feedback] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Mulțumim! Feedbackul tău ne ajută să facem portalul mai util.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Despre ce este feedbackul?
+      options:
+        - Design / interfață
+        - Navigație
+        - Căutare
+        - Noutăți
+        - AMG
+        - Tehnică Dentară
+        - Informații lipsă
+        - Funcție nouă
+        - Altceva
+    validations:
+      required: true
+
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Mesajul tău
+      placeholder: "Spune-ne ce ai schimba sau ce ți-ar fi util."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: De ce ar fi util?
+      placeholder: "Descrie pe scurt situația în care te-ar ajuta."
+
+  - type: dropdown
+    id: program
+    attributes:
+      label: Program
+      options:
+        - AMG
+        - Tehnică Dentară
+        - Ambele
+        - Nu se aplică
