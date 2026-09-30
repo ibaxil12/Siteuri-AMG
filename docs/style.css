@@ -510,3 +510,34 @@ body.theme-td{
   .dashboard-card.featured p{color:rgba(255,255,255,.94)}
   .badge,.result-kind{color:var(--brand)}
 }
+
+
+/* === Neutral / Ambele contrast v14 === */
+body:not(.theme-amg):not(.theme-td){
+  --brand:#344f5f;
+  --brand-strong:#203b4b;
+  --brand-soft:#e2ebef;
+}
+body:not(.theme-amg):not(.theme-td) .dashboard-card.featured{
+  background:linear-gradient(145deg,#3f6072,#203b4b);
+  color:#fff;
+  border-color:#294757;
+  box-shadow:0 12px 28px rgba(32,59,75,.28);
+}
+body:not(.theme-amg):not(.theme-td) .dashboard-card.featured h2{color:#fff}
+body:not(.theme-amg):not(.theme-td) .dashboard-card.featured p{color:rgba(255,255,255,.93)}
+body:not(.theme-amg):not(.theme-td) .dashboard-card.featured .icon{
+  background:rgba(255,255,255,.17);
+  color:#fff;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);
+}
+@media(prefers-color-scheme:dark){
+  body:not(.theme-amg):not(.theme-td){
+    --brand:#8fb1c3;
+    --brand-strong:#6d97ad;
+    --brand-soft:#263d49;
+  }
+  body:not(.theme-amg):not(.theme-td) .dashboard-card.featured{
+    background:linear-gradient(145deg,#416779,#294957);
+  }
+}
