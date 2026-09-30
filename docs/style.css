@@ -262,3 +262,23 @@ body.theme-td .hero{background:color-mix(in srgb,var(--brand-soft) 70%,var(--bg)
   .dashboard-card p{display:none}
   .topic-btn{min-height:78px}
 }
+
+.result-top{display:flex;align-items:flex-start;gap:12px}
+.result-top .result-title{flex:1}
+.fav-btn{width:38px;height:38px;display:grid;place-items:center;flex:0 0 auto;border:1px solid var(--line);border-radius:11px;background:var(--surface);color:var(--muted);cursor:pointer}
+.fav-btn svg{width:18px;height:18px}
+.fav-btn.saved{color:var(--brand);background:var(--brand-soft);border-color:var(--brand)}
+.calendar-form{display:grid;grid-template-columns:1.1fr 170px 1fr auto;gap:12px;align-items:end;margin-bottom:24px}
+.calendar-form .form-field{min-width:0}
+.calendar-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.calendar-item{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 18px;border:1px solid var(--line);border-radius:15px;background:var(--surface)}
+.calendar-item strong,.calendar-item span{display:block}
+.calendar-item span{margin-top:3px;color:var(--muted);font-size:.9rem}
+.calendar-remove{width:40px;height:40px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--muted);cursor:pointer}
+.faq-list{display:grid;gap:10px}
+.faq-list details{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:0 18px}
+.faq-list summary{cursor:pointer;font-weight:800;padding:17px 0}
+.faq-list details p{margin:0 0 18px;color:var(--muted)}
+.faq-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+@media(max-width:860px){.calendar-form{grid-template-columns:1fr 1fr}.calendar-form .feedback-submit{width:auto}}
+@media(max-width:680px){.calendar-form{grid-template-columns:1fr}.calendar-form .feedback-submit{width:100%}.result-top{gap:8px}}
