@@ -7,6 +7,7 @@ Strategie, pentru fiecare sursă din SOURCES:
 Rezultatul se scrie în docs/data.json, folosit de pagina de căutare.
 """
 import html
+import gzip
 import json
 import os
 import re
@@ -295,8 +296,9 @@ def main():
     old_items = []
     if OUT.exists():
         try:
-            old_items = json.loads(OUT.read_text("utf-8")).get("items", [])
-        except ValueError:
+            with gzip.open(OUT, "rt", encoding="utf-8") as f:
+                old_items = json.load(f).get("items", [])
+        except (OSError, ValueError):
             pass
 
     items = []
@@ -337,8 +339,10 @@ def main():
         "sources": [s["name"] for s in SOURCES],
         "items": items,
     }
-    OUT.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), "utf-8")
-    print(f"Gata: {len(items)} intrări în {OUT}")
+    raw = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    with gzip.open(OUT, "wb", compresslevel=9) as f:
+        f.write(raw)
+    print(f"Gata: {len(items)} intrări în {OUT} ({len(raw):,} bytes necomprimat)")
 
 
 if __name__ == "__main__":
