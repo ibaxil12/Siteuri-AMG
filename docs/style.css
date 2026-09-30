@@ -974,3 +974,143 @@ body.theme-campusmed.theme-dark .secondary-btn:hover{
   .update-card,.update-mini,.page-panel,.admin-feedback-card,
   .year-one-entry,.step-card,.freshman-card{padding:17px}
 }
+
+
+/* === Mobile-first polish v29 === */
+html,body{max-width:100%;overflow-x:hidden}
+img,svg{max-width:100%}
+input,select,textarea,button{max-width:100%}
+textarea{font:inherit}
+
+@media(max-width:680px){
+  body{font-size:16px;padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  .shell{width:100%;box-sizing:border-box;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .site-header{backdrop-filter:blur(18px)}
+  .header-row{min-height:60px;gap:10px}
+  .brand{gap:9px;min-width:0}
+  .brand-mark{width:34px;height:34px;border-radius:10px;flex:0 0 auto}
+  .brand span:last-child{font-size:.94rem;overflow:hidden;text-overflow:ellipsis}
+  .menu-btn{width:42px;height:42px;flex:0 0 auto}
+
+  .page-hero,.home-hero{padding-top:26px;padding-bottom:18px}
+  .page-hero h1,.home-hero h1{font-size:clamp(1.85rem,9vw,2.5rem);line-height:1.08;letter-spacing:-.04em}
+  .page-hero p,.hero-copy{font-size:.98rem;line-height:1.58}
+  .eyebrow{font-size:.75rem;letter-spacing:.065em}
+
+  .section,.section-compact{padding:20px 0}
+  .section-actions{margin-bottom:12px}
+  .section-actions h2{font-size:1.22rem}
+  .count{font-size:.88rem;line-height:1.45}
+
+  .searchbox input{
+    height:52px;
+    border-radius:14px;
+    padding-left:46px;
+    padding-right:46px;
+    font-size:16px;
+  }
+  .searchbox svg{left:15px;width:20px;height:20px}
+  .clear-search{width:40px;height:40px;right:6px;top:6px}
+  .search-panel{padding:12px;border-radius:16px}
+  .search-toolbar{gap:8px}
+  .search-toolbar .filter-toggle{min-width:46px;min-height:52px}
+  input,select,textarea{font-size:16px}
+  select{min-height:48px}
+  .form-field input,.form-field textarea,.form-field select{width:100%;box-sizing:border-box}
+
+  .result-actions{gap:7px}
+  .result-actions .fav-btn,.share-mini{width:42px;height:42px}
+  .result-meta{font-size:.79rem}
+  .badge,.result-kind,.new-tag{line-height:1.35}
+  .resource-card .icon{width:44px;height:44px}
+  .resource-card span:last-child{margin-left:auto}
+
+  .bottom-nav{
+    left:max(8px,env(safe-area-inset-left,0px));
+    right:max(8px,env(safe-area-inset-right,0px));
+    bottom:max(8px,env(safe-area-inset-bottom,0px));
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    border-radius:16px;
+    padding:5px;
+  }
+  .bottom-nav button,.bottom-nav a{min-width:0;min-height:50px;padding:4px 2px;font-size:.68rem}
+  .bottom-nav svg{width:18px;height:18px}
+
+  .drawer{
+    width:min(92vw,360px);
+    padding:calc(16px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) 16px;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+  }
+  .drawer-head{margin-bottom:16px}
+  .drawer nav{gap:6px}
+  .drawer nav a{min-height:46px;box-sizing:border-box;display:flex;align-items:center;padding:11px 13px}
+  .drawer-theme{margin-bottom:14px;padding:10px 12px}
+
+  /* Calendar fits the phone instead of forcing a 680px desktop canvas. */
+  .calendar-shell{overflow:visible}
+  .calendar-toolbar{min-width:0!important;padding:10px 0;gap:8px}
+  .calendar-toolbar h2{font-size:1.05rem}
+  .calendar-toolbar .icon-btn{min-width:42px;min-height:42px}
+  .calendar-weekdays,.calendar-grid{min-width:0!important}
+  .weekday-row,.month-grid,.calendar-weekdays,.calendar-grid{width:100%;min-width:0}
+  .weekday-row span,.calendar-weekdays span{font-size:.64rem;padding:6px 1px}
+  .month-day,.calendar-day{min-width:0;min-height:54px;padding:4px}
+  .day-number{width:24px;height:24px;font-size:.75rem}
+  .day-events{gap:2px;margin-top:3px}
+  .day-event{padding:1px 3px;font-size:.58rem}
+  .calendar-legend{gap:10px;flex-wrap:wrap;font-size:.78rem}
+  .calendar-item{align-items:flex-start}
+  .calendar-actions{flex-wrap:wrap}
+
+  .admin-main{padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+  .admin-top,.admin-heading{gap:12px}
+  .admin-heading{flex-direction:column;align-items:stretch}
+  .admin-tabs{overflow-x:auto;padding-bottom:3px}
+  .admin-tabs .filter-chip{white-space:nowrap}
+  .admin-card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .admin-card-actions select{min-width:0;width:100%}
+
+  .updates-preview-grid,.updates-page-grid{gap:14px}
+}
+
+@media(max-width:480px){
+  /* Dashboard becomes compact horizontal cards: easier to scan and tap. */
+  .dashboard-grid{grid-template-columns:1fr;gap:10px}
+  .dashboard-card{
+    display:grid;
+    grid-template-columns:44px minmax(0,1fr);
+    grid-template-rows:auto auto;
+    column-gap:14px;
+    row-gap:2px;
+    min-height:0;
+    padding:17px 18px;
+  }
+  .dashboard-card .icon{grid-row:1 / 3;width:44px;height:44px;margin:0;align-self:center}
+  .dashboard-card h2{grid-column:2;margin:0;font-size:1rem;align-self:end}
+  .dashboard-card p{grid-column:2;display:block!important;margin:2px 0 0;font-size:.8rem;line-height:1.4}
+  .dashboard-card.featured{min-height:0}
+
+  .topic-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .topic-btn{min-height:68px;padding:10px;font-size:.88rem}
+  .compact-search{margin-top:18px}
+  .section-actions{flex-direction:column;align-items:flex-start}
+  .section-actions>.secondary-btn{min-height:40px}
+
+  .calendar-source{padding:15px}
+  .utility-strip{padding:15px}
+  .calendar-form-actions{display:grid;grid-template-columns:1fr}
+  .calendar-form-actions>*{width:100%}
+
+  .footer{padding-bottom:20px}
+  .footer-row{font-size:.82rem}
+}
+
+@media(max-width:360px){
+  .shell{padding-left:12px;padding-right:12px}
+  .brand span:last-child{font-size:.88rem}
+  .bottom-nav button,.bottom-nav a{font-size:.64rem}
+  .dashboard-card{padding:15px}
+  .result,.resource-card,.link-card,.news-item,.update-card,.update-mini,.page-panel,.admin-feedback-card{padding:16px}
+  .result-actions .fav-btn,.share-mini{width:40px;height:40px}
+}
