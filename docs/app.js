@@ -341,6 +341,6 @@ async function init(){
   if(page==="anul1")initFirstYear();
     if(!DATA.length&&["calendar","feedback","faq"].includes(page)===false)await loadData();
   }catch(e){const c=$("count");if(c)c.textContent="Datele nu au putut fi încărcate.";console.error(e)}
-  if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=31",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
 }
 document.addEventListener("DOMContentLoaded",init);
