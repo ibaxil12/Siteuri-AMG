@@ -36,7 +36,9 @@ const iconPaths={
   award:'<circle cx="12" cy="8" r="5"/><path d="m8.5 12-2 9 5.5-3 5.5 3-2-9"/>',
   card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/>',
   briefcase:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/>',
-  building:'<path d="M3 21h18M6 21V6l6-3 6 3v15M9 9h1M14 9h1M9 13h1M14 13h1"/>'
+  building:'<path d="M3 21h18M6 21V6l6-3 6 3v15M9 9h1M14 9h1M9 13h1M14 13h1"/>',
+  star:'<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3L5.8 21 7 14.2 2 9.3l6.9-1Z"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>'
 };
 function svg(name){return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${iconPaths[name]||iconPaths.arrow}</svg>`}
 
@@ -78,7 +80,7 @@ function renderShell(){
 
   $("drawerRoot").innerHTML=`<div class="drawer-backdrop" id="drawerBackdrop"></div>
   <aside class="drawer" id="drawer" aria-label="Meniu mobil"><div class="drawer-head"><strong>Meniu</strong><button class="drawer-close" id="drawerClose" type="button" aria-label="Închide meniul">✕</button></div>
-  <nav>${nav}<a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a></nav></aside>`;
+  <nav>${nav}<a href="calendar.html">Calendar academic</a><a href="faq.html">FAQ / Pentru boboci</a><a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a></nav></aside>`;
 
   document.querySelectorAll("[data-program]").forEach(b=>b.onclick=()=>setProgram(b.dataset.program));
   setProgram(program);
@@ -107,14 +109,36 @@ async function loadData(){
 function inProgram(d){return program==="both"||d.prog.includes(program)}
 function isNew(d){const seen=ls.get("seen")||dateDaysAgo(7);return !!d.date&&d.date>=seen&&(d.spec||d.type==="anunt")}
 function fmtDate(d){return d?new Date(d+"T00:00:00").toLocaleDateString("ro-RO",{day:"numeric",month:"short",year:"numeric"}):""}
+function getFavorites(){try{return JSON.parse(ls.get("favorites")||"[]")}catch{return[]}}
+function favoriteKey(d){return d.url||d.title}
+function isFavorite(d){return getFavorites().some(x=>x.key===favoriteKey(d))}
+function toggleFavorite(d){
+  let favs=getFavorites(),key=favoriteKey(d);
+  if(favs.some(x=>x.key===key))favs=favs.filter(x=>x.key!==key);
+  else favs.unshift({key,title:d.title,url:d.url||"",source:d.source||"",type:d.type||"",date:d.date||""});
+  ls.set("favorites",JSON.stringify(favs.slice(0,50)));
+  document.dispatchEvent(new CustomEvent("favoriteschange"));
+}
+function bindFavoriteButtons(items,target){
+  const box=$(target);if(!box)return;
+  box.querySelectorAll("[data-fav-index]").forEach(btn=>{
+    btn.onclick=()=>{const d=items[Number(btn.dataset.favIndex)];if(!d)return;toggleFavorite(d);btn.classList.toggle("saved",isFavorite(d));btn.setAttribute("aria-label",isFavorite(d)?"Elimină din favorite":"Adaugă la favorite")};
+  });
+}
+function renderFavorites(){
+  const box=$("favoriteList");if(!box)return;
+  const favs=getFavorites();
+  box.innerHTML=favs.length?favs.slice(0,5).map(f=>`<li class="result"><a class="result-title" href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.title)}</a><div class="result-meta"><span>${esc(f.source)}</span>${f.date?`<span>${fmtDate(f.date)}</span>`:""}</div></li>`).join(""):'<li class="empty">Nu ai încă favorite. Salvează un document sau un rezultat folosind steaua.</li>';
+}
 function renderList(items,target="results",limit=shown){
   const box=$(target);if(!box)return;
   const slice=items.slice(0,limit);
-  box.innerHTML=slice.length?slice.map(d=>`<li class="result">
-    <a class="result-title" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.title)}</a>
+  box.innerHTML=slice.length?slice.map((d,i)=>`<li class="result">
+    <div class="result-top"><a class="result-title" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.title)}</a><button class="fav-btn${isFavorite(d)?" saved":""}" type="button" data-fav-index="${i}" aria-label="${isFavorite(d)?"Elimină din favorite":"Adaugă la favorite"}">${svg("star")}</button></div>
     ${d.text?`<p class="result-text">${esc(d.text.slice(0,240))}${d.text.length>240?"…":""}</p>`:""}
     <div class="result-meta"><span class="result-kind">${KIND[d.type]||""}</span>${d.spec?d.prog.map(p=>`<span class="badge">${p}</span>`).join(""):""}<span>${esc(d.source||"")}</span>${d.date?`<span>${fmtDate(d.date)}</span>`:""}${isNew(d)?'<span class="new-tag">Nou</span>':""}</div>
   </li>`).join(""):'<li class="empty">Nu sunt rezultate pentru selecția curentă.</li>';
+  bindFavoriteButtons(slice,target);
 }
 function bindMore(itemsProvider){
   const btn=$("more");if(!btn)return;
@@ -125,10 +149,14 @@ function bindProgramRefresh(fn){document.addEventListener("programchange",()=>{s
 async function initHome(){
   const data=await loadData();
   const refresh=()=>{
-    const recent=data.filter(d=>inProgram(d)&&d.type==="anunt").sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,4);
-    renderList(recent,"homeNews",4);
+    const announcements=data.filter(d=>inProgram(d)&&d.type==="anunt").sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+    const importantWords=["urgent","important","examen","restant","bursa","tax","practica","orar","sesiune"];
+    const important=announcements.filter(d=>importantWords.some(w=>d._t.includes(w)||d._b.includes(w))).slice(0,3);
+    renderList(important.length?important:announcements.slice(0,3),"importantNow",3);
+    renderList(announcements.slice(0,4),"homeNews",4);
+    renderFavorites();
   };
-  refresh();bindProgramRefresh(refresh);
+  refresh();bindProgramRefresh(refresh);document.addEventListener("favoriteschange",renderFavorites);
   const q=$("homeSearch");
   $("homeSearchBtn").onclick=()=>{location.href="cautare.html?q="+encodeURIComponent(q.value.trim())};
   q.addEventListener("keydown",e=>{if(e.key==="Enter")$("homeSearchBtn").click()});
@@ -181,6 +209,23 @@ async function initUseful(){
   refresh();bindProgramRefresh(refresh);
 }
 
+function initCalendar(){
+  const form=$("calendarForm"),list=$("calendarList");if(!form||!list)return;
+  const read=()=>{try{return JSON.parse(ls.get("calendarEvents")||"[]")}catch{return[]}};
+  const write=v=>ls.set("calendarEvents",JSON.stringify(v));
+  const render=()=>{
+    const events=read().sort((a,b)=>a.date.localeCompare(b.date));
+    list.innerHTML=events.length?events.map((e,i)=>`<li class="calendar-item"><div><strong>${esc(e.title)}</strong><span>${fmtDate(e.date)}${e.note?" · "+esc(e.note):""}</span></div><button type="button" class="calendar-remove" data-remove="${i}" aria-label="Șterge evenimentul">✕</button></li>`).join(""):'<li class="empty">Nu ai evenimente salvate.</li>';
+    list.querySelectorAll("[data-remove]").forEach(btn=>btn.onclick=()=>{const arr=events.slice();arr.splice(Number(btn.dataset.remove),1);write(arr);render()});
+  };
+  form.onsubmit=e=>{
+    e.preventDefault();const title=$("eventTitle").value.trim(),date=$("eventDate").value,note=$("eventNote").value.trim();
+    if(!title||!date)return;
+    const events=read();events.push({title,date,note});write(events);form.reset();render();
+  };
+  render();
+}
+
 function initFeedback(){
   const form=$("feedbackForm"),status=$("feedbackStatus");if(!form)return;
   form.addEventListener("submit",e=>{
@@ -204,6 +249,7 @@ async function init(){
     if(page==="cautare")await initSearch();
     if(page==="documente")await initDocuments();
     if(page==="utile")await initUseful();
+    if(page==="calendar")initCalendar();
     if(page==="feedback")initFeedback();
   }catch(e){
     const c=$("count");if(c)c.textContent="Datele nu au putut fi încărcate.";
