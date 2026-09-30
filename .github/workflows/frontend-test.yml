@@ -33,14 +33,19 @@ jobs:
           test -f docs/icon-512.png
           grep -q 'CampusMed' docs/manifest.webmanifest
           grep -q 'campusmed-v32' docs/sw.js
-
       - name: Check page asset versions
         run: |
           for page in docs/*.html; do
-            if grep -q 'style.css?v=' "$page"; then
-              grep -Eq 'style.css\\?v=(28|29)' "$page" || { echo "CSS vechi în $page"; exit 1; }
+            if grep -Fq 'style.css?v=' "$page"; then
+              if ! grep -Fq 'style.css?v=28' "$page" && ! grep -Fq 'style.css?v=29' "$page"; then
+                echo "CSS vechi în $page"
+                exit 1
+              fi
             fi
-            if grep -q 'app.js?v=' "$page"; then
-              grep -Eq 'app.js\\?v=(18|19|20)' "$page" || { echo "Versiune app.js invalidă în $page"; exit 1; }
+            if grep -Fq 'app.js?v=' "$page"; then
+              if ! grep -Fq 'app.js?v=18' "$page" && ! grep -Fq 'app.js?v=19' "$page" && ! grep -Fq 'app.js?v=20' "$page"; then
+                echo "Versiune app.js invalidă în $page"
+                exit 1
+              fi
             fi
           done
