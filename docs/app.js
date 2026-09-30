@@ -7,6 +7,7 @@ const safeDecode=u=>{try{return decodeURIComponent(u||"")}catch{return u||""}};
 const ls={get:k=>{try{return localStorage.getItem(k)}catch{return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch{}}};
 const localDate=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 const dateDaysAgo=n=>{const d=new Date();d.setDate(d.getDate()-n);return localDate(d)};
+const debounce=(fn,wait=180)=>{let timer;return(...args)=>{clearTimeout(timer);timer=setTimeout(()=>fn(...args),wait)}};
 
 let DATA=[],DATA_META={};
 let program=ls.get("prog")||"both";
@@ -218,22 +219,22 @@ async function initSearch(){
   const params=new URLSearchParams(location.search);q.value=params.get("q")||"";type.value=params.get("tip")||"";
   const filtered=()=>{const toks=fold(q.value).split(/\s+/).filter(Boolean);return data.filter(d=>inProgram(d)&&(!type.value||d.type===type.value)&&(!src.value||d.source===src.value)&&toks.every(t=>d._t.includes(t)||d._b.includes(t))).sort((a,b)=>(b.date||"").localeCompare(a.date||""))};
   const refresh=()=>{const items=filtered();$("count").textContent=`${items.length} rezultate`;renderList(items);$("more").hidden=shown>=items.length;bindMore(filtered)};
-  [q,type,src].forEach(el=>el.addEventListener(el===q?"input":"change",()=>{shown=PAGE_SIZE;refresh()}));refresh();bindProgramRefresh(refresh);
+  q.addEventListener("input",debounce(()=>{shown=PAGE_SIZE;refresh()}));[type,src].forEach(el=>el.addEventListener("change",()=>{shown=PAGE_SIZE;refresh()}));refresh();bindProgramRefresh(refresh);
 }
 async function initDocuments(){
   const data=await loadData(),q=$("q"),src=$("src");
   src.innerHTML='<option value="">Toate sursele</option>'+[...new Set(data.filter(d=>d.type==="document").map(d=>d.source))].filter(Boolean).sort().map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join("");
   const filtered=()=>{const term=fold(q.value);return data.filter(d=>d.type==="document"&&inProgram(d)&&(!src.value||d.source===src.value)&&(!term||d._t.includes(term)||d._b.includes(term))).sort((a,b)=>(b.date||"").localeCompare(a.date||""))};
   const refresh=()=>{const items=filtered();$("count").textContent=`${items.length} documente`;renderList(items);$("more").hidden=shown>=items.length;bindMore(filtered)};
-  q.addEventListener("input",()=>{shown=PAGE_SIZE;refresh()});src.addEventListener("change",()=>{shown=PAGE_SIZE;refresh()});refresh();bindProgramRefresh(refresh);
+  q.addEventListener("input",debounce(()=>{shown=PAGE_SIZE;refresh()}));src.addEventListener("change",()=>{shown=PAGE_SIZE;refresh()});refresh();bindProgramRefresh(refresh);
 }
 async function initUseful(){
-  const data=await loadData();let topic="examen";
+  const data=await loadData();const requestedTopic=new URLSearchParams(location.search).get("topic");let topic=["examen","restante","burse","taxe","practica"].includes(requestedTopic)?requestedTopic:"examen";
   const labels={examen:"Examene",restante:"Restanțe",burse:"Burse",taxe:"Taxe",practica:"Practică"};
   const terms={examen:["examen","sesiune"],restante:["restanta","restante","reexamin"],burse:["bursa","burse"],taxe:["taxa","taxe"],practica:["practica"]};
   const filtered=()=>data.filter(d=>inProgram(d)&&terms[topic].some(t=>d._t.includes(t)||d._b.includes(t))).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
   const refresh=()=>{const items=filtered();$("usefulTitle").textContent=labels[topic];$("count").textContent=`${items.length} rezultate`;renderList(items);$("more").hidden=shown>=items.length;bindMore(filtered)};
-  document.querySelectorAll("[data-topic]").forEach(b=>b.onclick=()=>{topic=b.dataset.topic;shown=PAGE_SIZE;document.querySelectorAll("[data-topic]").forEach(x=>x.classList.toggle("active",x===b));refresh()});
+  document.querySelectorAll("[data-topic]").forEach(b=>{b.classList.toggle("active",b.dataset.topic===topic);b.onclick=()=>{topic=b.dataset.topic;shown=PAGE_SIZE;history.replaceState(null,"","?topic="+encodeURIComponent(topic));document.querySelectorAll("[data-topic]").forEach(x=>x.classList.toggle("active",x===b));refresh()}});
   refresh();bindProgramRefresh(refresh);
 }
 
