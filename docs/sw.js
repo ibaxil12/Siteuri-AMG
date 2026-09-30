@@ -1,5 +1,5 @@
-const CACHE="amg-v3";
-const SHELL=["./","index.html","style.css","app.js","manifest.webmanifest","icon-192.png","icon-512.png"];
+const CACHE="amg-v4";
+const SHELL=["./","index.html","style.css?v=4","app.js?v=4","manifest.webmanifest","icon-192.png","icon-512.png"];
 
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)));
