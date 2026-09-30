@@ -85,7 +85,7 @@ function renderShell(){
 
   $("drawerRoot").innerHTML=`<div class="drawer-backdrop" id="drawerBackdrop"></div>
   <aside class="drawer" id="drawer" aria-label="Meniu mobil"><div class="drawer-head"><strong>Meniu</strong><button class="drawer-close" id="drawerClose" type="button" aria-label="Închide meniul">✕</button></div>
-  <nav>${nav}<a href="calendar.html">Calendar academic</a><a href="faq.html">FAQ / Pentru boboci</a><a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a></nav></aside>`;
+  <nav>${nav}<a href="anul1.html"${page==="anul1"?' class="active" aria-current="page"':""}>Anul I · Start aici</a><a href="calendar.html">Calendar academic</a><a href="faq.html">FAQ / Pentru boboci</a><a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a></nav></aside>`;
 
   document.querySelectorAll("[data-program]").forEach(b=>b.onclick=()=>setProgram(b.dataset.program));
   setProgram(program);
@@ -292,6 +292,32 @@ function initFeedback(){
   form.addEventListener("submit",e=>{e.preventDefault();const email=$("email").value.trim(),category=$("category").value,message=$("message").value.trim(),name=$("name").value.trim();if(!email||!category||!message){status.textContent="Completează emailul, categoria și mesajul.";return}const subject="[Portal AMG/TD] "+category;const body=[`Categorie: ${category}`,`Email expeditor: ${email}`,name?`Nume: ${name}`:"","", "Mesaj:",message,"","Trimis de pe portalul AMG · Tehnică Dentară."].filter(Boolean).join("\n");status.textContent="Se deschide aplicația de email...";location.href="mailto:gabi1dudan@gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body)});
 }
 
+
+async function initFirstYear(){
+  const box=$("firstYearNews");
+  if(box){
+    try{
+      const data=await loadData();
+      const yearWords=/\b(anul\s*(i|1)|an\s*(i|1)|boboc|boboci|grup|orar|burs|cazare|tax|practic)/i;
+      const items=data.filter(d=>inProgram(d)&&(d.type==="anunt"||d.spec)&&yearWords.test((d.title||"")+" "+(d.text||""))).sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,6);
+      renderList(box,items,"Nu sunt încă anunțuri specifice identificate pentru Anul I.");
+    }catch{box.innerHTML='<li class="empty">Nu am putut încărca anunțurile.</li>'}
+  }
+  document.querySelectorAll("[data-firstyear-check]").forEach(input=>{
+    const key="firstyear:"+input.dataset.firstyearCheck;
+    input.checked=ls.get(key)==="1";
+    input.onchange=()=>ls.set(key,input.checked?"1":"0");
+  });
+  document.addEventListener("programchange",()=>{if(box)initFirstYearNewsOnly(box)});
+}
+async function initFirstYearNewsOnly(box){
+  try{
+    const data=await loadData();
+    const re=/\b(anul\s*(i|1)|an\s*(i|1)|boboc|boboci|grup|orar|burs|cazare|tax|practic)/i;
+    const items=data.filter(d=>inProgram(d)&&(d.type==="anunt"||d.spec)&&re.test((d.title||"")+" "+(d.text||""))).sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,6);
+    renderList(box,items,"Nu sunt încă anunțuri specifice identificate pentru Anul I.");
+  }catch{}
+}
 async function init(){
   renderShell();applyTheme();document.querySelectorAll("[data-icon]").forEach(el=>el.innerHTML=svg(el.dataset.icon));
   try{
@@ -304,6 +330,7 @@ async function init(){
     if(page==="calendar")initCalendar();
     if(page==="linkuri")await initLinks();
     if(page==="feedback")initFeedback();
+  if(page==="anul1")initFirstYear();
     if(!DATA.length&&["calendar","feedback","faq"].includes(page)===false)await loadData();
   }catch(e){const c=$("count");if(c)c.textContent="Datele nu au putut fi încărcate.";console.error(e)}
   if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
