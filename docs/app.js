@@ -61,7 +61,7 @@ function setProgram(v){
 }
 function renderShell(){
   const page=currentPage();
-  const nav=PAGES.map(([id,url,label])=>`<a data-nav-page="${id}" href="${url}"${page===id?' class="active" aria-current="page"':""}>${label}${id==="anunturi"?'<span class="nav-badge" id="newsBadge" hidden></span>':""}</a>`).join("");
+  const nav=PAGES.map(([id,url,label])=>`<a data-nav-page="${id}" href="${url}"${page===id?' class="active" aria-current="page"':""}>${label}${id==="anunturi"?'<span class="nav-badge" class="nav-badge news-badge" hidden></span>':""}</a>`).join("");
   $("siteHeader").innerHTML=`<header class="site-header"><div class="shell header-row">
     <a class="brand" href="index.html" aria-label="AMG și Tehnică Dentară, pagina principală"><span class="brand-mark">A+</span><span>AMG · Tehnică Dentară</span></a>
     <nav class="desktop-nav" aria-label="Navigație principală">${nav}</nav>
@@ -123,7 +123,7 @@ function isNew(d){const seen=ls.get("seen")||dateDaysAgo(7);return !!d.date&&d.d
 function fmtDate(d){return d?new Date(d+"T00:00:00").toLocaleDateString("ro-RO",{day:"numeric",month:"short",year:"numeric"}):""}
 function updateNewsBadge(){
   const n=DATA.filter(d=>inProgram(d)&&d.type==="anunt"&&isNew(d)).length;
-  document.querySelectorAll("#newsBadge").forEach(b=>{b.textContent=n>99?"99+":String(n);b.hidden=!n});
+  document.querySelectorAll(".news-badge").forEach(b=>{b.textContent=n>99?"99+":String(n);b.hidden=!n});
 }
 document.addEventListener("programchange",updateNewsBadge);
 
