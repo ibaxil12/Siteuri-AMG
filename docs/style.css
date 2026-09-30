@@ -9,6 +9,12 @@
     --line:#263b4d;--brand:#68b4f2;--brand-strong:#9acdf6;--brand-soft:#153550;--success:#56d49b;
     --shadow:0 14px 34px rgba(0,0,0,.22)}
 }
+body.theme-amg{--brand:#c62828;--brand-strong:#8e1b1b;--brand-soft:#fdeaea}
+body.theme-td{--brand:#0b5fa5;--brand-strong:#074a82;--brand-soft:#e8f2fa}
+@media(prefers-color-scheme:dark){
+  body.theme-amg{--brand:#ff7b7b;--brand-strong:#ff9f9f;--brand-soft:#4a1f24}
+  body.theme-td{--brand:#68b4f2;--brand-strong:#9acdf6;--brand-soft:#153550}
+}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -141,4 +147,12 @@ mark{background:#ffe58a;color:#18222a;border-radius:3px;padding:0 1px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
+
+/* Culori de program: AMG = roșu, Tehnică Dentară = albastru */
+[data-program="AMG"].on{color:#c62828!important;background:#fff1f1!important}
+[data-program="TD"].on{color:#0b5fa5!important;background:#eef6fd!important}
+@media(prefers-color-scheme:dark){
+  [data-program="AMG"].on{color:#ff8a8a!important;background:#472126!important}
+  [data-program="TD"].on{color:#78bdf3!important;background:#17364f!important}
 }
