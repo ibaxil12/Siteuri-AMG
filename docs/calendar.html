@@ -1,40 +1,66 @@
 <!DOCTYPE html>
-<html lang="ro"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#52606d">
-<meta name="description" content="Calendar academic pentru AMG și Tehnică Dentară ULBS, cu evenimente personale și repere oficiale.">
+<meta name="description" content="Calendar academic și personal pentru studenții AMG și Tehnică Dentară ULBS.">
 <link rel="canonical" href="https://ibaxil12.github.io/Siteuri-AMG/calendar.html">
-<link rel="icon" href="icon-192.png" type="image/png"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Calendar academic · AMG și Tehnică Dentară</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=10"></head>
-<body data-page="calendar"><a class="skip" href="#main">Sari la conținut</a><div id="siteHeader"></div>
+<link rel="stylesheet" href="style.css?v=10">
+</head>
+<body data-page="calendar">
+<a class="skip" href="#main">Sari la conținut</a>
+<div id="siteHeader"></div>
 <main id="main" class="page-main">
-<section class="page-hero"><div class="shell"><span class="eyebrow">An universitar 2026–2027</span><h1>Calendar academic</h1><p>Calendar lunar pentru AMG și Tehnică Dentară, cu repere oficiale confirmate și evenimentele tale personale.</p><div class="page-program"><div class="seg" role="group" aria-label="Alege programul"><button type="button" data-program="AMG">AMG</button><button type="button" data-program="TD">Tehnică dentară</button><button type="button" data-program="both">Ambele</button></div></div></div></section>
-<section class="section-compact"><div class="shell calendar-shell">
-<div class="calendar-source"><div><strong>Structura oficială 2026–2027</strong><p>Calendarul Facultății de Medicină diferă după program și an. Evenimentele confirmate oficial sunt marcate separat în calendar.</p></div><a class="secondary-btn" href="https://medicina.ulbsibiu.ro/ro/structura-an-universitar/" target="_blank" rel="noopener">Sursa oficială ↗</a></div>
+<section class="page-hero"><div class="shell">
+<span class="eyebrow">An universitar 2026–2027</span>
+<h1>Calendar academic</h1>
+<p>Vezi reperele oficiale confirmate și adaugă propriile examene, stagii, termene sau activități.</p>
+<div class="page-program"><div class="seg" role="group" aria-label="Alege programul"><button type="button" data-program="AMG">AMG</button><button type="button" data-program="TD">Tehnică dentară</button><button type="button" data-program="both">Ambele</button></div></div>
+</div></section>
 
-<div class="calendar-layout">
-  <div class="page-panel calendar-main">
-    <div class="calendar-toolbar"><button id="prevMonth" class="secondary-btn" type="button">←</button><div><h2 id="monthTitle">Calendar</h2><button id="todayMonth" class="text-btn" type="button">Astăzi</button></div><button id="nextMonth" class="secondary-btn" type="button">→</button></div>
-    <div class="weekday-row"><span>Lun</span><span>Mar</span><span>Mie</span><span>Joi</span><span>Vin</span><span>Sâm</span><span>Dum</span></div>
-    <div id="monthGrid" class="month-grid"></div>
-    <div class="calendar-legend"><span><i class="legend-dot official"></i>Oficial</span><span><i class="legend-dot personal"></i>Personal</span></div>
+<section class="section-compact"><div class="shell">
+<div class="academic-note">
+  <div><strong>Structura oficială a Facultății de Medicină</strong><p>Facultatea publică structura 2026–2027 separat, cu particularități pe programe și ani de studiu. Portalul marchează în calendar doar reperele confirmate, fără să inventeze perioade.</p></div>
+  <a class="secondary-btn" href="https://medicina.ulbsibiu.ro/ro/structura-an-universitar/" target="_blank" rel="noopener">Deschide structura oficială ↗</a>
+</div>
+
+<div class="calendar-shell">
+  <div class="calendar-toolbar">
+    <div><button class="secondary-btn icon-btn" id="calendarPrev" type="button" aria-label="Luna precedentă">←</button><button class="secondary-btn" id="calendarToday" type="button">Astăzi</button></div>
+    <h2 id="calendarMonth">Calendar</h2>
+    <div><button class="secondary-btn icon-btn" id="calendarNext" type="button" aria-label="Luna următoare">→</button></div>
+  </div>
+  <div class="calendar-weekdays"><span>Lun</span><span>Mar</span><span>Mie</span><span>Joi</span><span>Vin</span><span>Sâm</span><span>Dum</span></div>
+  <div class="calendar-grid" id="calendarGrid"></div>
+</div>
+
+<div class="calendar-lower">
+  <div class="page-panel">
+    <div class="section-actions"><div><h2 id="selectedDateTitle">Evenimentele zilei</h2><p class="count">Oficiale și personale.</p></div></div>
+    <div id="selectedDayEvents"></div>
   </div>
 
-  <aside class="page-panel event-editor">
+  <aside class="page-panel">
     <h2>Adaugă eveniment</h2>
-    <form id="calendarForm">
+    <form id="calendarForm" class="calendar-form vertical">
       <div class="form-field"><label for="eventTitle">Titlu</label><input id="eventTitle" type="text" placeholder="Ex.: Examen Anatomie" required></div>
-      <div class="event-row"><div class="form-field"><label for="eventDate">Data</label><input id="eventDate" type="date" required></div><div class="form-field"><label for="eventTime">Ora</label><input id="eventTime" type="time"></div></div>
-      <div class="event-row"><div class="form-field"><label for="eventCategory">Categorie</label><select id="eventCategory"><option>Examen</option><option>Practică</option><option>Termen</option><option>Curs</option><option>Personal</option></select></div><div class="form-field"><label for="eventProgram">Program</label><select id="eventProgram"><option value="both">Ambele</option><option value="AMG">AMG</option><option value="TD">Tehnică Dentară</option></select></div></div>
+      <div class="form-row"><div class="form-field"><label for="eventDate">Data</label><input id="eventDate" type="date" required></div><div class="form-field"><label for="eventTime">Ora</label><input id="eventTime" type="time"></div></div>
+      <div class="form-field"><label for="eventCategory">Categorie</label><select id="eventCategory"><option>Examen</option><option>Practică</option><option>Termen</option><option>Curs</option><option>Personal</option></select></div>
       <div class="form-field"><label for="eventNote">Notă</label><textarea id="eventNote" rows="3" placeholder="Sală, profesor, detalii…"></textarea></div>
-      <button id="saveEvent" class="primary-btn feedback-submit" type="submit">Adaugă eveniment</button>
+      <div class="calendar-form-actions"><button class="primary-btn" id="calendarSubmit" type="submit">Adaugă</button><button class="secondary-btn" id="calendarCancel" type="button" hidden>Anulează</button></div>
     </form>
   </aside>
 </div>
-
-<div class="page-panel calendar-upcoming"><div class="section-actions"><h2>Evenimente</h2><span class="count">Oficiale + personale</span></div><ul id="calendarList" class="calendar-list"><li class="empty">Se încarcă…</li></ul></div>
-</div></section></main>
-<div id="siteFooter"></div><div id="mobileNav"></div><div id="drawerRoot"></div><script src="app.js?v=11" defer></script><script src="enhancements.js?v=10" defer></script></body></html>
+</div></section>
+</main>
+<div id="siteFooter"></div><div id="mobileNav"></div><div id="drawerRoot"></div>
+<script src="app.js?v=11" defer></script>
+</body></html>
