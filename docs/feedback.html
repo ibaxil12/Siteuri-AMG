@@ -1,143 +1,29 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#52606d">
-  <meta name="description" content="Trimite feedback, sugestii sau raportează probleme pentru portalul AMG și Tehnică Dentară.">
-  <link rel="icon" href="icon-192.png" type="image/png">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <title>Feedback & Buguri · AMG și Tehnică Dentară</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=7">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#52606d">
+<meta name="description" content="Trimite feedback sau raportează o problemă pentru portalul AMG și Tehnică Dentară.">
+<link rel="canonical" href="https://ibaxil12.github.io/Siteuri-AMG/feedback.html">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Feedback · AMG și Tehnică Dentară</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
-<body>
+<body data-page="feedback">
 <a class="skip" href="#main">Sari la conținut</a>
-
-<header class="site-header">
-  <div class="shell header-row">
-    <a class="brand" href="./" aria-label="Înapoi la portal">
-      <span class="brand-mark">A+</span>
-      <span>AMG · Tehnică Dentară</span>
-    </a>
-    <nav class="desktop-nav" aria-label="Navigație feedback">
-      <a href="./">Acasă</a>
-      <a href="./#acces">Acces rapid</a>
-      <a href="./#noutati">Noutăți</a>
-      <a href="./#cauta">Caută</a>
-      <a href="feedback.html" aria-current="page">Feedback</a>
-    </nav>
-    <a class="secondary-btn feedback-back" href="./">← Înapoi la portal</a>
-  </div>
-</header>
-
-<main id="main">
-  <section class="feedback-hero">
-    <div class="shell feedback-shell">
-      <span class="eyebrow">Ajută-ne să îmbunătățim portalul</span>
-      <h1>Feedback & raportare buguri</h1>
-      <p class="hero-copy">Ai găsit ceva care nu funcționează sau ai o idee care ar face portalul mai util? Alege tipul mesajului și completează formularul.</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="shell feedback-shell">
-      <form class="feedback-form" id="feedbackForm">
-        <div class="form-row">
-          <div class="form-field">
-            <label for="email">Emailul tău</label>
-            <input id="email" name="email" type="email" autocomplete="email" placeholder="exemplu@email.com" required>
-          </div>
-          <div class="form-field">
-            <label for="category">Tip mesaj</label>
-            <select id="category" name="category" required>
-              <option value="">Alege o categorie</option>
-              <option value="Bug">Bug / problemă tehnică</option>
-              <option value="Sugestie">Sugestie / idee</option>
-              <option value="Informație greșită">Informație greșită</option>
-              <option value="Altceva">Altceva</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-field">
-          <label for="message">Mesaj</label>
-          <textarea id="message" name="message" rows="8" placeholder="Descrie problema sau sugestia cât mai simplu..." required></textarea>
-          <p class="field-help">Nu trimite parole, CNP sau alte informații sensibile.</p>
-        </div>
-
-        <div class="form-field">
-          <label for="name">Nume <span class="optional">(opțional)</span></label>
-          <input id="name" name="name" type="text" autocomplete="name" placeholder="Cum te cheamă?">
-        </div>
-
-        <button class="primary-btn feedback-submit" type="submit">Trimite prin email</button>
-        <p class="feedback-status" id="feedbackStatus" aria-live="polite"></p>
-      </form>
-
-      <div class="feedback-info">
-        <div>
-          <h2>Cum funcționează?</h2>
-          <p>După apăsarea butonului se deschide aplicația ta de email cu destinatarul și mesajul completate automat. Tu doar verifici și apeși Trimite.</p>
-        </div>
-      </div>
-
-      <div class="feedback-note">
-        <strong>Fără cont necesar:</strong> nu ai nevoie de GitHub sau de un cont pe acest site. Este suficient să ai o aplicație de email configurată pe telefon sau calculator.
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer class="footer">
-  <div class="shell footer-row">
-    <span>Proiect studențesc, neoficial.</span>
-    <a href="./">Înapoi la pagina principală</a>
-  </div>
-</footer>
-
-<script>
-  (() => {
-    const p = localStorage.getItem("prog");
-    if (p === "AMG") document.body.classList.add("theme-amg");
-    if (p === "TD") document.body.classList.add("theme-td");
-
-    const form = document.getElementById("feedbackForm");
-    const status = document.getElementById("feedbackStatus");
-    form.addEventListener("submit", event => {
-      event.preventDefault();
-
-      const email = document.getElementById("email").value.trim();
-      const category = document.getElementById("category").value;
-      const message = document.getElementById("message").value.trim();
-      const name = document.getElementById("name").value.trim();
-
-      if (!email || !category || !message) {
-        status.textContent = "Completează emailul, categoria și mesajul.";
-        return;
-      }
-
-      const subject = "[Portal AMG/TD] " + category;
-      const body = [
-        "Categorie: " + category,
-        "Email expeditor: " + email,
-        name ? "Nume: " + name : "",
-        "",
-        "Mesaj:",
-        message,
-        "",
-        "Trimis de pe pagina de feedback a portalului AMG · Tehnică Dentară."
-      ].filter(Boolean).join("\n");
-
-      status.textContent = "Se deschide aplicația de email...";
-      window.location.href =
-        "mailto:gabi1dudan@gmail.com?subject=" + encodeURIComponent(subject) +
-        "&body=" + encodeURIComponent(body);
-    });
-  })();
-</script>
-</body>
-</html>
+<div id="siteHeader"></div>
+<main id="main" class="page-main">
+<section class="page-hero"><div class="shell feedback-shell"><span class="eyebrow">Ajută-ne să îmbunătățim portalul</span><h1>Feedback & buguri</h1><p>Fără cont. Completezi mesajul, iar aplicația ta de email se deschide cu totul pregătit.</p><div class="page-program"><div class="seg" role="group" aria-label="Alege programul"><button type="button" data-program="AMG">AMG</button><button type="button" data-program="TD">Tehnică dentară</button><button type="button" data-program="both">Ambele</button></div></div></div></section>
+<section class="section-compact"><div class="shell feedback-shell"><form class="feedback-form" id="feedbackForm">
+<div class="form-row"><div class="form-field"><label for="email">Emailul tău</label><input id="email" type="email" autocomplete="email" placeholder="exemplu@email.com" required></div><div class="form-field"><label for="category">Tip mesaj</label><select id="category" required><option value="">Alege o categorie</option><option value="Bug">Bug / problemă tehnică</option><option value="Sugestie">Sugestie / idee</option><option value="Informație greșită">Informație greșită</option><option value="Altceva">Altceva</option></select></div></div>
+<div class="form-field"><label for="message">Mesaj</label><textarea id="message" rows="8" placeholder="Descrie problema sau sugestia…" required></textarea><p class="field-help">Nu trimite parole, CNP sau alte informații sensibile.</p></div>
+<div class="form-field"><label for="name">Nume <span class="optional">(opțional)</span></label><input id="name" type="text" autocomplete="name" placeholder="Cum te cheamă?"></div>
+<button class="primary-btn feedback-submit" type="submit">Trimite prin email</button><p class="feedback-status" id="feedbackStatus" aria-live="polite"></p>
+</form></div></section>
+</main><div id="siteFooter"></div><div id="mobileNav"></div><div id="drawerRoot"></div><script src="app.js?v=8" defer></script></body></html>
