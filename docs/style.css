@@ -564,21 +564,6 @@ body:not(.theme-amg):not(.theme-td) .dashboard-card.featured .icon{
 @media(max-width:390px){.year-one-mark{display:none}.freshman-grid{grid-template-columns:1fr}.freshman-card{min-height:auto}}
 
 
-/* === Meniu ani de studiu v16 === */
-.study-year-section{padding-top:18px}
-.study-year-menu{display:grid;grid-template-columns:minmax(230px,.65fr) minmax(0,1.35fr);gap:26px;align-items:center;padding:24px 26px;border:1px solid color-mix(in srgb,var(--brand) 22%,var(--line));border-radius:22px;background:linear-gradient(135deg,color-mix(in srgb,var(--brand-soft) 68%,var(--surface)),var(--surface));box-shadow:0 7px 22px rgba(18,41,54,.055)}
-.study-year-copy h2{margin:5px 0 4px;font-size:1.45rem;letter-spacing:-.025em}.study-year-copy p{margin:0;color:var(--muted);font-size:.93rem}
-.study-year-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.study-year-btn{min-height:78px;padding:11px 13px;border:1px solid var(--line);border-radius:15px;background:var(--surface);color:var(--text);display:flex;align-items:center;gap:11px;text-align:left}
-a.study-year-btn{text-decoration:none}.study-year-btn .year-number{width:42px;height:42px;flex:0 0 auto;display:grid;place-items:center;border-radius:12px;background:var(--brand-soft);color:var(--brand);font-size:1.25rem;font-weight:800}
-.study-year-btn strong,.study-year-btn small{display:block}.study-year-btn small{margin-top:1px;font-size:.76rem}.year-arrow{margin-left:auto;color:var(--brand);font-size:1.3rem}
-.active-year{border-color:color-mix(in srgb,var(--brand) 38%,var(--line));box-shadow:0 5px 14px color-mix(in srgb,var(--brand) 10%,transparent)}
-.active-year:hover{transform:translateY(-2px);border-color:var(--brand);box-shadow:0 9px 20px color-mix(in srgb,var(--brand) 15%,transparent)}
-.future-year{opacity:.55;cursor:not-allowed}
-@media(max-width:800px){.study-year-menu{grid-template-columns:1fr;gap:17px}.study-year-options{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:520px){.study-year-menu{padding:19px 16px}.study-year-options{grid-template-columns:1fr}.study-year-btn{min-height:64px}.future-year{display:none}}
-
-
 /* === Feedback database + Admin v17 === */
 .hp-field{position:absolute!important;left:-10000px!important;width:1px;height:1px;overflow:hidden}
 .feedback-status.success{color:var(--success);font-weight:700}.feedback-status.error{color:#b4232a;font-weight:700}
@@ -630,4 +615,11 @@ main li a:hover,
 .field-help a:hover,
 .academic-note a:hover{
   color:var(--brand-strong);
+}
+
+
+/* === Runtime polish v21 === */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
