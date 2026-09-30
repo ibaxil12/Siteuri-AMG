@@ -1,4 +1,4 @@
-const CACHE="campusmed-v27";
+const CACHE="campusmed-v28";
 const SHELL=[
   "./","index.html","anunturi.html","cautare.html","documente.html","utile.html","linkuri.html","feedback.html","admin-feedback.html","updates.html","calendar.html","faq.html","anul1.html",
   "style.css?v=26","app.js?v=18","supabase-config.js?v=1","feedback-db.js?v=2","admin-feedback.js?v=2","updates.js?v=1",
