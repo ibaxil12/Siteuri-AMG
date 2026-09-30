@@ -607,3 +607,27 @@ a.study-year-btn{text-decoration:none}.study-year-btn .year-number{width:42px;he
 .year-one-entry-arrow{font-size:1.35rem;color:var(--brand);font-weight:700}
 @media(min-width:981px){.home-hero-grid{grid-template-columns:minmax(0,1.65fr) minmax(250px,.55fr);gap:42px}.hero-visual{transform:scale(.9);transform-origin:center right}}
 @media(max-width:680px){.home-hero{padding-top:30px;padding-bottom:26px}.home-hero .compact-search{margin-top:16px}.year-one-entry{padding:14px;gap:12px}.year-one-entry-copy>span{display:none}}
+
+
+/* === Link cleanup v20 === */
+a,
+a:link,
+a:visited,
+a:hover,
+a:active{
+  text-decoration:none;
+}
+main p a,
+main li a,
+.field-help a,
+.academic-note a{
+  text-decoration:none;
+  font-weight:650;
+  color:var(--brand);
+}
+main p a:hover,
+main li a:hover,
+.field-help a:hover,
+.academic-note a:hover{
+  color:var(--brand-strong);
+}
