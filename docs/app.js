@@ -155,7 +155,7 @@ function recordRecent(d){
 }
 function renderSimpleStored(id,items,empty){
   const box=$(id);if(!box)return;
-  box.innerHTML=items.length?items.slice(0,5).map(f=>`<li class="result"><a class="result-title" href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.title)}</a><div class="result-meta"><span>${esc(f.source)}</span>${f.date?`<span>${fmtDate(f.date)}</span>`:""}</div></li>`).join(""):`<li class="empty">${empty}</li>`;
+  box.innerHTML=items.length?items.slice(0,3).map(f=>`<li class="result"><a class="result-title" href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.title)}</a><div class="result-meta"><span>${esc(f.source)}</span>${f.date?`<span>${fmtDate(f.date)}</span>`:""}</div></li>`).join(""):`<li class="empty">${empty}</li>`;
   box.querySelectorAll(".result-title").forEach((a,i)=>a.addEventListener("click",()=>recordRecent(items[i])));
 }
 function renderFavorites(){renderSimpleStored("favoriteList",getFavorites(),"Nu ai încă favorite. Salvează un rezultat folosind steaua.")}
@@ -341,6 +341,6 @@ async function init(){
   if(page==="anul1")initFirstYear();
     if(!DATA.length&&["calendar","feedback","faq"].includes(page)===false)await loadData();
   }catch(e){const c=$("count");if(c)c.textContent="Datele nu au putut fi încărcate.";console.error(e)}
-  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=31",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
+  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=32",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
 }
 document.addEventListener("DOMContentLoaded",init);

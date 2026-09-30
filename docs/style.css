@@ -1292,3 +1292,58 @@ body.theme-campusmed.theme-dark .primary-action:hover{
   .primary-action-copy small{font-size:.71rem}
   .quick-links a{padding-inline:4px}
 }
+
+
+/* === Homepage simplification v31 === */
+.home-intro{padding:58px 0 30px}
+.home-intro-copy{max-width:790px}
+.home-intro h1{max-width:720px;margin:9px 0 12px;font-size:clamp(2.25rem,5.6vw,4.25rem);line-height:1.01;letter-spacing:-.055em}
+.home-intro p{max-width:610px;margin:0;color:var(--muted);font-size:1.04rem;line-height:1.6}
+.home-main-search{max-width:720px;margin-top:24px}
+.portal-actions{padding-top:18px}
+.text-action{color:var(--muted);font-size:.86rem;font-weight:750;text-decoration:none;white-space:nowrap}
+.text-action:hover{color:var(--brand)}
+.home-priority{padding-top:28px}
+.home-priority .priority-list{gap:9px}
+.home-priority .priority-list>.result{padding:17px 18px;border-radius:14px}
+.simple-section-head{margin-bottom:10px}
+.personal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.personal-panel{min-width:0;padding:18px;border:1px solid color-mix(in srgb,var(--line) 78%,transparent);border-radius:15px;background:color-mix(in srgb,var(--surface) 97%,var(--surface-2))}
+.personal-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:4px}
+.personal-panel-head h3{margin:0;font-size:1rem}
+.personal-panel-head a{color:var(--muted);font-size:.78rem;font-weight:750;text-decoration:none}
+.personal-panel-head a:hover{color:var(--brand)}
+.compact-home-list{gap:0}
+.compact-home-list>.result{padding:13px 0;border:0;border-bottom:1px solid color-mix(in srgb,var(--line) 68%,transparent);border-radius:0;background:transparent;box-shadow:none}
+.compact-home-list>.result:last-child{border-bottom:0}
+.compact-home-list .result-title{font-size:.9rem;line-height:1.35}
+.compact-home-list .result-meta{margin-top:5px;font-size:.72rem}
+.compact-home-list>.empty{padding:18px 0;color:var(--muted);font-size:.84rem}
+.home-about{margin-top:12px;padding-top:28px;padding-bottom:34px;border-top:1px solid color-mix(in srgb,var(--line) 62%,transparent)}
+.home-updates-compact{gap:12px}
+.home-updates-compact>div>h3{margin:0 0 8px;color:var(--muted);font-size:.76rem;letter-spacing:.045em;text-transform:uppercase}
+.home-updates-compact .update-mini{padding:16px 17px;border-radius:13px;box-shadow:none}
+.home-updates-compact .update-mini p{font-size:.82rem;line-height:1.5}
+.home-secondary-links{padding-left:0;margin-top:14px}
+body.theme-campusmed.theme-dark .personal-panel{background:color-mix(in srgb,var(--surface) 98%,var(--brand-soft))}
+
+@media(max-width:760px){
+  .home-intro{padding:34px 0 18px}
+  .home-intro h1{font-size:clamp(2rem,10.5vw,3rem);line-height:1.04}
+  .home-intro p{font-size:.95rem}
+  .home-main-search{margin-top:18px}
+  .personal-grid{grid-template-columns:1fr;gap:10px}
+  .home-priority{padding-top:20px}
+  .home-about{margin-top:4px;padding-top:22px}
+}
+@media(max-width:480px){
+  .home-intro{padding-top:27px}
+  .home-intro .eyebrow{font-size:.7rem}
+  .home-intro h1{margin-top:7px;letter-spacing:-.045em}
+  .home-main-search{display:block}
+  .home-main-search .primary-btn{display:none}
+  .home-main-search .searchbox input{height:50px}
+  .home-priority .priority-list>.result{padding:15px 14px}
+  .personal-panel{padding:15px}
+  .home-about .section-actions{gap:7px}
+}
