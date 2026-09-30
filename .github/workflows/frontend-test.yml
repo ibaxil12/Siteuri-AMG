@@ -1,0 +1,35 @@
+name: Test frontend
+
+on:
+  push:
+    paths:
+      - "docs/**"
+      - ".github/workflows/frontend-test.yml"
+  pull_request:
+    paths:
+      - "docs/**"
+      - ".github/workflows/frontend-test.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        run: |
+          node --check docs/app.js
+          node --check docs/sw.js
+          node --check docs/feedback-db.js
+          node --check docs/admin-feedback.js
+          node --check docs/supabase-config.js
+      - name: Check required PWA files
+        run: |
+          test -f docs/index.html
+          test -f docs/manifest.webmanifest
+          test -f docs/icon-192.png
+          test -f docs/icon-512.png
+          grep -q 'CampusMed' docs/manifest.webmanifest
+          grep -q 'campusmed-v22' docs/sw.js
