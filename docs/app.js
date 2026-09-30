@@ -52,8 +52,12 @@ function snip(text,toks){
   const st=at>80?at-80:0,part=text.slice(st,st+250);
   return(st>0?"… ":"")+hl(part,toks)+(st+250<text.length?" …":"");
 }
+function applyProgramTheme(){
+  document.body.classList.toggle("theme-amg",prog==="AMG");
+  document.body.classList.toggle("theme-td",prog==="TD");
+}
 function setProgram(v){
-  prog=v;ls.set("prog",v);
+  prog=v;ls.set("prog",v);applyProgramTheme();
   document.querySelectorAll("[data-program]").forEach(b=>{
     const on=b.dataset.program===v;b.classList.toggle("on",on);b.setAttribute("aria-pressed",String(on));
   });
@@ -172,6 +176,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer();if(e.k
 $("bottomSearch").onclick=()=>focusSearch($("q").value,null);
 $("bottomNews").onclick=()=>document.querySelector("#noutati").scrollIntoView({behavior:"smooth"});
 $("strict").classList.toggle("on",strict);$("strict").setAttribute("aria-pressed",String(strict));
+applyProgramTheme();
 document.querySelectorAll("[data-program]").forEach(b=>{const on=b.dataset.program===prog;b.classList.toggle("on",on);b.setAttribute("aria-pressed",String(on))});
 
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
