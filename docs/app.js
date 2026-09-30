@@ -63,7 +63,7 @@ function renderShell(){
   const page=currentPage();
   const nav=PAGES.map(([id,url,label])=>`<a data-nav-page="${id}" href="${url}"${page===id?' class="active" aria-current="page"':""}>${label}${id==="anunturi"?'<span class="nav-badge news-badge" hidden></span>':""}</a>`).join("");
   $("siteHeader").innerHTML=`<header class="site-header"><div class="shell header-row">
-    <a class="brand" href="index.html" aria-label="AMG și Tehnică Dentară, pagina principală"><span class="brand-mark">A+</span><span>AMG · Tehnică Dentară</span></a>
+    <a class="brand" href="index.html" aria-label="CampusMed, pagina principală"><span class="brand-mark">C+</span><span>CampusMed</span></a>
     <nav class="desktop-nav" aria-label="Navigație principală">${nav}</nav>
     <div class="header-program" role="group" aria-label="Program de studiu">
       <button type="button" data-program="AMG">AMG</button><button type="button" data-program="TD">TD</button><button type="button" data-program="both">Ambele</button>
@@ -72,7 +72,7 @@ function renderShell(){
   </div></header>`;
 
   $("siteFooter").innerHTML=`<footer class="footer"><div class="shell footer-row">
-    <span>Proiect studențesc, neoficial. Verifică informația pe site-ul sursă.</span>
+    <span>CampusMed · Proiect studențesc neoficial. Verifică informația pe site-ul sursă.</span>
     <div class="footer-actions"><button class="footer-install" id="installApp" type="button" hidden>Instalează aplicația</button><a href="feedback.html">Trimite feedback</a><a class="admin-entry" href="admin-feedback.html">Admin</a></div>
   </div></footer>`;
 
