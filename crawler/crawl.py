@@ -18,7 +18,7 @@ from collections import deque
 from datetime import datetime, timezone
 from email.message import EmailMessage
 from pathlib import Path
-from urllib.parse import unquote, urldefrag, urljoin, urlparse
+from urllib.parse import parse_qsl, urlencode, unquote, urldefrag, urljoin, urlparse, urlunparse
 from urllib.robotparser import RobotFileParser
 
 import requests
@@ -44,12 +44,37 @@ session.headers.update({"User-Agent": UA, "Accept-Language": "ro,en;q=0.8"})
 
 
 def get(url, **kw):
-    for _ in range(2):
+    """Request with retries for transient network/server errors."""
+    for attempt in range(3):
         try:
-            return session.get(url, timeout=TIMEOUT, **kw)
+            response = session.get(url, timeout=TIMEOUT, **kw)
+            if response.status_code not in (429, 500, 502, 503, 504) or attempt == 2:
+                return response
+            retry_after = response.headers.get("Retry-After")
+            try:
+                delay = min(float(retry_after), 10) if retry_after else 1.5 * (attempt + 1)
+            except ValueError:
+                delay = 1.5 * (attempt + 1)
+            time.sleep(delay)
         except requests.RequestException:
-            time.sleep(1.5)
+            if attempt == 2:
+                return None
+            time.sleep(1.5 * (attempt + 1))
     return None
+
+
+def canonical_url(url):
+    """Normalize URLs so tracking parameters/fragments do not create duplicates."""
+    url = urldefrag((url or "").strip())[0]
+    if not url:
+        return ""
+    p = urlparse(url)
+    tracking = {"utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "fbclid"}
+    query = [(k, v) for k, v in parse_qsl(p.query, keep_blank_values=True) if k.lower() not in tracking]
+    path = p.path or "/"
+    if path != "/":
+        path = path.rstrip("/")
+    return urlunparse((p.scheme.lower(), p.netloc.lower(), path, p.params, urlencode(query), ""))
 
 
 def fold(s):
@@ -82,6 +107,7 @@ def html_to_text(markup):
 
 
 def make_doc(source, url, title, date, text, kind):
+    url = canonical_url(url)
     title = re.sub(r"\s+", " ", title or "").strip() or url
     m = re.match(r"^(\d{2})[-./](\d{2})[-./](\d{4})", date or "")
     if m:  # unele pagini ULBS dau data ca ZZ-LL-AAAA; o convertim în AAAA-LL-ZZ
@@ -211,7 +237,7 @@ def generic_collect(name, base):
     queue = deque(seeds or [base])
     seen, docs, fetched = set(), [], 0
     while queue and fetched < MAX_PAGES_PER_SOURCE:
-        url = urldefrag(queue.popleft())[0]
+        url = canonical_url(queue.popleft())
         if url in seen or not url.startswith("http") or not same_site(url) or not allowed(url):
             continue
         seen.add(url)
@@ -230,7 +256,7 @@ def generic_collect(name, base):
         doc, links = parse_page(name, url, r.text)
         docs.append(doc)
         for link in links:
-            full = urljoin(url, link)
+            full = canonical_url(urljoin(url, link))
             is_pdf = urlparse(full).path.lower().endswith(".pdf")
             if is_pdf or not seeds:  # fără sitemap: urmărim și linkurile HTML
                 queue.append(full)
@@ -299,8 +325,8 @@ def main():
         print("Nicio intrare găsită — nu suprascriu data.json.", file=sys.stderr)
         sys.exit(1)
 
-    old_urls = {d["url"] for d in old_items}
-    new = [d for d in items if d["url"] not in old_urls and d.get("spec")]
+    old_urls = {canonical_url(d.get("url", "")) for d in old_items}
+    new = [d for d in items if canonical_url(d.get("url", "")) not in old_urls and d.get("spec")]
     if old_items and new:
         notify(new)
 
