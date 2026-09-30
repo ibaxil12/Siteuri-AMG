@@ -592,3 +592,18 @@ a.study-year-btn{text-decoration:none}.study-year-btn .year-number{width:42px;he
 .admin-dashboard-card{border-style:dashed}.admin-dashboard-card .icon{background:color-mix(in srgb,var(--brand-soft) 72%,var(--surface))}
 .admin-entry{opacity:.82}.feedback-admin-link{margin-top:18px;padding:16px 18px;border:1px solid var(--line);border-radius:15px;background:var(--surface-2);display:flex;align-items:center;justify-content:space-between;gap:18px}.feedback-admin-link strong,.feedback-admin-link span{display:block}.feedback-admin-link span{margin-top:2px;color:var(--muted);font-size:.88rem}
 @media(max-width:600px){.feedback-admin-link{align-items:stretch;flex-direction:column}.feedback-admin-link .secondary-btn{text-align:center}}
+
+
+/* === Homepage clean navigation v19 === */
+.home-hero{padding-top:48px;padding-bottom:42px}
+.home-hero-main{max-width:900px}
+.home-hero .compact-search{margin-top:20px;max-width:850px}
+.home-hero .searchbox{min-height:58px}
+.study-year-section{padding-top:14px}
+.year-one-entry{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:17px 20px;border:1px solid color-mix(in srgb,var(--brand) 28%,var(--line));border-radius:17px;background:var(--surface);color:var(--text);box-shadow:0 5px 16px rgba(18,41,54,.045);text-decoration:none}
+.year-one-entry:hover{border-color:var(--brand);transform:translateY(-1px);box-shadow:0 9px 22px color-mix(in srgb,var(--brand) 12%,transparent)}
+.year-one-entry-icon{width:46px;height:46px;display:grid;place-items:center;border-radius:13px;background:var(--brand);color:#fff;font-size:1.3rem;font-weight:800}
+.year-one-entry-copy{display:block}.year-one-entry-copy small{display:block;color:var(--brand);font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}.year-one-entry-copy strong{display:block;font-size:1.05rem;margin:1px 0}.year-one-entry-copy>span{display:block;color:var(--muted);font-size:.87rem}
+.year-one-entry-arrow{font-size:1.35rem;color:var(--brand);font-weight:700}
+@media(min-width:981px){.home-hero-grid{grid-template-columns:minmax(0,1.65fr) minmax(250px,.55fr);gap:42px}.hero-visual{transform:scale(.9);transform-origin:center right}}
+@media(max-width:680px){.home-hero{padding-top:30px;padding-bottom:26px}.home-hero .compact-search{margin-top:16px}.year-one-entry{padding:14px;gap:12px}.year-one-entry-copy>span{display:none}}
