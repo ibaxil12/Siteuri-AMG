@@ -294,12 +294,19 @@ def notify(new):
 
 def main():
     old_items = []
-    if OUT.exists():
+    for previous in (OUT, OUT.with_suffix(""), OUT.parent / "data.json"):
+        if not previous.exists():
+            continue
         try:
-            with gzip.open(OUT, "rt", encoding="utf-8") as f:
-                old_items = json.load(f).get("items", [])
+            if previous.suffix == ".gz":
+                with gzip.open(previous, "rt", encoding="utf-8") as f:
+                    old_items = json.load(f).get("items", [])
+            else:
+                old_items = json.loads(previous.read_text("utf-8")).get("items", [])
+            if old_items:
+                break
         except (OSError, ValueError):
-            pass
+            continue
 
     items = []
     for s in SOURCES:
