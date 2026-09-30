@@ -1,267 +1,255 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0F2233">
-<meta name="description" content="Caută anunțuri, orare și informații utile pentru AMG și Tehnică Dentară la ULBS.">
-<link rel="icon" href="icon-192.png" type="image/png">
-<link rel="canonical" href="https://ibaxil12.github.io/Siteuri-AMG/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="AMG și Tehnică Dentară · ULBS Medicină">
-<meta property="og:description" content="Anunțuri, orare și link-uri utile pentru AMG și Tehnică Dentară.">
-<meta property="og:url" content="https://ibaxil12.github.io/Siteuri-AMG/">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="AMG·TD">
-<title>AMG și Tehnică Dentară · ULBS Medicină</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --paper:#F4F7F9; --surface:#fff; --ink:#0F2233; --muted:#5B6B7A; --line:#DCE4EA;
-  --brand:#0B5FA5; --tint:#E3EFF9; --band:#0F2233; --mark:#FFE58A;
-  --k-anunt:#0B5FA5; --k-pagina:#5B6B7A; --k-document:#A5490B; --new:#0B7A4B;
-}
-@media (prefers-color-scheme:dark){:root{
-  --paper:#0C1620; --surface:#13212E; --ink:#E6EEF5; --muted:#93A4B4; --line:#22344A;
-  --brand:#5AA9F0; --tint:#16324A; --band:#0A1824; --mark:#6B4E00;
-  --k-anunt:#5AA9F0; --k-pagina:#93A4B4; --k-document:#F0A15A; --new:#4FD08F;
-}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Figtree,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
-.band{background:var(--band);color:#fff;padding:28px 16px 26px}
-.in,.wrap{max-width:760px;margin:0 auto}
-h1{font-size:clamp(1.8rem,6vw,2.5rem);line-height:1.1;margin:0 0 6px;font-weight:700;letter-spacing:-.02em}
-.band p{margin:0 0 16px;color:#B9C8D6}
-.seg{display:inline-flex;flex-wrap:wrap;background:var(--tint);border-radius:12px;padding:4px}
-.seg button{min-height:40px;padding:0 14px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-size:.95rem;font-weight:500;cursor:pointer}
-.seg button.on{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.12)}
-.band .seg{background:rgba(255,255,255,.12);margin-bottom:14px}
-.band .seg button{color:#C9D6E2}
-.band .seg button.on{background:#fff;color:#0F2233;box-shadow:none}
-.search{position:relative}
-.search input{width:100%;height:58px;padding:0 52px 0 18px;font:inherit;font-size:1.1rem;border:0;border-radius:14px;background:#fff;color:#0F2233}
-.search input::placeholder{color:#6B7B8A}
-#clr{position:absolute;right:6px;top:7px;width:44px;height:44px;border:0;border-radius:10px;background:transparent;color:#4B5B6A;font-size:1.2rem;cursor:pointer}
-.links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.links a{display:flex;align-items:center;justify-content:center;min-height:52px;padding:0 14px;border-radius:14px;border:1px solid #35516A;color:#fff;text-decoration:none;font-weight:600;text-align:center}
-.links a.main{grid-column:1/-1;min-height:64px;background:#1A6FD1;border-color:#1A6FD1;font-size:1.2rem}
-.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.quick button{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid #35516A;background:transparent;color:#DCE7F1;font:inherit;font-size:.95rem;cursor:pointer}
-.quick button.on{background:#fff;color:#0F2233;border-color:#fff}
-.wrap{padding:20px 16px 56px}
-.news{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:12px 14px;margin-bottom:16px;border-radius:12px;background:var(--tint);border-left:4px solid var(--new)}
-.news b{flex:1 1 200px}
-.news button,.chip{min-height:40px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:.92rem;font-weight:600;cursor:pointer}
-.chip.on,.news button.on{background:var(--brand);border-color:var(--brand);color:#fff}
-.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-select{min-height:48px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:.95rem}
-.chip{min-height:48px}
-.count{margin:18px 0 4px;color:var(--muted);font-size:.95rem}
-.list{list-style:none;margin:0;padding:0}
-.row{padding:16px 0 16px 14px;border-bottom:1px solid var(--line);border-left:3px solid var(--kc,var(--line))}
-.t-anunt{--kc:var(--k-anunt)}.t-pagina{--kc:var(--k-pagina)}.t-document{--kc:var(--k-document)}
-.title{display:block;color:var(--ink);font-size:1.12rem;font-weight:600;line-height:1.35;text-decoration:none;overflow-wrap:anywhere}
-a.title:hover{color:var(--brand);text-decoration:underline}
-.snip{margin:6px 0 0;color:var(--muted);font-size:.97rem;overflow-wrap:anywhere}
-.meta{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-size:.88rem;color:var(--muted)}
-.kind{color:var(--kc);font-weight:600}
-.prog{background:var(--tint);color:var(--brand);border-radius:6px;padding:0 7px;font-weight:600}
-.new{color:var(--new);font-weight:600}
-mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
-.empty{padding:36px 0;text-align:center;color:var(--muted)}
-.empty button,#more{min-height:48px;padding:0 22px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:600;cursor:pointer;margin-top:12px}
-#more{display:block;margin:22px auto 0}
-.foot{margin-top:36px;color:var(--muted);font-size:.85rem}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0B5FA5">
+  <meta name="description" content="Portal studențesc pentru AMG și Tehnică Dentară ULBS: orare, anunțuri, examene, burse, taxe, practică și documente.">
+  <link rel="icon" href="icon-192.png" type="image/png">
+  <link rel="canonical" href="https://ibaxil12.github.io/Siteuri-AMG/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AMG și Tehnică Dentară · Portal studențesc">
+  <meta property="og:description" content="Orare, anunțuri și informații utile pentru studenții AMG și Tehnică Dentară ULBS.">
+  <meta property="og:url" content="https://ibaxil12.github.io/Siteuri-AMG/">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="AMG·TD">
+  <title>AMG și Tehnică Dentară · Portal studențesc</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="band"><div class="in">
-  <h1>AMG și Tehnică Dentară</h1>
-  <p>Anunțuri, orare și link-uri utile, într-un singur loc.</p>
-  <div class="seg" id="prog" role="group" aria-label="Program">
-    <button type="button" data-v="AMG">AMG</button>
-    <button type="button" data-v="TD">Tehnică dentară</button>
-    <button type="button" data-v="both" class="on">Ambele</button>
-  </div>
-  <div class="search">
-    <input id="q" type="search" placeholder="Ce cauți? De exemplu: burse, examen, restanțe" enterkeyhint="search" autocomplete="off" aria-label="Caută">
-    <button id="clr" type="button" aria-label="Șterge căutarea" hidden>✕</button>
-  </div>
-  <nav class="links" id="links" aria-label="Acces rapid"></nav>
-  <div class="quick" id="quick"></div>
-</div></header>
+<a class="skip" href="#main">Sari la conținut</a>
 
-<main class="wrap">
-  <div class="news" id="news" hidden>
-    <b id="newsTxt"></b>
-    <button type="button" id="newsOnly">Arată doar noutățile</button>
-    <button type="button" id="newsSeen">Am văzut tot</button>
-  </div>
-  <div class="bar">
-    <div class="seg" id="types" role="group" aria-label="Tip">
-      <button type="button" data-v="" class="on">Toate</button>
-      <button type="button" data-v="anunt">Anunțuri</button>
-      <button type="button" data-v="pagina">Pagini</button>
-      <button type="button" data-v="document">PDF</button>
+<header class="site-header">
+  <div class="shell header-row">
+    <a class="brand" href="#acasa" aria-label="AMG și Tehnică Dentară, pagina principală">
+      <span class="brand-mark">A+</span>
+      <span>AMG · Tehnică Dentară</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Navigație principală">
+      <a href="#acasa">Acasă</a>
+      <a href="#acces">Acces rapid</a>
+      <a href="#noutati">Noutăți</a>
+      <a href="#cauta">Caută</a>
+      <a href="https://medicina.ulbsibiu.ro/" target="_blank" rel="noopener">Medicină</a>
+      <a href="https://www.ulbsibiu.ro/" target="_blank" rel="noopener">ULBS</a>
+    </nav>
+
+    <div class="header-program" role="group" aria-label="Program de studiu">
+      <button type="button" data-program="AMG">AMG</button>
+      <button type="button" data-program="TD">TD</button>
+      <button type="button" data-program="both">Ambele</button>
     </div>
-    <button type="button" class="chip" id="strict" aria-pressed="false">Doar ce pomenește programul</button>
-    <select id="src" aria-label="Site"><option value="">Toate site-urile</option></select>
-  </div>
 
-  <p class="count" id="count" aria-live="polite">Se încarcă…</p>
-  <ol class="list" id="results"></ol>
-  <button id="more" type="button" hidden>Arată mai multe</button>
-  <p class="foot" id="foot">Proiect studentesc, neoficial. Verifică mereu informația pe site-ul sursă.</p>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Deschide meniul" aria-controls="drawer" aria-expanded="false">
+      <span data-icon="menu"></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="acasa">
+    <div class="shell">
+      <span class="eyebrow">Portal studențesc · ULBS Medicină</span>
+      <h1>Tot ce îți trebuie pentru facultate, într-un singur loc.</h1>
+      <p class="hero-copy">Ajungi rapid la orar, anunțuri, examene, burse, taxe, practică și documentele indexate de pe site-urile oficiale.</p>
+
+      <div class="mobile-program">
+        <div class="seg" role="group" aria-label="Alege programul de studiu">
+          <button type="button" data-program="AMG">AMG</button>
+          <button type="button" data-program="TD">Tehnică dentară</button>
+          <button type="button" data-program="both">Ambele</button>
+        </div>
+      </div>
+
+      <div class="hero-tools">
+        <div class="searchbox">
+          <span data-icon="search"></span>
+          <label class="sr-only" for="heroQ">Caută în portal</label>
+          <input id="heroQ" type="search" placeholder="Caută: burse, examen, restanțe, practică…" autocomplete="off">
+        </div>
+        <button class="primary-btn" id="heroSearchBtn" type="button">Caută în portal</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="acces">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <h2>Unde vrei să mergi?</h2>
+          <p>Cele mai folosite informații sunt la un click distanță.</p>
+        </div>
+      </div>
+
+      <div class="quick-grid">
+        <a class="quick-card primary" href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">
+          <span class="icon" data-icon="calendar"></span><span class="card-arrow" data-icon="arrow"></span>
+          <h3>Orare</h3><p>Deschide orarul oficial ULBS.</p>
+        </a>
+        <button class="quick-card" type="button" data-action="search" data-kind="anunt">
+          <span class="icon" data-icon="bell"></span><span class="card-arrow" data-icon="arrow"></span>
+          <h3>Anunțuri</h3><p>Vezi cele mai noi comunicări.</p>
+        </button>
+        <button class="quick-card" type="button" data-action="search" data-query="examen restanțe">
+          <span class="icon" data-icon="book"></span><span class="card-arrow" data-icon="arrow"></span>
+          <h3>Examene & restanțe</h3><p>Sesiune, examene și reexaminări.</p>
+        </button>
+        <button class="quick-card" type="button" data-action="search" data-query="burse">
+          <span class="icon" data-icon="award"></span><span class="card-arrow" data-icon="arrow"></span>
+          <h3>Burse</h3><p>Anunțuri și informații despre burse.</p>
+        </button>
+        <button class="quick-card" type="button" data-action="search" data-query="taxe">
+          <span class="icon" data-icon="card"></span><span class="card-arrow" data-icon="arrow"></span>
+          <h3>Taxe</h3><p>Taxe universitare și informații asociate.</p>
+        </button>
+        <button class="quick-card" type="button" data-action="search" data-query="practică">
+          <span class="icon" data-icon="briefcase"></span><span class="card-arrow" data-icon="arrow"></span>
+          <h3>Practică</h3><p>Documente și anunțuri despre practică.</p>
+        </button>
+        <button class="quick-card" type="button" data-action="search" data-kind="document">
+          <span class="icon" data-icon="file"></span><span class="card-arrow" data-icon="arrow"></span>
+          <h3>Documente PDF</h3><p>Caută direct în documentele indexate.</p>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="noutati">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <h2>Noutăți</h2>
+          <p>Informații recente pentru programul selectat.</p>
+        </div>
+      </div>
+      <div class="news-layout">
+        <div class="news-list" id="newsList" aria-live="polite"></div>
+        <aside class="news-summary" aria-label="Rezumat noutăți">
+          <div>
+            <strong id="newsSummaryTitle">Se încarcă…</strong>
+            <p id="newsSummaryText">Verificăm informațiile recente.</p>
+          </div>
+          <span id="newsCount" class="sr-only">0</span>
+          <button class="secondary-btn" id="showNewsOnly" type="button">Vezi toate noutățile</button>
+          <button class="secondary-btn" id="markSeen" type="button">Marchează ca văzute</button>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="cauta">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <h2>Caută în toate informațiile</h2>
+          <p>Folosește căutarea simplă sau deschide filtrele doar când ai nevoie.</p>
+        </div>
+      </div>
+
+      <div class="search-panel">
+        <div class="search-toolbar">
+          <div class="searchbox">
+            <span data-icon="search"></span>
+            <label class="sr-only" for="q">Caută în index</label>
+            <input id="q" type="search" placeholder="Scrie ce cauți…" autocomplete="off" enterkeyhint="search">
+            <button class="clear-search" id="clr" type="button" aria-label="Șterge căutarea" hidden>✕</button>
+          </div>
+          <button class="secondary-btn filter-toggle" id="filterToggle" type="button" aria-controls="filters" aria-expanded="false">
+            <span class="label">Filtre</span><span id="filterCount" class="filter-count">0</span>
+          </button>
+        </div>
+
+        <div class="filters" id="filters" hidden>
+          <div class="filters-grid">
+            <div class="filter-group">
+              <label>Tip de rezultat</label>
+              <div class="seg" role="group" aria-label="Tip de rezultat">
+                <button type="button" data-type="">Toate</button>
+                <button type="button" data-type="anunt">Anunțuri</button>
+                <button type="button" data-type="pagina">Pagini</button>
+                <button type="button" data-type="document">PDF</button>
+              </div>
+            </div>
+            <div class="filter-group">
+              <label for="src">Sursă</label>
+              <select id="src"><option value="">Toate sursele</option></select>
+            </div>
+            <div class="filter-group">
+              <label>Precizie</label>
+              <button class="secondary-btn strict-btn" id="strict" type="button" aria-pressed="false">Doar rezultate specifice programului</button>
+            </div>
+            <button class="secondary-btn" type="button" onclick="resetSearch()">Resetează</button>
+          </div>
+        </div>
+
+        <div class="results-head">
+          <p class="count" id="count" aria-live="polite">Se încarcă indexul…</p>
+        </div>
+        <ol class="results" id="results"></ol>
+        <button class="secondary-btn more" id="more" type="button" hidden>Arată mai multe</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="institutii">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <h2>Site-uri oficiale</h2>
+          <p>Pentru confirmarea informațiilor și acces la serviciile universității.</p>
+        </div>
+      </div>
+      <div class="links-strip">
+        <a class="link-card" href="https://medicina.ulbsibiu.ro/" target="_blank" rel="noopener">
+          <span><strong>Facultatea de Medicină</strong><br><small>medicina.ulbsibiu.ro</small></span>
+          <span data-icon="arrow"></span>
+        </a>
+        <a class="link-card" href="https://www.ulbsibiu.ro/" target="_blank" rel="noopener">
+          <span><strong>Universitatea „Lucian Blaga” din Sibiu</strong><br><small>ulbsibiu.ro</small></span>
+          <span data-icon="arrow"></span>
+        </a>
+      </div>
+    </div>
+  </section>
 </main>
 
-<script>
-/* ===== ACCES RAPID: editezi doar lista asta. Primul link cu main:true e butonul mare. ===== */
-const LINKS=[
-  {t:"Orare",u:"https://schedule.ulbsibiu.ro/",main:true},
-  {t:"Facultatea de Medicină",u:"https://medicina.ulbsibiu.ro/"},
-  {t:"Site ULBS",u:"https://www.ulbsibiu.ro/"},
-  // {t:"Nume buton",u:"https://exemplu.ro/"},
-];
-/* ========================================================================================= */
-const PAGE=30, TOPICS=["orar","burse","examen","restanțe","cămin","taxe","practică"];
-const KIND={anunt:"Anunț",pagina:"Pagină",document:"PDF"};
-const $=id=>document.getElementById(id);
-const fold=s=>(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
-const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
-const dateDaysAgo=n=>{const d=new Date();d.setDate(d.getDate()-n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
-let DATA=[],shown=PAGE,cur=[],prog=ls.get("prog")||"both",type="",strict=ls.get("strict")==="1",onlyNew=false;
-let seen=ls.get("seen")||dateDaysAgo(7);
-const isNew=d=>!!d.date&&d.date>=seen&&(d.spec||d.type==="anunt");
-const inProg=d=>prog==="both"||d.prog.includes(prog);
+<footer class="footer">
+  <div class="shell footer-row">
+    <span>Proiect studențesc, neoficial. Verifică întotdeauna informația pe site-ul sursă.</span>
+    <span id="indexStatus">Se verifică indexul…</span>
+  </div>
+</footer>
 
-function hl(orig,toks){
-  const f=fold(orig),r=[];
-  for(const t of toks){let i=0;while((i=f.indexOf(t,i))!==-1){r.push([i,i+t.length]);i+=t.length}}
-  r.sort((a,b)=>a[0]-b[0]);
-  let out="",p=0;
-  for(const[s,e]of r){if(e<=p)continue;const st=Math.max(s,p);out+=esc(orig.slice(p,st))+"<mark>"+esc(orig.slice(st,e))+"</mark>";p=e}
-  return out+esc(orig.slice(p));
-}
-function snip(text,toks){
-  if(!text)return"";
-  const f=fold(text);let at=-1;
-  for(const t of toks){const i=f.indexOf(t);if(i!==-1&&(at===-1||i<at))at=i}
-  const st=at>80?at-80:0,part=text.slice(st,st+240);
-  return(st>0?"… ":"")+hl(part,toks)+(st+240<text.length?" …":"");
-}
-const tokens=()=>fold($("q").value).split(/\s+/).filter(Boolean);
-function setSeg(id,val){document.querySelectorAll("#"+id+" button").forEach(b=>{const on=b.dataset.v===val;b.classList.toggle("on",on);b.setAttribute("aria-pressed",String(on))})}
-function saveUrl(){
-  const p=new URLSearchParams();
-  if($("q").value.trim())p.set("q",$("q").value.trim());
-  if(type)p.set("tip",type);
-  if($("src").value)p.set("site",$("src").value);
-  history.replaceState(null,"",p.toString()?"?"+p:location.pathname);
-}
+<nav class="bottom-nav" aria-label="Navigație mobilă">
+  <a class="active" href="#acasa"><span data-icon="home"></span><span>Acasă</span></a>
+  <button id="bottomSearch" type="button"><span data-icon="search"></span><span>Caută</span></button>
+  <button id="bottomNews" type="button"><span data-icon="bell"></span><span>Noutăți</span></button>
+  <button id="bottomMenu" type="button"><span data-icon="menu"></span><span>Meniu</span></button>
+</nav>
 
-function run(){
-  const toks=tokens(),src=$("src").value;
-  $("clr").hidden=!$("q").value;
-  document.querySelectorAll("#quick button").forEach(b=>b.classList.toggle("on",fold($("q").value.trim())===fold(b.textContent)));
-  const n=DATA.filter(d=>inProg(d)&&isNew(d)).length;
-  $("news").hidden=!n;
-  $("newsTxt").textContent=n+(n===1?" noutate":" noutăți")+" din "+new Date(seen+"T00:00:00").toLocaleDateString("ro-RO",{day:"numeric",month:"short"});
-  $("newsOnly").classList.toggle("on",onlyNew);
-  $("newsOnly").textContent=onlyNew?"Arată tot":"Arată doar noutățile";
-  $("strict").classList.toggle("on",strict);$("strict").setAttribute("aria-pressed",strict);
-  cur=[];
-  for(const d of DATA){
-    if(!inProg(d))continue;
-    if(strict&&!d.spec)continue;
-    if(onlyNew&&!isNew(d))continue;
-    if(type&&d.type!==type)continue;
-    if(src&&d.source!==src)continue;
-    let sc=d.spec?2:0;
-    if(toks.length){
-      let ok=true;
-      for(const t of toks){const a=d._t.includes(t),b=d._b.includes(t);if(!a&&!b){ok=false;break}sc+=(a?5:0)+(b?1:0)}
-      if(!ok)continue;
-    }
-    cur.push({d,sc});
-  }
-  const byDate=(a,b)=>(b.d.date||"").localeCompare(a.d.date||"");
-  cur.sort(toks.length?(a,b)=>b.sc-a.sc||byDate(a,b):byDate);
-  shown=PAGE;saveUrl();render(toks);
-}
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="drawer" aria-label="Meniu mobil">
+  <div class="drawer-head">
+    <strong>Meniu</strong>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="Închide meniul">✕</button>
+  </div>
+  <nav>
+    <a href="#acasa">Acasă</a>
+    <a href="#acces">Acces rapid</a>
+    <a href="#noutati">Noutăți</a>
+    <a href="#cauta">Caută și filtrează</a>
+    <a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a>
+    <a href="https://medicina.ulbsibiu.ro/" target="_blank" rel="noopener">Facultatea de Medicină ↗</a>
+    <a href="https://www.ulbsibiu.ro/" target="_blank" rel="noopener">ULBS ↗</a>
+  </nav>
+</aside>
 
-function render(toks){
-  const n=cur.length;
-  $("count").textContent=n?(n+(n===1?" rezultat":" rezultate")+(toks.length?"":", cele mai noi primele")):"";
-  const box=$("results");
-  if(!n){
-    box.innerHTML='<li class="empty">Niciun rezultat.'+(prog!=="both"?'<br><button type="button" id="all">Arată ambele programe</button>':'<br>Încearcă alt cuvânt.')+'</li>';
-    const b=$("all");if(b)b.onclick=()=>setProg("both");
-    $("more").hidden=true;return;
-  }
-  box.innerHTML=cur.slice(0,shown).map(({d})=>{
-    const dt=d.date?new Date(d.date+"T00:00:00"):null;
-    const ds=dt?dt.toLocaleDateString("ro-RO",{day:"numeric",month:"short",year:"numeric"}):"";
-    const tags=d.spec?d.prog.map(p=>'<span class="prog">'+p+"</span>").join(""):"";
-    const t=d.url?`<a class="title" href="${esc(d.url)}" target="_blank" rel="noopener">${hl(d.title,toks)}</a>`:`<span class="title">${hl(d.title,toks)}</span>`;
-    return`<li class="row t-${esc(d.type)}">${t}
-      ${d.text?'<p class="snip">'+snip(d.text,toks)+"</p>":""}
-      <div class="meta"><span class="kind">${KIND[d.type]||""}</span>${tags}<span>${esc(d.source)}</span>${ds?"<span>"+ds+"</span>":""}${isNew(d)?'<span class="new">Nou</span>':""}</div>
-    </li>`}).join("");
-  $("more").hidden=shown>=n;
-}
-
-function setProg(v){prog=v;setSeg("prog",v);ls.set("prog",v);run()}
-
-let timer;
-$("q").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(run,150)});
-$("clr").onclick=()=>{$("q").value="";run();$("q").focus()};
-$("src").onchange=run;
-$("more").onclick=()=>{shown+=PAGE;render(tokens())};
-$("prog").onclick=e=>{const b=e.target.closest("button");if(b)setProg(b.dataset.v)};
-$("types").onclick=e=>{const b=e.target.closest("button");if(!b)return;type=b.dataset.v;setSeg("types",type);run()};
-$("strict").onclick=()=>{strict=!strict;ls.set("strict",strict?"1":"0");run()};
-$("newsOnly").onclick=()=>{onlyNew=!onlyNew;run()};
-$("newsSeen").onclick=()=>{seen=today();ls.set("seen",seen);onlyNew=false;run()};
-$("links").innerHTML=LINKS.map(l=>`<a href="${esc(l.u)}" target="_blank" rel="noopener"${l.main?' class="main"':""}>${esc(l.t)}</a>`).join("");
-$("quick").innerHTML=TOPICS.map(t=>`<button type="button">${t}</button>`).join("");
-$("quick").onclick=e=>{const b=e.target.closest("button");if(!b)return;$("q").value=fold($("q").value.trim())===fold(b.textContent)?"":b.textContent;run()};
-document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==$("q")){e.preventDefault();$("q").focus()}});
-setSeg("prog",prog);
-if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
-
-const getJson=u=>fetch(u,{cache:"no-cache"}).then(async r=>{if(!r.ok)throw 0;return r.json()});
-const getCompressedJson=async u=>{
-  const r=await fetch(u,{cache:"no-cache"});
-  if(!r.ok)throw 0;
-  if(!("DecompressionStream" in window)||!r.body)throw 0;
-  const ds=new DecompressionStream("gzip");
-  const text=await new Response(r.body.pipeThrough(ds)).text();
-  return JSON.parse(text);
-};
-const getData=()=>getCompressedJson("data.json.gz").catch(()=>getJson("data.json"));
-Promise.all([getData(),getJson("manual.json").catch(()=>[])]).then(([j,man])=>{
-  const manual=(Array.isArray(man)?man:[]).filter(m=>m&&m.title).map(m=>({
-    title:m.title,url:m.url||"",date:m.date||"",text:m.text||"",source:"Adăugat manual",
-    type:"anunt",prog:m.prog&&m.prog.length?m.prog:["AMG","TD"],spec:true}));
-  if(!j || !Array.isArray(j.items))throw new Error("Format invalid pentru data.json");
-  const auto=j.items.map(d=>({...d,prog:Array.isArray(d.prog)&&d.prog.length?d.prog:(d.amg?["AMG"]:["AMG","TD"]),spec:d.spec??!!d.amg}));
-  const safeDecode=u=>{try{return decodeURIComponent(u||"")}catch(e){return u||""}};
-  DATA=[...manual,...auto].map(d=>({...d,_t:fold(d.title),_b:fold((d.text||"")+" "+safeDecode(d.url))}));
-  $("src").innerHTML+=[...new Set(DATA.map(d=>d.source))].map(s=>`<option>${esc(s)}</option>`).join("");
-  const p=new URLSearchParams(location.search);
-  $("q").value=p.get("q")||"";
-  if(p.get("tip")){type=p.get("tip");setSeg("types",type)}
-  if(p.get("site"))$("src").value=p.get("site");
-  $("foot").textContent=(j.count?j.count+" pagini indexate, actualizat pe "+new Date(j.updated).toLocaleDateString("ro-RO")+". ":"Indexul e gol: rulează workflow-ul din GitHub Actions. ")+"Proiect studentesc, neoficial. Verifică mereu informația pe site-ul sursă.";
-  run();
-}).catch(()=>{$("count").textContent="Nu am putut încărca datele (data.json)."});
-</script>
+<script src="app.js" defer></script>
 </body>
 </html>
