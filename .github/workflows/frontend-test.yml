@@ -32,13 +32,13 @@ jobs:
           test -f docs/icon-192.png
           test -f docs/icon-512.png
           grep -q 'CampusMed' docs/manifest.webmanifest
-          grep -q 'campusmed-v29' docs/sw.js
+          grep -q 'campusmed-v30' docs/sw.js
 
       - name: Check page asset versions
         run: |
           for page in docs/*.html; do
             if grep -q 'style.css?v=' "$page"; then
-              grep -q 'style.css?v=27' "$page" || { echo "CSS vechi în $page"; exit 1; }
+              grep -q 'style.css?v=28' "$page" || { echo "CSS vechi în $page"; exit 1; }
             fi
             if grep -q 'app.js?v=' "$page"; then
               grep -q 'app.js?v=18' "$page" || { echo "app.js vechi în $page"; exit 1; }
