@@ -51,7 +51,7 @@ button,a{touch-action:manipulation}
 .section-head h2{margin:0;font-size:clamp(1.45rem,3vw,2rem);letter-spacing:-.025em}
 .section-head p{margin:4px 0 0;color:var(--muted)}
 .quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.quick-card{position:relative;min-height:160px;padding:20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);text-decoration:none;cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;overflow:hidden}
+.quick-card{position:relative;display:block;width:100%;min-height:160px;padding:20px;text-align:left;color:inherit;font:inherit;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);text-decoration:none;cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;overflow:hidden}
 .quick-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--brand) 45%,var(--line));box-shadow:var(--shadow)}
 .quick-card.primary{grid-column:span 2;background:var(--brand);color:white;border-color:var(--brand)}
 .quick-card .icon{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:var(--brand-soft);color:var(--brand);margin-bottom:18px}
