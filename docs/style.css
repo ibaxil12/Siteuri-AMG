@@ -541,3 +541,24 @@ body:not(.theme-amg):not(.theme-td) .dashboard-card.featured .icon{
     background:linear-gradient(145deg,#416779,#294957);
   }
 }
+
+/* === Anul I v15 === */
+.first-year-head{display:flex;align-items:center;justify-content:space-between;gap:28px}
+.year-one-mark{width:128px;height:128px;flex:0 0 auto;border-radius:32px;display:grid;place-items:center;align-content:center;background:var(--brand);color:#fff;box-shadow:0 16px 34px color-mix(in srgb,var(--brand) 24%,transparent);transform:rotate(3deg)}
+.year-one-mark strong{font-size:3.4rem;line-height:.85}.year-one-mark span{font-size:.72rem;font-weight:800;letter-spacing:.14em;margin-top:8px}
+.first-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.step-card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--text);box-shadow:0 3px 12px rgba(18,41,54,.035)}
+.step-card:hover{border-color:color-mix(in srgb,var(--brand) 42%,var(--line));transform:translateY(-2px)}
+.step-card small{display:block;margin-top:3px;line-height:1.45}.step-no{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;background:var(--brand-soft);color:var(--brand);font-weight:800}
+.primary-step{border-color:color-mix(in srgb,var(--brand) 32%,var(--line))}
+.freshman-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.freshman-card{min-height:132px;padding:17px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--text);display:flex;flex-direction:column;align-items:flex-start;gap:5px;box-shadow:0 3px 12px rgba(18,41,54,.035)}
+.freshman-card:hover{border-color:color-mix(in srgb,var(--brand) 42%,var(--line));box-shadow:var(--shadow)}
+.freshman-card .icon{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:var(--brand-soft);color:var(--brand);margin-bottom:5px}.freshman-card .icon svg{width:20px;height:20px}
+.freshman-card small{line-height:1.35}
+.first-year-columns{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.55fr);gap:18px;align-items:start}
+.freshman-checklist{position:sticky;top:88px}.freshman-checklist h2{margin-top:0}.freshman-checklist label{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-weight:650}.freshman-checklist input{width:20px;height:20px;accent-color:var(--brand);flex:0 0 auto}
+.first-year-card{border-color:color-mix(in srgb,var(--brand) 24%,var(--line))}
+@media(max-width:900px){.freshman-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.first-year-columns{grid-template-columns:1fr}.freshman-checklist{position:static}}
+@media(max-width:680px){.first-year-head{align-items:flex-start}.year-one-mark{width:82px;height:82px;border-radius:23px}.year-one-mark strong{font-size:2.25rem}.year-one-mark span{font-size:.58rem}.first-steps{grid-template-columns:1fr}.freshman-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.freshman-card{min-height:118px;padding:14px}}
+@media(max-width:390px){.year-one-mark{display:none}.freshman-grid{grid-template-columns:1fr}.freshman-card{min-height:auto}}
