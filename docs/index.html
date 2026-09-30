@@ -1,265 +1,38 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0B5FA5">
-  <meta name="description" content="Portal studențesc pentru AMG și Tehnică Dentară ULBS: orare, anunțuri, examene, burse, taxe, practică și documente.">
-  <link rel="icon" href="icon-192.png" type="image/png">
-  <link rel="canonical" href="https://ibaxil12.github.io/Siteuri-AMG/">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="AMG și Tehnică Dentară · Portal studențesc">
-  <meta property="og:description" content="Orare, anunțuri și informații utile pentru studenții AMG și Tehnică Dentară ULBS.">
-  <meta property="og:url" content="https://ibaxil12.github.io/Siteuri-AMG/">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="AMG·TD">
-  <title>AMG și Tehnică Dentară · Portal studențesc</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=6">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#52606d">
+<meta name="description" content="Portal studențesc simplu pentru AMG și Tehnică Dentară ULBS.">
+<link rel="canonical" href="https://ibaxil12.github.io/Siteuri-AMG/">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Portal AMG și Tehnică Dentară</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
-<body>
+<body data-page="home">
 <a class="skip" href="#main">Sari la conținut</a>
-
-<header class="site-header">
-  <div class="shell header-row">
-    <a class="brand" href="#acasa" aria-label="AMG și Tehnică Dentară, pagina principală">
-      <span class="brand-mark">A+</span>
-      <span>AMG · Tehnică Dentară</span>
-    </a>
-
-    <nav class="desktop-nav" aria-label="Navigație principală">
-      <a href="#acasa">Acasă</a>
-      <a href="#acces">Acces rapid</a>
-      <a href="#noutati">Noutăți</a>
-      <a href="#cauta">Caută</a>
-      <a href="feedback.html">Feedback</a>
-      <a href="https://medicina.ulbsibiu.ro/" target="_blank" rel="noopener">Medicină</a>
-      <a href="https://www.ulbsibiu.ro/" target="_blank" rel="noopener">ULBS</a>
-    </nav>
-
-    <div class="header-program" role="group" aria-label="Program de studiu">
-      <button type="button" data-program="AMG">AMG</button>
-      <button type="button" data-program="TD">TD</button>
-      <button type="button" data-program="both">Ambele</button>
-    </div>
-
-    <button class="menu-btn" id="menuBtn" type="button" aria-label="Deschide meniul" aria-controls="drawer" aria-expanded="false">
-      <span data-icon="menu"></span>
-    </button>
-  </div>
-</header>
-
-<main id="main">
-  <section class="hero" id="acasa">
-    <div class="shell">
-      <span class="eyebrow">Portal studențesc · ULBS Medicină</span>
-      <h1>Tot ce îți trebuie pentru facultate, într-un singur loc.</h1>
-      <p class="hero-copy">Ajungi rapid la orar, anunțuri, examene, burse, taxe, practică și documentele indexate de pe site-urile oficiale.</p>
-
-      <div class="mobile-program">
-        <div class="seg" role="group" aria-label="Alege programul de studiu">
-          <button type="button" data-program="AMG">AMG</button>
-          <button type="button" data-program="TD">Tehnică dentară</button>
-          <button type="button" data-program="both">Ambele</button>
-        </div>
-      </div>
-
-      <div class="hero-tools">
-        <div class="searchbox">
-          <span data-icon="search"></span>
-          <label class="sr-only" for="heroQ">Caută în portal</label>
-          <input id="heroQ" type="search" placeholder="Caută: burse, examen, restanțe, practică…" autocomplete="off">
-        </div>
-        <button class="primary-btn" id="heroSearchBtn" type="button">Caută în portal</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="acces">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <h2>Unde vrei să mergi?</h2>
-          <p>Cele mai folosite informații sunt la un click distanță.</p>
-        </div>
-      </div>
-
-      <div class="quick-grid">
-        <a class="quick-card primary" href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">
-          <span class="icon" data-icon="calendar"></span><span class="card-arrow" data-icon="arrow"></span>
-          <h3>Orare</h3><p>Deschide orarul oficial ULBS.</p>
-        </a>
-        <button class="quick-card" type="button" data-action="search" data-kind="anunt">
-          <span class="icon" data-icon="bell"></span><span class="card-arrow" data-icon="arrow"></span>
-          <h3>Anunțuri</h3><p>Vezi cele mai noi comunicări.</p>
-        </button>
-        <button class="quick-card" type="button" data-action="search" data-query="examen restanțe">
-          <span class="icon" data-icon="book"></span><span class="card-arrow" data-icon="arrow"></span>
-          <h3>Examene & restanțe</h3><p>Sesiune, examene și reexaminări.</p>
-        </button>
-        <button class="quick-card" type="button" data-action="search" data-query="burse">
-          <span class="icon" data-icon="award"></span><span class="card-arrow" data-icon="arrow"></span>
-          <h3>Burse</h3><p>Anunțuri și informații despre burse.</p>
-        </button>
-        <button class="quick-card" type="button" data-action="search" data-query="taxe">
-          <span class="icon" data-icon="card"></span><span class="card-arrow" data-icon="arrow"></span>
-          <h3>Taxe</h3><p>Taxe universitare și informații asociate.</p>
-        </button>
-        <button class="quick-card" type="button" data-action="search" data-query="practică">
-          <span class="icon" data-icon="briefcase"></span><span class="card-arrow" data-icon="arrow"></span>
-          <h3>Practică</h3><p>Documente și anunțuri despre practică.</p>
-        </button>
-        <button class="quick-card" type="button" data-action="search" data-kind="document">
-          <span class="icon" data-icon="file"></span><span class="card-arrow" data-icon="arrow"></span>
-          <h3>Documente PDF</h3><p>Caută direct în documentele indexate.</p>
-        </button>
-        <a class="quick-card" href="https://medicina.ulbsibiu.ro/" target="_blank" rel="noopener">
-          <span class="icon" data-icon="building"></span><span class="card-arrow" data-icon="arrow"></span>
-          <h3>Facultatea de Medicină</h3><p>Intră pe site-ul oficial al facultății.</p>
-        </a>
-        <a class="quick-card" href="https://www.ulbsibiu.ro/" target="_blank" rel="noopener">
-          <span class="icon" data-icon="building"></span><span class="card-arrow" data-icon="arrow"></span>
-          <h3>ULBS</h3><p>Accesează site-ul oficial al universității.</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="noutati">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <h2>Noutăți</h2>
-          <p>Informații recente pentru programul selectat.</p>
-        </div>
-      </div>
-      <div class="news-layout">
-        <div class="news-list" id="newsList" aria-live="polite"></div>
-        <aside class="news-summary" aria-label="Rezumat noutăți">
-          <div>
-            <strong id="newsSummaryTitle">Se încarcă…</strong>
-            <p id="newsSummaryText">Verificăm informațiile recente.</p>
-          </div>
-          <span id="newsCount" class="sr-only">0</span>
-          <button class="secondary-btn" id="showNewsOnly" type="button">Vezi toate noutățile</button>
-          <button class="secondary-btn" id="markSeen" type="button">Marchează ca văzute</button>
-        </aside>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="cauta">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <h2>Caută în toate informațiile</h2>
-          <p>Folosește căutarea simplă sau deschide filtrele doar când ai nevoie.</p>
-        </div>
-      </div>
-
-      <div class="search-panel">
-        <div class="search-toolbar">
-          <div class="searchbox">
-            <span data-icon="search"></span>
-            <label class="sr-only" for="q">Caută în index</label>
-            <input id="q" type="search" placeholder="Scrie ce cauți…" autocomplete="off" enterkeyhint="search">
-            <button class="clear-search" id="clr" type="button" aria-label="Șterge căutarea" hidden>✕</button>
-          </div>
-          <button class="secondary-btn filter-toggle" id="filterToggle" type="button" aria-controls="filters" aria-expanded="false">
-            <span class="label">Filtre</span><span id="filterCount" class="filter-count">0</span>
-          </button>
-        </div>
-
-        <div class="filters" id="filters" hidden>
-          <div class="filters-grid">
-            <div class="filter-group">
-              <label>Tip de rezultat</label>
-              <div class="seg" role="group" aria-label="Tip de rezultat">
-                <button type="button" data-type="">Toate</button>
-                <button type="button" data-type="anunt">Anunțuri</button>
-                <button type="button" data-type="pagina">Pagini</button>
-                <button type="button" data-type="document">PDF</button>
-              </div>
-            </div>
-            <div class="filter-group">
-              <label for="src">Sursă</label>
-              <select id="src"><option value="">Toate sursele</option></select>
-            </div>
-            <div class="filter-group">
-              <label>Precizie</label>
-              <button class="secondary-btn strict-btn" id="strict" type="button" aria-pressed="false">Doar rezultate specifice programului</button>
-            </div>
-            <button class="secondary-btn" type="button" onclick="resetSearch()">Resetează</button>
-          </div>
-        </div>
-
-        <div class="results-head">
-          <p class="count" id="count" aria-live="polite">Se încarcă indexul…</p>
-        </div>
-        <ol class="results" id="results"></ol>
-        <button class="secondary-btn more" id="more" type="button" hidden>Arată mai multe</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="institutii">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <h2>Site-uri oficiale</h2>
-          <p>Pentru confirmarea informațiilor și acces la serviciile universității.</p>
-        </div>
-      </div>
-      <div class="links-strip">
-        <a class="link-card" href="https://medicina.ulbsibiu.ro/" target="_blank" rel="noopener">
-          <span><strong>Facultatea de Medicină</strong><br><small>medicina.ulbsibiu.ro</small></span>
-          <span data-icon="arrow"></span>
-        </a>
-        <a class="link-card" href="https://www.ulbsibiu.ro/" target="_blank" rel="noopener">
-          <span><strong>Universitatea „Lucian Blaga” din Sibiu</strong><br><small>ulbsibiu.ro</small></span>
-          <span data-icon="arrow"></span>
-        </a>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer class="footer">
-  <div class="shell footer-row">
-    <span>Proiect studențesc, neoficial. Verifică întotdeauna informația pe site-ul sursă. · <a href="feedback.html">Feedback & buguri</a></span>
-    <span id="indexStatus">Se verifică indexul…</span>
-  </div>
-</footer>
-
-<nav class="bottom-nav" aria-label="Navigație mobilă">
-  <a class="active" href="#acasa"><span data-icon="home"></span><span>Acasă</span></a>
-  <button id="bottomSearch" type="button"><span data-icon="search"></span><span>Caută</span></button>
-  <button id="bottomNews" type="button"><span data-icon="bell"></span><span>Noutăți</span></button>
-  <button id="bottomMenu" type="button"><span data-icon="menu"></span><span>Meniu</span></button>
-</nav>
-
-<div class="drawer-backdrop" id="drawerBackdrop"></div>
-<aside class="drawer" id="drawer" aria-label="Meniu mobil">
-  <div class="drawer-head">
-    <strong>Meniu</strong>
-    <button class="drawer-close" id="drawerClose" type="button" aria-label="Închide meniul">✕</button>
-  </div>
-  <nav>
-    <a href="#acasa">Acasă</a>
-    <a href="#acces">Acces rapid</a>
-    <a href="#noutati">Noutăți</a>
-    <a href="#cauta">Caută și filtrează</a>
-    <a href="feedback.html">Feedback & buguri</a>
-    <a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a>
-    <a href="https://medicina.ulbsibiu.ro/" target="_blank" rel="noopener">Facultatea de Medicină ↗</a>
-    <a href="https://www.ulbsibiu.ro/" target="_blank" rel="noopener">ULBS ↗</a>
-  </nav>
-</aside>
-
-<script src="app.js?v=5" defer></script>
-</body>
-</html>
+<div id="siteHeader"></div>
+<main id="main" class="page-main">
+<section class="page-hero"><div class="shell">
+<span class="eyebrow">Portal studențesc · ULBS Medicină</span>
+<h1>Tot ce îți trebuie, împărțit clar.</h1>
+<p>Alege ce vrei să faci. Fiecare secțiune are propria pagină, fără să cauți printr-un homepage foarte lung.</p>
+<div class="page-program"><div class="seg" role="group" aria-label="Alege programul"><button type="button" data-program="AMG">AMG</button><button type="button" data-program="TD">Tehnică dentară</button><button type="button" data-program="both">Ambele</button></div></div>
+<div class="compact-search"><div class="searchbox"><span data-icon="search"></span><label class="sr-only" for="homeSearch">Caută în portal</label><input id="homeSearch" type="search" placeholder="Ce cauți?"></div><button class="primary-btn" id="homeSearchBtn" type="button">Caută</button></div>
+</div></section>
+<section class="section-compact"><div class="shell"><div class="dashboard-grid">
+<a class="dashboard-card featured" href="anunturi.html"><span class="icon" data-icon="bell"></span><h2>Anunțuri</h2><p>Vezi cele mai recente informații și noutăți.</p></a>
+<a class="dashboard-card" href="cautare.html"><span class="icon" data-icon="search"></span><h2>Căutare</h2><p>Caută în toate paginile și documentele indexate.</p></a>
+<a class="dashboard-card" href="documente.html"><span class="icon" data-icon="file"></span><h2>Documente</h2><p>Găsește PDF-uri și documente oficiale.</p></a>
+<a class="dashboard-card" href="utile.html"><span class="icon" data-icon="book"></span><h2>Utile</h2><p>Examene, restanțe, burse, taxe și practică.</p></a>
+<a class="dashboard-card" href="linkuri.html"><span class="icon" data-icon="link"></span><h2>Linkuri</h2><p>Orare, Facultatea de Medicină și ULBS.</p></a>
+<a class="dashboard-card" href="feedback.html"><span class="icon" data-icon="message"></span><h2>Feedback</h2><p>Trimite o sugestie sau raportează o problemă.</p></a>
+</div></div></section>
+<section class="section-compact"><div class="shell"><div class="section-actions"><div><h2>Noutăți recente</h2><p class="count">Ultimele anunțuri pentru programul selectat.</p></div><a class="secondary-btn" href="anunturi.html">Vezi toate</a></div><ol class="results home-news" id="homeNews"><li class="empty">Se încarcă…</li></ol></div></section>
+</main><div id="siteFooter"></div><div id="mobileNav"></div><div id="drawerRoot"></div><script src="app.js?v=8" defer></script></body></html>
