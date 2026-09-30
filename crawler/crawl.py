@@ -83,6 +83,9 @@ def html_to_text(markup):
 
 def make_doc(source, url, title, date, text, kind):
     title = re.sub(r"\s+", " ", title or "").strip() or url
+    m = re.match(r"^(\d{2})[-./](\d{2})[-./](\d{4})", date or "")
+    if m:  # unele pagini ULBS dau data ca ZZ-LL-AAAA; o convertim în AAAA-LL-ZZ
+        date = f"{m.group(3)}-{m.group(2)}-{m.group(1)}"
     text = (text or "")[:MAX_TEXT]
     prog, spec = programs(title, text, unquote(url))
     return {
