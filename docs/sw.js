@@ -1,42 +1,32 @@
-const CACHE="amg-v7";
-const SHELL=["./","index.html","feedback.html","style.css?v=7","app.js?v=5","manifest.webmanifest","icon-192.png","icon-512.png"];
+const CACHE="amg-v8";
+const SHELL=[
+  "./","index.html","anunturi.html","cautare.html","documente.html","utile.html","linkuri.html","feedback.html",
+  "style.css?v=8","app.js?v=8","manifest.webmanifest","icon-192.png","icon-512.png"
+];
 
-self.addEventListener("install", event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)));
+self.addEventListener("install",event=>{
+  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)));
   self.skipWaiting();
 });
-
-self.addEventListener("activate", event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))));
+self.addEventListener("activate",event=>{
+  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
   self.clients.claim();
 });
-
-self.addEventListener("fetch", event => {
-  const request = event.request;
-  const url = new URL(request.url);
-  if (request.method !== "GET" || url.origin !== location.origin) return;
-
-  if (url.pathname.endsWith("/data.json") || url.pathname.endsWith("/data.json.gz") || url.pathname.endsWith("/manual.json")) {
-    event.respondWith(fetch(request, {cache: "no-cache"}));
-    return;
+self.addEventListener("fetch",event=>{
+  const request=event.request,url=new URL(request.url);
+  if(request.method!=="GET"||url.origin!==location.origin)return;
+  if(url.pathname.endsWith("/data.json")||url.pathname.endsWith("/data.json.gz")||url.pathname.endsWith("/manual.json")){
+    event.respondWith(fetch(request,{cache:"no-cache"}));return;
   }
-
-  if (request.mode === "navigate" || request.destination === "document") {
-    event.respondWith(fetch(request).then(response => {
-      if (response.ok) {
-        const copy = response.clone();
-        caches.open(CACHE).then(cache => cache.put(request, copy));
-      }
+  if(request.mode==="navigate"||request.destination==="document"){
+    event.respondWith(fetch(request).then(response=>{
+      if(response.ok)caches.open(CACHE).then(cache=>cache.put(request,response.clone()));
       return response;
-    }).catch(() => caches.match(request).then(cached => cached || caches.match("index.html"))));
+    }).catch(()=>caches.match(request).then(cached=>cached||caches.match("index.html"))));
     return;
   }
-
-  event.respondWith(fetch(request).then(response => {
-    if (response.ok) {
-      const copy = response.clone();
-      caches.open(CACHE).then(cache => cache.put(request, copy));
-    }
+  event.respondWith(fetch(request).then(response=>{
+    if(response.ok)caches.open(CACHE).then(cache=>cache.put(request,response.clone()));
     return response;
-  }).catch(() => caches.match(request)));
+  }).catch(()=>caches.match(request)));
 });
