@@ -50,9 +50,21 @@ const iconPaths={
 function svg(name){return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${iconPaths[name]||iconPaths.arrow}</svg>`}
 
 function currentPage(){return document.body.dataset.page||"home"}
-function applyTheme(){
-  document.body.classList.remove("theme-amg","theme-td");
-  document.body.classList.add("theme-campusmed");
+function getUiTheme(){return ls.get("uiTheme")==="dark"?"dark":"light"}
+function applyTheme(mode=getUiTheme()){
+  const theme=mode==="dark"?"dark":"light";
+  document.body.classList.remove("theme-amg","theme-td","theme-light","theme-dark");
+  document.body.classList.add("theme-campusmed","theme-"+theme);
+  document.documentElement.style.colorScheme=theme;
+  document.querySelectorAll("[data-ui-theme]").forEach(b=>{
+    const on=b.dataset.uiTheme===theme;
+    b.classList.toggle("on",on);
+    b.setAttribute("aria-pressed",String(on));
+  });
+}
+function setUiTheme(mode){
+  ls.set("uiTheme",mode==="dark"?"dark":"light");
+  applyTheme(mode);
 }
 function renderShell(){
   const page=currentPage();
@@ -60,6 +72,7 @@ function renderShell(){
   $("siteHeader").innerHTML=`<header class="site-header"><div class="shell header-row">
     <a class="brand" href="index.html" aria-label="CampusMed, pagina principală"><span class="brand-mark">C+</span><span>CampusMed</span></a>
     <nav class="desktop-nav" aria-label="Navigație principală">${nav}</nav>
+    <div class="theme-switch" role="group" aria-label="Temă site"><button type="button" data-ui-theme="light">Light</button><button type="button" data-ui-theme="dark">Dark</button></div>
     <button class="menu-btn" id="menuBtn" type="button" aria-label="Deschide meniul" aria-expanded="false">${svg("menu")}</button>
   </div></header>`;
 
@@ -77,9 +90,11 @@ function renderShell(){
 
   $("drawerRoot").innerHTML=`<div class="drawer-backdrop" id="drawerBackdrop"></div>
   <aside class="drawer" id="drawer" aria-label="Meniu mobil"><div class="drawer-head"><strong>Meniu</strong><button class="drawer-close" id="drawerClose" type="button" aria-label="Închide meniul">✕</button></div>
+  <div class="drawer-theme"><span>Temă</span><div class="theme-switch" role="group" aria-label="Temă site"><button type="button" data-ui-theme="light">Light</button><button type="button" data-ui-theme="dark">Dark</button></div></div>
   <nav>${nav}<a href="anul1.html"${page==="anul1"?' class="active" aria-current="page"':""}>Anul I · Start aici</a><a href="updates.html"${page==="updates"?' class="active" aria-current="page"':""}>Update-uri & Roadmap</a><a href="admin-feedback.html">Admin feedback</a><a href="calendar.html">Calendar academic</a><a href="faq.html">FAQ / Pentru boboci</a><a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a></nav></aside>`;
 
   applyTheme();
+  document.querySelectorAll("[data-ui-theme]").forEach(b=>b.onclick=()=>setUiTheme(b.dataset.uiTheme));
   const open=()=>{$("drawer").classList.add("open");$("drawerBackdrop").classList.add("open");document.body.classList.add("drawer-open");$("menuBtn").setAttribute("aria-expanded","true")};
   const close=()=>{$("drawer").classList.remove("open");$("drawerBackdrop").classList.remove("open");document.body.classList.remove("drawer-open");$("menuBtn").setAttribute("aria-expanded","false")};
   $("menuBtn").onclick=open;$("bottomMenu").onclick=open;$("drawerClose").onclick=close;$("drawerBackdrop").onclick=close;
