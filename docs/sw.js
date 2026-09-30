@@ -1,7 +1,7 @@
-const CACHE="amg-v11";
+const CACHE="amg-v12";
 const SHELL=[
   "./","index.html","anunturi.html","cautare.html","documente.html","utile.html","linkuri.html","feedback.html","calendar.html","faq.html",
-  "style.css?v=10","app.js?v=11","manifest.webmanifest","icon-192.png","icon-512.png"
+  "style.css?v=12","app.js?v=11","manifest.webmanifest","icon-192.png","icon-512.png"
 ];
 
 self.addEventListener("install",event=>{
