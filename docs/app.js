@@ -10,7 +10,7 @@ const dateDaysAgo=n=>{const d=new Date();d.setDate(d.getDate()-n);return localDa
 const debounce=(fn,wait=180)=>{let timer;return(...args)=>{clearTimeout(timer);timer=setTimeout(()=>fn(...args),wait)}};
 
 let DATA=[],DATA_META={};
-let program=ls.get("prog")||"both";
+const program="both";
 let shown=PAGE_SIZE;
 let deferredInstallPrompt=null;
 
@@ -51,15 +51,8 @@ function svg(name){return `<svg viewBox="0 0 24 24" fill="none" stroke="currentC
 
 function currentPage(){return document.body.dataset.page||"home"}
 function applyTheme(){
-  document.body.classList.toggle("theme-amg",program==="AMG");
-  document.body.classList.toggle("theme-td",program==="TD");
-}
-function setProgram(v){
-  program=v;ls.set("prog",v);applyTheme();
-  document.querySelectorAll("[data-program]").forEach(b=>{
-    const on=b.dataset.program===v;b.classList.toggle("on",on);b.setAttribute("aria-pressed",String(on));
-  });
-  document.dispatchEvent(new CustomEvent("programchange"));
+  document.body.classList.remove("theme-amg","theme-td");
+  document.body.classList.add("theme-campusmed");
 }
 function renderShell(){
   const page=currentPage();
@@ -67,9 +60,6 @@ function renderShell(){
   $("siteHeader").innerHTML=`<header class="site-header"><div class="shell header-row">
     <a class="brand" href="index.html" aria-label="CampusMed, pagina principală"><span class="brand-mark">C+</span><span>CampusMed</span></a>
     <nav class="desktop-nav" aria-label="Navigație principală">${nav}</nav>
-    <div class="header-program" role="group" aria-label="Program de studiu">
-      <button type="button" data-program="AMG">AMG</button><button type="button" data-program="TD">TD</button><button type="button" data-program="both">Ambele</button>
-    </div>
     <button class="menu-btn" id="menuBtn" type="button" aria-label="Deschide meniul" aria-expanded="false">${svg("menu")}</button>
   </div></header>`;
 
@@ -89,8 +79,7 @@ function renderShell(){
   <aside class="drawer" id="drawer" aria-label="Meniu mobil"><div class="drawer-head"><strong>Meniu</strong><button class="drawer-close" id="drawerClose" type="button" aria-label="Închide meniul">✕</button></div>
   <nav>${nav}<a href="anul1.html"${page==="anul1"?' class="active" aria-current="page"':""}>Anul I · Start aici</a><a href="updates.html"${page==="updates"?' class="active" aria-current="page"':""}>Update-uri & Roadmap</a><a href="admin-feedback.html">Admin feedback</a><a href="calendar.html">Calendar academic</a><a href="faq.html">FAQ / Pentru boboci</a><a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a></nav></aside>`;
 
-  document.querySelectorAll("[data-program]").forEach(b=>b.onclick=()=>setProgram(b.dataset.program));
-  setProgram(program);
+  applyTheme();
   const open=()=>{$("drawer").classList.add("open");$("drawerBackdrop").classList.add("open");document.body.classList.add("drawer-open");$("menuBtn").setAttribute("aria-expanded","true")};
   const close=()=>{$("drawer").classList.remove("open");$("drawerBackdrop").classList.remove("open");document.body.classList.remove("drawer-open");$("menuBtn").setAttribute("aria-expanded","false")};
   $("menuBtn").onclick=open;$("bottomMenu").onclick=open;$("drawerClose").onclick=close;$("drawerBackdrop").onclick=close;
@@ -120,7 +109,7 @@ async function loadData(){
   updateNewsBadge();
   return DATA;
 }
-function inProgram(d){return program==="both"||d.prog.includes(program)}
+function inProgram(){return true}
 function isNew(d){const seen=ls.get("seen")||dateDaysAgo(7);return !!d.date&&d.date>=seen&&(d.spec||d.type==="anunt")}
 function fmtDate(d){return d?new Date(d+"T00:00:00").toLocaleDateString("ro-RO",{day:"numeric",month:"short",year:"numeric"}):""}
 function updateNewsBadge(){
@@ -244,7 +233,7 @@ function initCalendar(){
   if(!grid||!form)return;
   let view=new Date(2026,9,1),selected=localDate(new Date()),editId=null;
   const monthNames=["Ianuarie","Februarie","Martie","Aprilie","Mai","Iunie","Iulie","August","Septembrie","Octombrie","Noiembrie","Decembrie"];
-  const visibleOfficial=()=>OFFICIAL_EVENTS.filter(e=>program==="both"||e.scope==="both"||e.scope===program);
+  const visibleOfficial=()=>OFFICIAL_EVENTS;
   const allEvents=()=>[...visibleOfficial(),...getCalendarEvents().map(e=>({...e,kind:"personal"}))];
   const renderSelected=()=>{
     const items=allEvents().filter(e=>e.date===selected).sort((a,b)=>(a.time||"").localeCompare(b.time||""));
