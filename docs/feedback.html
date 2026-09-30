@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 <a class="skip" href="#main">Sari la conținut</a>
@@ -45,38 +45,48 @@
 
   <section class="section">
     <div class="shell feedback-shell">
-      <div class="feedback-grid">
-        <article class="feedback-card feedback-bug">
-          <div class="feedback-icon" aria-hidden="true">!</div>
-          <div>
-            <span class="feedback-kicker">Problemă tehnică</span>
-            <h2>Raportează un bug</h2>
-            <p>Folosește această opțiune dacă o pagină nu se încarcă, un buton nu funcționează, rezultatele sunt greșite sau observi o problemă de afișare.</p>
+      <form class="feedback-form" id="feedbackForm">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="email">Emailul tău</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="exemplu@email.com" required>
           </div>
-          <a class="primary-btn feedback-action" href="https://github.com/ibaxil12/Siteuri-AMG/issues/new?template=bug_report.yml" target="_blank" rel="noopener">Raportează problema ↗</a>
-        </article>
+          <div class="form-field">
+            <label for="category">Tip mesaj</label>
+            <select id="category" name="category" required>
+              <option value="">Alege o categorie</option>
+              <option value="Bug">Bug / problemă tehnică</option>
+              <option value="Sugestie">Sugestie / idee</option>
+              <option value="Informație greșită">Informație greșită</option>
+              <option value="Altceva">Altceva</option>
+            </select>
+          </div>
+        </div>
 
-        <article class="feedback-card feedback-idea">
-          <div class="feedback-icon" aria-hidden="true">✦</div>
-          <div>
-            <span class="feedback-kicker">Sugestie</span>
-            <h2>Trimite feedback sau o idee</h2>
-            <p>Spune ce ai schimba, ce informație lipsește sau ce funcție nouă ți-ar fi utilă în portal.</p>
-          </div>
-          <a class="primary-btn feedback-action" href="https://github.com/ibaxil12/Siteuri-AMG/issues/new?template=feedback.yml" target="_blank" rel="noopener">Trimite feedback ↗</a>
-        </article>
-      </div>
+        <div class="form-field">
+          <label for="message">Mesaj</label>
+          <textarea id="message" name="message" rows="8" placeholder="Descrie problema sau sugestia cât mai simplu..." required></textarea>
+          <p class="field-help">Nu trimite parole, CNP sau alte informații sensibile.</p>
+        </div>
+
+        <div class="form-field">
+          <label for="name">Nume <span class="optional">(opțional)</span></label>
+          <input id="name" name="name" type="text" autocomplete="name" placeholder="Cum te cheamă?">
+        </div>
+
+        <button class="primary-btn feedback-submit" type="submit">Trimite prin email</button>
+        <p class="feedback-status" id="feedbackStatus" aria-live="polite"></p>
+      </form>
 
       <div class="feedback-info">
         <div>
-          <h2>Ce se întâmplă după trimitere?</h2>
-          <p>Mesajul este salvat ca un ticket în proiect. Acolo se poate urmări problema, se pot adăuga răspunsuri și se poate marca drept rezolvată.</p>
+          <h2>Cum funcționează?</h2>
+          <p>După apăsarea butonului se deschide aplicația ta de email cu destinatarul și mesajul completate automat. Tu doar verifici și apeși Trimite.</p>
         </div>
-        <a class="secondary-btn" href="https://github.com/ibaxil12/Siteuri-AMG/issues" target="_blank" rel="noopener">Vezi rapoartele existente ↗</a>
       </div>
 
       <div class="feedback-note">
-        <strong>Notă:</strong> formularele sunt găzduite pe GitHub, deci pentru trimitere este necesar un cont GitHub. Nu include date personale, parole sau alte informații sensibile în raport.
+        <strong>Fără cont necesar:</strong> nu ai nevoie de GitHub sau de un cont pe acest site. Este suficient să ai o aplicație de email configurată pe telefon sau calculator.
       </div>
     </div>
   </section>
@@ -94,6 +104,39 @@
     const p = localStorage.getItem("prog");
     if (p === "AMG") document.body.classList.add("theme-amg");
     if (p === "TD") document.body.classList.add("theme-td");
+
+    const form = document.getElementById("feedbackForm");
+    const status = document.getElementById("feedbackStatus");
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const category = document.getElementById("category").value;
+      const message = document.getElementById("message").value.trim();
+      const name = document.getElementById("name").value.trim();
+
+      if (!email || !category || !message) {
+        status.textContent = "Completează emailul, categoria și mesajul.";
+        return;
+      }
+
+      const subject = "[Portal AMG/TD] " + category;
+      const body = [
+        "Categorie: " + category,
+        "Email expeditor: " + email,
+        name ? "Nume: " + name : "",
+        "",
+        "Mesaj:",
+        message,
+        "",
+        "Trimis de pe pagina de feedback a portalului AMG · Tehnică Dentară."
+      ].filter(Boolean).join("\n");
+
+      status.textContent = "Se deschide aplicația de email...";
+      window.location.href =
+        "mailto:gabi1dudan@gmail.com?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body);
+    });
   })();
 </script>
 </body>
