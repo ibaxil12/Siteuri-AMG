@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://ibaxil12.github.io/Siteuri-AMG/</loc>
-  </url>
-  <url>
-    <loc>https://ibaxil12.github.io/Siteuri-AMG/feedback.html</loc>
-  </url>
+  <url><loc>https://ibaxil12.github.io/Siteuri-AMG/</loc></url>
+  <url><loc>https://ibaxil12.github.io/Siteuri-AMG/anunturi.html</loc></url>
+  <url><loc>https://ibaxil12.github.io/Siteuri-AMG/cautare.html</loc></url>
+  <url><loc>https://ibaxil12.github.io/Siteuri-AMG/documente.html</loc></url>
+  <url><loc>https://ibaxil12.github.io/Siteuri-AMG/utile.html</loc></url>
+  <url><loc>https://ibaxil12.github.io/Siteuri-AMG/linkuri.html</loc></url>
+  <url><loc>https://ibaxil12.github.io/Siteuri-AMG/feedback.html</loc></url>
 </urlset>
