@@ -843,3 +843,134 @@ body.theme-campusmed.theme-dark .secondary-btn:hover{
     font-size:.86rem;
   }
 }
+
+
+/* === Global card spacing rework v28 === */
+:root{
+  --card-pad:24px;
+  --card-pad-compact:20px;
+  --card-gap:14px;
+}
+
+/* Content cards share the same comfortable inner spacing. */
+:where(
+  .quick-card,
+  .dashboard-card,
+  .resource-card,
+  .result,
+  .link-card,
+  .news-item,
+  .page-panel,
+  .feedback-card,
+  .feedback-info,
+  .feedback-note,
+  .step-card,
+  .freshman-card,
+  .admin-feedback-card,
+  .year-one-entry,
+  .update-card,
+  .update-mini,
+  .academic-note,
+  .calendar-item
+){
+  box-sizing:border-box;
+  padding:var(--card-pad);
+}
+
+/* Keep text away from every edge and allow long content to wrap naturally. */
+:where(
+  .quick-card,
+  .dashboard-card,
+  .resource-card,
+  .result,
+  .link-card,
+  .news-item,
+  .page-panel,
+  .feedback-card,
+  .feedback-info,
+  .feedback-note,
+  .step-card,
+  .freshman-card,
+  .admin-feedback-card,
+  .year-one-entry,
+  .update-card,
+  .update-mini,
+  .academic-note,
+  .calendar-item
+) :where(h1,h2,h3,h4,p,strong,small,span){
+  overflow-wrap:anywhere;
+}
+
+.result{padding:24px 26px}
+.result-top{gap:16px 20px}
+.result-text{margin-top:12px;line-height:1.65}
+.result-meta{margin-top:15px;gap:9px 12px}
+
+.dashboard-card{padding:24px;min-height:176px}
+.dashboard-card .icon{margin-bottom:20px}
+.dashboard-card h2{margin-top:auto;margin-bottom:7px}
+.dashboard-card p{line-height:1.55}
+
+.resource-card{padding:22px 24px;gap:18px}
+.link-card{padding:22px 24px}
+.news-item{padding:22px 24px}
+.news-summary{line-height:1.6}
+
+.update-card{padding:22px 24px}
+.update-mini{padding:19px 20px}
+.update-mini strong,.update-card strong{margin-top:9px;line-height:1.4}
+.update-mini p,.update-card p{margin-top:7px;line-height:1.6}
+
+.page-panel{padding:24px}
+.feedback-card,.feedback-info{padding:24px}
+.admin-feedback-card{padding:22px 24px}
+.admin-message{margin:16px 0;line-height:1.65}
+
+.year-one-entry{padding:20px 22px;gap:18px}
+.step-card,.freshman-card{padding:22px}
+
+@media(max-width:680px){
+  :root{
+    --card-pad:18px;
+    --card-pad-compact:16px;
+  }
+  :where(
+    .quick-card,
+    .dashboard-card,
+    .resource-card,
+    .result,
+    .link-card,
+    .news-item,
+    .page-panel,
+    .feedback-card,
+    .feedback-info,
+    .feedback-note,
+    .step-card,
+    .freshman-card,
+    .admin-feedback-card,
+    .year-one-entry,
+    .update-card,
+    .update-mini,
+    .academic-note,
+    .calendar-item
+  ){padding:18px}
+
+  .result{padding:19px 18px}
+  .result-top{gap:12px}
+  .result-text{margin-top:11px;line-height:1.62}
+  .result-meta{margin-top:13px}
+
+  .dashboard-card{padding:19px;min-height:150px}
+  .dashboard-card .icon{margin-bottom:16px}
+  .resource-card{padding:19px;gap:15px}
+  .update-card{padding:19px}
+  .update-mini{padding:17px 18px}
+  .year-one-entry{padding:18px;gap:14px}
+  .page-panel,.feedback-card,.feedback-info,.admin-feedback-card{padding:19px}
+}
+
+@media(max-width:390px){
+  .result,.dashboard-card,.resource-card,.link-card,.news-item,
+  .update-card,.update-mini,.page-panel,.admin-feedback-card,
+  .year-one-entry,.step-card,.freshman-card{padding:17px}
+}
