@@ -1373,3 +1373,98 @@ body.theme-campusmed.theme-dark .side-rail{background:color-mix(in srgb,var(--su
   .side-rail a:hover::after,.side-rail a:focus-visible::after{opacity:1;transform:translate(0,-50%)}
 }
 @media(max-width:1280px){.side-rail{display:none}}
+
+
+/* === Compact modern Admin v37 === */
+.admin-page{min-height:100%;background:var(--bg)}
+.admin-page .admin-main{min-height:100vh;padding:18px 0 48px;background:radial-gradient(circle at 50% -15%,color-mix(in srgb,var(--brand-soft) 34%,transparent),transparent 34%),var(--bg)}
+.admin-page .admin-shell{max-width:1040px}
+.admin-page .admin-top{min-height:48px;margin:0;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.admin-page .brand-mark{width:34px;height:34px;border-radius:10px;font-size:.85rem}
+.admin-page .brand{font-size:.94rem}
+.admin-top-actions{display:flex;align-items:center;gap:9px}
+.admin-area-label{padding:6px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted);font-size:.7rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.admin-logout{min-height:34px;padding:0 10px;border:1px solid var(--line);border-radius:9px;background:transparent;color:var(--muted);font-size:.76rem;font-weight:750;cursor:pointer}
+.admin-logout:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Login */
+.admin-page .admin-login{width:min(100%,420px);box-sizing:border-box;margin:clamp(54px,9vh,100px) auto 0;padding:28px;border:1px solid color-mix(in srgb,var(--line) 82%,transparent);border-radius:20px;background:color-mix(in srgb,var(--surface) 96%,transparent);box-shadow:0 18px 55px rgba(18,41,54,.08);backdrop-filter:blur(16px)}
+.admin-login-mark{width:42px;height:42px;display:grid;place-items:center;margin-bottom:18px;border-radius:12px;background:var(--brand-soft);color:var(--brand)}
+.admin-login-mark svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.admin-login-copy h1{margin:5px 0 6px;font-size:1.55rem;line-height:1.15;letter-spacing:-.035em}
+.admin-login-copy p{margin:0;color:var(--muted);font-size:.86rem;line-height:1.5}
+.admin-page .admin-login form{display:grid;gap:13px;margin-top:22px}
+.admin-auth-field{margin:0}
+.admin-auth-field label{display:block;margin-bottom:6px;color:var(--text);font-size:.76rem;font-weight:800}
+.admin-auth-field input{width:100%;height:46px;box-sizing:border-box;padding:0 13px;border:1px solid var(--line);border-radius:11px;background:var(--surface-2);color:var(--text);outline:none;transition:border-color .15s ease,box-shadow .15s ease,background-color .15s ease}
+.admin-auth-field input:focus{border-color:color-mix(in srgb,var(--brand) 68%,var(--line));background:var(--surface);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 12%,transparent)}
+.password-field{position:relative}
+.password-field input{padding-right:50px}
+.password-toggle{position:absolute;right:5px;top:5px;width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:9px;background:transparent;color:var(--muted);cursor:pointer}
+.password-toggle:hover{background:var(--brand-soft);color:var(--brand)}
+.password-toggle svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.password-toggle .eye-off{display:none}.password-toggle.showing .eye-open{display:none}.password-toggle.showing .eye-off{display:block}
+.admin-login-status{min-height:18px;margin:-2px 0 0;font-size:.76rem;line-height:1.4}
+.admin-login-status.error{color:#c3333d}.admin-login-status.checking{color:var(--muted)}
+.admin-login-submit{width:100%;height:44px;border-radius:11px}
+.admin-login-submit:disabled{cursor:wait;opacity:.72}
+.admin-back-link{display:block;width:max-content;margin:17px auto 0;color:var(--muted);font-size:.75rem;font-weight:700;text-decoration:none}
+.admin-back-link:hover{color:var(--brand)}
+body.theme-campusmed.theme-dark .admin-page .admin-login,body.theme-campusmed.theme-dark.admin-page .admin-login{box-shadow:0 22px 60px rgba(0,0,0,.22)}
+
+/* Dashboard */
+.admin-dashboard{margin-top:22px}
+.admin-dashboard-bar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:20px;padding:10px 12px 10px 15px;border:1px solid color-mix(in srgb,var(--line) 82%,transparent);border-radius:14px;background:var(--surface)}
+.admin-dashboard-bar>div{display:grid;gap:1px}.admin-dashboard-bar>div strong{font-size:.9rem}.admin-dashboard-bar .eyebrow{font-size:.62rem}
+.admin-page .admin-tabs{display:flex;gap:4px;margin:0;padding:3px;border-radius:11px;background:var(--surface-2)}
+.admin-page .admin-tabs .filter-chip{min-height:34px;padding:0 11px;border:0;border-radius:8px;background:transparent;color:var(--muted);font-size:.76rem}
+.admin-page .admin-tabs .filter-chip.on{background:var(--surface);color:var(--brand);box-shadow:0 1px 5px rgba(18,41,54,.08)}
+.admin-page .admin-heading{margin:0 0 13px;align-items:center}
+.admin-page .admin-heading h1{margin:0 0 3px;font-size:1.35rem;letter-spacing:-.025em}
+.admin-page .admin-heading .count{margin:0;font-size:.78rem}
+.admin-page .admin-heading .secondary-btn{min-height:36px;padding:0 11px;font-size:.76rem}
+.admin-page .admin-filters{gap:5px;margin-bottom:11px}
+.admin-page .admin-filters .filter-chip{min-height:32px;padding:0 10px;font-size:.72rem}
+.admin-page .admin-feedback-list{gap:8px}
+.admin-page .admin-feedback-card{padding:14px 15px;border-color:color-mix(in srgb,var(--line) 82%,transparent);border-radius:13px;box-shadow:none}
+.admin-page .admin-feedback-meta{gap:7px;font-size:.7rem}
+.admin-page .admin-message{margin:10px 0;font-size:.88rem;line-height:1.52}
+.admin-page .admin-sender{font-size:.76rem}
+.admin-page .admin-card-actions{gap:6px;margin-top:10px;padding-top:9px}
+.admin-page .admin-card-actions select{min-width:120px;min-height:34px;font-size:.75rem}
+.admin-page .admin-card-actions .secondary-btn,.admin-page .admin-card-actions .primary-btn,.admin-page .danger-btn{min-height:34px;padding:0 10px;border-radius:8px;font-size:.73rem}
+.admin-page .update-editor{padding:17px;margin-bottom:12px;border-radius:14px;box-shadow:none}
+.admin-page .update-editor .form-field{margin-bottom:11px}
+.admin-page .update-editor label{font-size:.75rem}
+.admin-page .update-editor input,.admin-page .update-editor select{min-height:40px}
+.admin-page .update-editor textarea{min-height:84px}
+.admin-editor-footer{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.admin-page .admin-visible-check{margin:0;font-size:.78rem}
+.admin-page .site-overall{margin:0 0 10px;padding:14px 15px;border-radius:13px}
+.admin-page .site-status-grid{gap:8px}
+.admin-page .site-status-card{padding:14px 15px;border-radius:12px}
+.admin-page .site-status-card p{margin:8px 0 4px;font-size:.79rem}
+.admin-page .status-explainer{margin-top:10px;padding:13px 15px;border-radius:12px}
+.admin-page .empty{font-size:.82rem}
+
+@media(max-width:700px){
+  .admin-page .admin-main{padding-top:12px}
+  .admin-area-label{display:none}
+  .admin-page .admin-login{margin-top:38px;padding:22px 19px;border-radius:17px}
+  .admin-login-copy h1{font-size:1.4rem}
+  .admin-dashboard{margin-top:16px}
+  .admin-dashboard-bar{display:block;padding:9px}
+  .admin-dashboard-bar>div{display:none}
+  .admin-page .admin-tabs{width:100%;box-sizing:border-box;overflow:visible}
+  .admin-page .admin-tabs .filter-chip{flex:1;min-width:0;padding-inline:6px;font-size:.7rem;white-space:nowrap}
+  .admin-page .admin-heading{flex-direction:row;align-items:center;gap:10px}
+  .admin-page .admin-heading h1{font-size:1.18rem}
+  .admin-page .admin-feedback-card{padding:13px}
+  .admin-editor-footer{align-items:stretch;flex-direction:column}
+  .admin-editor-footer .admin-card-actions{display:grid;grid-template-columns:1fr 1fr;width:100%;margin:0;padding:0;border:0}
+}
+@media(max-width:390px){
+  .admin-page .admin-tabs .filter-chip{font-size:.66rem}
+  .admin-page .admin-heading{align-items:flex-start;flex-direction:column}
+  .admin-page .admin-heading .secondary-btn{align-self:flex-start}
+}
