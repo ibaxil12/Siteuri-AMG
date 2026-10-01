@@ -191,14 +191,14 @@ function bindResultActions(items,target){
 }
 function renderList(items,target="results",limit=shown){
   const box=$(target);if(!box)return;
-  const slice=items.slice(0,limit);
-  box.innerHTML=slice.length?slice.map((d,i)=>`<li class="result">
+  const slice=items.slice(0,limit),favoriteKeys=new Set(getFavorites().map(x=>x.key));
+  box.innerHTML=slice.length?slice.map((d,i)=>{const saved=favoriteKeys.has(favoriteKey(d));return `<li class="result">
     <div class="result-top"><a class="result-title" data-open-index="${i}" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.title)}</a>
-      <div class="result-actions"><button class="fav-btn${isFavorite(d)?" saved":""}" type="button" data-fav-index="${i}" aria-label="${isFavorite(d)?"Elimină din favorite":"Adaugă la favorite"}">${svg("star")}</button><button class="fav-btn" type="button" data-share-index="${i}" aria-label="Distribuie">${svg("share")}</button>${d.date?`<button class="fav-btn" type="button" data-cal-index="${i}" aria-label="Adaugă în calendar">${svg("calendar")}</button>`:""}</div>
+      <div class="result-actions"><button class="fav-btn${saved?" saved":""}" type="button" data-fav-index="${i}" aria-label="${saved?"Elimină din favorite":"Adaugă la favorite"}">${svg("star")}</button><button class="fav-btn" type="button" data-share-index="${i}" aria-label="Distribuie">${svg("share")}</button>${d.date?`<button class="fav-btn" type="button" data-cal-index="${i}" aria-label="Adaugă în calendar">${svg("calendar")}</button>`:""}</div>
     </div>
     ${d.text?`<p class="result-text">${esc(d.text.slice(0,240))}${d.text.length>240?"…":""}</p>`:""}
     <div class="result-meta"><span class="result-kind">${KIND[d.type]||""}</span>${d.spec?d.prog.map(p=>`<span class="badge">${p}</span>`).join(""):""}<span>${esc(d.source||"")}</span>${d.date?`<span>${fmtDate(d.date)}</span>`:""}${isNew(d)?'<span class="new-tag">Nou</span>':""}</div>
-  </li>`).join(""):'<li class="empty">Nu sunt rezultate pentru selecția curentă.</li>';
+  </li>`}).join(""):'<li class="empty">Nu sunt rezultate pentru selecția curentă.</li>';
   bindResultActions(slice,target);
 }
 function bindMore(itemsProvider){
@@ -210,10 +210,12 @@ function bindProgramRefresh(fn){document.addEventListener("programchange",()=>{s
 function updateHomeDataCheck(){
   const box=$("crawlCheck"),label=$("dataLastChecked");if(!box||!label)return;
   const d=new Date(DATA_META.updated||"");if(Number.isNaN(d.getTime())){box.dataset.state="error";label.textContent="Ultima verificare indisponibilă";return}
-  const age=Date.now()-d.getTime(),hours=age/36e5;box.dataset.state=hours<=6?"ok":hours<=12?"warn":"error";
+  const age=Date.now()-d.getTime(),hours=age/36e5,cached=(DATA_META.sourceStatus||[]).filter(x=>x.used_cache);
+  box.dataset.state=hours>12?"error":(hours>6||cached.length)?"warn":"ok";
   const exact=d.toLocaleString("ro-RO",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});
   let relative=age<6e4?"acum":age<36e5?"acum "+Math.max(1,Math.floor(age/6e4))+" min":age<864e5?"acum "+Math.floor(age/36e5)+" h":"acum "+Math.floor(age/864e5)+" zile";
-  label.textContent="Ultima verificare: "+exact+" · "+relative;
+  label.textContent=cached.length?"Verificat "+exact+" · "+cached.length+" sursă(e) cu date anterioare":"Ultima verificare: "+exact+" · "+relative;
+  box.title=cached.length?"Verificarea a rulat, dar unele surse nu au răspuns și au fost păstrate datele anterioare.":"Momentul ultimei actualizări automate a indexului";
 }
 async function initHome(){
   const data=await loadData();updateHomeDataCheck();
@@ -366,6 +368,6 @@ async function init(){
     });
     console.error(e);
   }
-  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=38",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
+  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=39",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
 }
 document.addEventListener("DOMContentLoaded",init);

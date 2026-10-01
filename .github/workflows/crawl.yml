@@ -15,7 +15,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
 
 concurrency:
   group: crawl-index
@@ -107,13 +106,3 @@ jobs:
           echo "Nu am putut publica indexul după 3 încercări." >&2
           exit 1
 
-      - name: Publică datele noi pe GitHub Pages
-        if: steps.save.outputs.changed == 'true'
-        uses: actions/github-script@v8
-        with:
-          script: |
-            await github.request('POST /repos/{owner}/{repo}/pages/builds', {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              headers: { 'X-GitHub-Api-Version': '2026-03-10' }
-            })

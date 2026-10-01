@@ -12,3 +12,15 @@ test("HTML pages have unique IDs and valid local assets",()=>{
 });
 test("public pages include basic metadata",()=>{for(const file of htmlFiles.filter(x=>x!=="admin-feedback.html")){const html=readFileSync(join(docs,file),"utf8");assert.match(html,/<meta name="description"/,file+": missing description");assert.match(html,/rel="canonical"/,file+": missing canonical")}});
 test("data index is structurally consistent",()=>{const data=JSON.parse(readFileSync("docs/data.json","utf8"));assert.ok(Array.isArray(data.items)&&data.items.length>0);assert.equal(data.count,data.items.length);assert.equal(new Set(data.items.map(x=>x.url)).size,data.items.length,"duplicate URLs in data index");assert.ok(data.updated)});
+
+test("service worker normalizes data cache keys",()=>{
+  const sw=readFileSync("docs/sw.js","utf8");
+  assert.match(sw,/const cacheKey=new Request\(url\.origin\+url\.pathname\)/);
+  assert.match(sw,/cache\.put\(cacheKey,response\.clone\(\)\)/);
+  assert.match(sw,/caches\.match\(cacheKey\)/);
+});
+test("homepage freshness accounts for source fallback",()=>{
+  const app=readFileSync("docs/app.js","utf8");
+  assert.match(app,/sourceStatus\|\|\[\]\)\.filter\(x=>x\.used_cache\)/);
+  assert.match(app,/cached\.length\)\?"warn":"ok"/);
+});
