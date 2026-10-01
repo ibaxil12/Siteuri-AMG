@@ -9,7 +9,8 @@ from crawler import crawl
 from crawler.crawl import canonical_url, make_doc, programs
 
 
-# Verifică atât modul complet, cât și verificările rapide.\nclass CrawlTests(unittest.TestCase):
+# Verifică atât modul complet, cât și verificările rapide.
+class CrawlTests(unittest.TestCase):
     def test_main_writes_matching_plain_and_compressed_indexes(self):
         doc = make_doc("Test", "https://example.com/a", "Anunț", "2026-09-30", "Text", "anunt")
         with tempfile.TemporaryDirectory() as directory:
