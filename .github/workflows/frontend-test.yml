@@ -28,6 +28,7 @@ jobs:
           node --check docs/sw.js
           node --check docs/feedback-db.js
           node --check docs/admin-feedback.js
+          node --check docs/updates.js
           node --check docs/supabase-config.js
       - name: Check required PWA files
         run: |
@@ -36,7 +37,7 @@ jobs:
           test -f docs/icon-192.png
           test -f docs/icon-512.png
           grep -q 'CampusMed' docs/manifest.webmanifest
-          grep -q 'campusmed-v37' docs/sw.js
+          grep -q 'campusmed-v38' docs/sw.js
       - name: Check page asset versions
         run: |
           for page in docs/*.html; do
@@ -47,7 +48,7 @@ jobs:
               fi
             fi
             if grep -Fq 'app.js?v=' "$page"; then
-              if ! grep -Fq 'app.js?v=21' "$page" && ! grep -Fq 'app.js?v=22' "$page" && ! grep -Fq 'app.js?v=23' "$page" && ! grep -Fq 'app.js?v=24' "$page"; then
+              if ! grep -Fq 'app.js?v=25' "$page"; then
                 echo "Versiune app.js invalidă în $page"
                 exit 1
               fi
