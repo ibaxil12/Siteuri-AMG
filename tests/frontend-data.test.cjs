@@ -8,7 +8,7 @@ const payload = {count: 1, items: [{title: 'Anul I', type: 'anunt', url: 'https:
 function context(fetch, decompression = true) {
   const document = {addEventListener(){}, dispatchEvent(){}, getElementById(){return null}, querySelectorAll(){return []}, body: {dataset: {page: 'home'}}};
   const window = {addEventListener(){}, ...(decompression ? {DecompressionStream} : {})};
-  const ctx = vm.createContext({document, window, fetch, Response, DecompressionStream, navigator: {}, localStorage: {getItem(){return null}}, console, URLSearchParams});
+  const ctx = vm.createContext({document, window, fetch, Response, DecompressionStream, TextDecoder, Blob, navigator: {}, localStorage: {getItem(){return null}}, console, URLSearchParams});
   vm.runInContext(readFileSync('docs/app.js', 'utf8'), ctx);
   return ctx;
 }
