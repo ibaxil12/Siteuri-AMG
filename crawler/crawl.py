@@ -35,7 +35,13 @@ SOURCES = [
 MAX_PAGES_PER_SOURCE = 400   # limită pentru crawl-ul clasic (nu pentru API-ul WordPress)
 MAX_TEXT = 1500              # caractere de text păstrate per pagină
 DELAY = 0.5                  # pauză între cereri (secunde), ca să nu încărcăm serverul
-TIMEOUT = 25\nQUICK_WP_PAGES = 2          # primele 200 elemente / endpoint la verificările dese\nCRAWL_MODE = os.environ.get("CRAWL_MODE", "full").strip().lower()\nif CRAWL_MODE not in {"quick", "full"}:\n    CRAWL_MODE = "full"\n\nUA = "Mozilla/5.0 (compatible; AMG-Search-Bot/1.0; proiect studentesc)"
+TIMEOUT = 25
+QUICK_WP_PAGES = 2          # primele 200 elemente / endpoint la verificările dese
+CRAWL_MODE = os.environ.get("CRAWL_MODE", "full").strip().lower()
+if CRAWL_MODE not in {"quick", "full"}:
+    CRAWL_MODE = "full"
+
+UA = "Mozilla/5.0 (compatible; AMG-Search-Bot/1.0; proiect studentesc)"
 OUT = Path(__file__).resolve().parent.parent / "docs" / "data.json.gz"
 
 session = requests.Session()
@@ -161,7 +167,9 @@ def wp_collect(name, base):
                 total = int(r.headers.get("X-WP-TotalPages", "1") or 1)
             except ValueError:
                 total = 1
-            page_limit = QUICK_WP_PAGES if CRAWL_MODE == "quick" else 50\n            if page >= total or page >= page_limit:\n                break
+            page_limit = QUICK_WP_PAGES if CRAWL_MODE == "quick" else 50
+            if page >= total or page >= page_limit:
+                break
             page += 1
             time.sleep(DELAY)
     return docs
@@ -215,7 +223,8 @@ def parse_page(name, url, markup):
     return make_doc(name, url, title, date, text, "pagina"), links
 
 
-def generic_collect(name, base):\n    host = urlparse(base).netloc.replace("www.", "")
+def generic_collect(name, base):
+    host = urlparse(base).netloc.replace("www.", "")
 
     rp = RobotFileParser()
     r = get(base + "/robots.txt")
@@ -233,7 +242,8 @@ def generic_collect(name, base):\n    host = urlparse(base).netloc.replace("www.
     seeds = sitemap_urls(base)
     queue = deque(seeds or [base])
     seen, docs, fetched = set(), [], 0
-    page_limit = min(MAX_PAGES_PER_SOURCE, 80) if CRAWL_MODE == "quick" else MAX_PAGES_PER_SOURCE\n    while queue and fetched < page_limit:
+    page_limit = min(MAX_PAGES_PER_SOURCE, 80) if CRAWL_MODE == "quick" else MAX_PAGES_PER_SOURCE
+    while queue and fetched < page_limit:
         url = canonical_url(queue.popleft())
         if url in seen or not url.startswith("http") or not same_site(url) or not allowed(url):
             continue
@@ -359,7 +369,10 @@ def main():
     payload = {
         "updated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "count": len(items),
-        "sources": [s["name"] for s in SOURCES],\n        "mode": CRAWL_MODE,\n        "source_status": source_status,\n        "items": items,
+        "sources": [s["name"] for s in SOURCES],
+        "mode": CRAWL_MODE,
+        "source_status": source_status,
+        "items": items,
     }
     raw = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     with gzip.open(OUT, "wb", compresslevel=9) as f:
