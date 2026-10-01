@@ -39,6 +39,8 @@ const iconPaths={
   book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5Z"/><path d="M4 6.5v13M8 8h8"/>',
   link:'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
   message:'<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/>',
+  help:'<circle cx="12" cy="12" r="9"/><path d="M9.7 9a2.4 2.4 0 1 1 3.8 2c-.9.6-1.5 1.1-1.5 2.3M12 17h.01"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>',
   menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
   arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
   calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',
@@ -78,9 +80,18 @@ function renderShell(){
     <button class="menu-btn" id="menuBtn" type="button" aria-label="Deschide meniul" aria-expanded="false">${svg("menu")}</button>
   </div></header>`;
 
+  if(!$("sideRail")){
+    document.body.insertAdjacentHTML("beforeend",`<nav class="side-rail" id="sideRail" aria-label="Acces rapid important">
+      <a href="linkuri.html" data-label="Linkuri"${page==="linkuri"?' class="active" aria-current="page"':""}>${svg("link")}<span>Linkuri</span></a>
+      <a href="faq.html" data-label="FAQ">${svg("help")}<span>FAQ</span></a>
+      <a href="feedback.html" data-label="Feedback"${page==="feedback"?' class="active" aria-current="page"':""}>${svg("message")}<span>Feedback</span></a>
+      <a href="admin-feedback.html" data-label="Admin">${svg("user")}<span>Admin</span></a>
+    </nav>`);
+  }
+
   $("siteFooter").innerHTML=`<footer class="footer"><div class="shell footer-row">
     <span>CampusMed · Proiect studențesc neoficial. Verifică informația pe site-ul sursă.</span>
-    <div class="footer-actions"><button class="footer-install" id="installApp" type="button" hidden>Instalează aplicația</button><a href="updates.html">Update-uri</a><a href="feedback.html">Trimite feedback</a><a class="admin-entry" href="admin-feedback.html">Admin</a></div>
+    <div class="footer-actions"><button class="footer-install" id="installApp" type="button" hidden>Instalează aplicația</button><a href="updates.html">Update-uri</a></div>
   </div></footer>`;
 
   $("mobileNav").innerHTML=`<nav class="bottom-nav" aria-label="Navigație mobilă">
