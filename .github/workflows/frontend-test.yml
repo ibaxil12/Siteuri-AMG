@@ -36,7 +36,7 @@ jobs:
           test -f docs/icon-192.png
           test -f docs/icon-512.png
           grep -q 'CampusMed' docs/manifest.webmanifest
-          grep -q 'campusmed-v33' docs/sw.js
+          grep -q 'campusmed-v35' docs/sw.js
       - name: Check page asset versions
         run: |
           for page in docs/*.html; do
@@ -47,7 +47,7 @@ jobs:
               fi
             fi
             if grep -Fq 'app.js?v=' "$page"; then
-              if ! grep -Fq 'app.js?v=21' "$page" && ! grep -Fq 'app.js?v=22' "$page"; then
+              if ! grep -Fq 'app.js?v=21' "$page" && ! grep -Fq 'app.js?v=22' "$page" && ! grep -Fq 'app.js?v=23' "$page"; then
                 echo "Versiune app.js invalidă în $page"
                 exit 1
               fi

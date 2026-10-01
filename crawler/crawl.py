@@ -35,9 +35,7 @@ SOURCES = [
 MAX_PAGES_PER_SOURCE = 400   # limită pentru crawl-ul clasic (nu pentru API-ul WordPress)
 MAX_TEXT = 1500              # caractere de text păstrate per pagină
 DELAY = 0.5                  # pauză între cereri (secunde), ca să nu încărcăm serverul
-TIMEOUT = 25
-
-UA = "Mozilla/5.0 (compatible; AMG-Search-Bot/1.0; proiect studentesc)"
+TIMEOUT = 25\nQUICK_WP_PAGES = 2          # primele 200 elemente / endpoint la verificările dese\nCRAWL_MODE = os.environ.get("CRAWL_MODE", "full").strip().lower()\nif CRAWL_MODE not in {"quick", "full"}:\n    CRAWL_MODE = "full"\n\nUA = "Mozilla/5.0 (compatible; AMG-Search-Bot/1.0; proiect studentesc)"
 OUT = Path(__file__).resolve().parent.parent / "docs" / "data.json.gz"
 
 session = requests.Session()
@@ -163,8 +161,7 @@ def wp_collect(name, base):
                 total = int(r.headers.get("X-WP-TotalPages", "1") or 1)
             except ValueError:
                 total = 1
-            if page >= total or page >= 50:
-                break
+            page_limit = QUICK_WP_PAGES if CRAWL_MODE == "quick" else 50\n            if page >= total or page >= page_limit:\n                break
             page += 1
             time.sleep(DELAY)
     return docs
@@ -218,8 +215,7 @@ def parse_page(name, url, markup):
     return make_doc(name, url, title, date, text, "pagina"), links
 
 
-def generic_collect(name, base):
-    host = urlparse(base).netloc.replace("www.", "")
+def generic_collect(name, base):\n    host = urlparse(base).netloc.replace("www.", "")
 
     rp = RobotFileParser()
     r = get(base + "/robots.txt")
@@ -237,7 +233,7 @@ def generic_collect(name, base):
     seeds = sitemap_urls(base)
     queue = deque(seeds or [base])
     seen, docs, fetched = set(), [], 0
-    while queue and fetched < MAX_PAGES_PER_SOURCE:
+    page_limit = min(MAX_PAGES_PER_SOURCE, 80) if CRAWL_MODE == "quick" else MAX_PAGES_PER_SOURCE\n    while queue and fetched < page_limit:
         url = canonical_url(queue.popleft())
         if url in seen or not url.startswith("http") or not same_site(url) or not allowed(url):
             continue
@@ -309,20 +305,40 @@ def main():
             continue
 
     items = []
+    source_status = []
+    print(f"Mod verificare: {CRAWL_MODE}", flush=True)
     for s in SOURCES:
         name, base = s["name"], s["url"].rstrip("/")
+        previous_docs = [d for d in old_items if d.get("source") == name]
         print(f"→ {name} ({base})", flush=True)
         docs = wp_collect(name, base)
         method = "wp-api"
         if not any(d["type"] != "document" for d in docs):
             docs = generic_collect(name, base)
             method = "crawl"
+        fresh_count = len(docs)
+        used_cache = False
         if not docs:
-            docs = [d for d in old_items if d.get("source") == name]
+            docs = previous_docs
             method = "păstrat din rularea anterioară"
+            used_cache = True
+        elif CRAWL_MODE == "quick" and previous_docs:
+            # Verificarea rapidă citește doar partea cea mai nouă a sursei.
+            # Combinăm rezultatele proaspete cu indexul anterior ca să nu pierdem istoricul.
+            merged = {d["url"]: d for d in previous_docs}
+            merged.update({d["url"]: d for d in docs})
+            docs = list(merged.values())
+            method += " + index anterior"
         if s.get("filter"):
             docs = [d for d in docs if d.get("spec") or STUDENT_RE.search(fold(d["title"] + " " + unquote(d["url"])))]
-        print(f"  {len(docs)} intrări ({method})", flush=True)
+        print(f"  {len(docs)} intrări ({method}; {fresh_count} citite acum)", flush=True)
+        source_status.append({
+            "name": name,
+            "method": method,
+            "fresh_count": fresh_count,
+            "total_count": len(docs),
+            "used_cache": used_cache,
+        })
         items += docs
 
     uniq = {}
@@ -343,8 +359,7 @@ def main():
     payload = {
         "updated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "count": len(items),
-        "sources": [s["name"] for s in SOURCES],
-        "items": items,
+        "sources": [s["name"] for s in SOURCES],\n        "mode": CRAWL_MODE,\n        "source_status": source_status,\n        "items": items,
     }
     raw = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     with gzip.open(OUT, "wb", compresslevel=9) as f:

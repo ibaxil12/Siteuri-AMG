@@ -18,9 +18,34 @@ class CrawlTests(unittest.TestCase):
                 crawl.main()
             plain = out.with_suffix("").read_bytes()
             self.assertEqual(plain, gzip.decompress(out.read_bytes()))
-            payload = json.loads(plain)
-            self.assertEqual(payload["count"], 1)
+            payload = json.loads(plain)\n            self.assertEqual(payload["mode"], "full")\n            self.assertEqual(payload["source_status"][0]["used_cache"], False)\n            self.assertEqual(payload["count"], 1)
             self.assertEqual(payload["items"], [doc])
+
+    def test_quick_mode_merges_fresh_items_with_previous_index(self):
+        old = make_doc("Test", "https://example.com/old", "Vechi", "2026-09-29", "Text", "anunt")
+        fresh = make_doc("Test", "https://example.com/new", "Nou", "2026-10-01", "Text", "anunt")
+        with tempfile.TemporaryDirectory() as directory:
+            out = Path(directory) / "data.json.gz"
+            previous = {"updated": "2026-09-30T05:00:00+00:00", "count": 1, "items": [old]}
+            out.with_suffix("").write_text(json.dumps(previous), encoding="utf-8")
+            with patch.object(crawl, "OUT", out), patch.object(crawl, "CRAWL_MODE", "quick"), patch.object(crawl, "SOURCES", [{"name": "Test", "url": "https://example.com"}]), patch.object(crawl, "wp_collect", return_value=[fresh]):
+                crawl.main()
+            payload = json.loads(out.with_suffix("").read_text("utf-8"))
+            self.assertEqual(payload["mode"], "quick")
+            self.assertEqual(payload["count"], 2)
+            self.assertEqual({x["url"] for x in payload["items"]}, {old["url"], fresh["url"]})
+            self.assertEqual(payload["source_status"][0]["fresh_count"], 1)
+
+    def test_failed_source_keeps_previous_data_and_marks_cache(self):
+        old = make_doc("Test", "https://example.com/old", "Vechi", "2026-09-29", "Text", "anunt")
+        with tempfile.TemporaryDirectory() as directory:
+            out = Path(directory) / "data.json.gz"
+            out.with_suffix("").write_text(json.dumps({"items": [old]}), encoding="utf-8")
+            with patch.object(crawl, "OUT", out), patch.object(crawl, "CRAWL_MODE", "quick"), patch.object(crawl, "SOURCES", [{"name": "Test", "url": "https://example.com"}]), patch.object(crawl, "wp_collect", return_value=[]), patch.object(crawl, "generic_collect", return_value=[]):
+                crawl.main()
+            payload = json.loads(out.with_suffix("").read_text("utf-8"))
+            self.assertEqual(payload["items"], [old])
+            self.assertTrue(payload["source_status"][0]["used_cache"])
 
     def test_canonical_url_removes_tracking_and_fragment(self):
         url = "https://Example.com/anunt/?utm_source=test&fbclid=123&id=42#sectiune"

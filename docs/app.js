@@ -201,7 +201,7 @@ function bindProgramRefresh(fn){document.addEventListener("programchange",()=>{s
 function updateHomeDataCheck(){
   const box=$("crawlCheck"),label=$("dataLastChecked");if(!box||!label)return;
   const d=new Date(DATA_META.updated||"");if(Number.isNaN(d.getTime())){box.dataset.state="error";label.textContent="Ultima verificare indisponibilă";return}
-  const age=Date.now()-d.getTime(),hours=age/36e5;box.dataset.state=hours<=36?"ok":hours<=72?"warn":"error";
+  const age=Date.now()-d.getTime(),hours=age/36e5;box.dataset.state=hours<=6?"ok":hours<=12?"warn":"error";
   const exact=d.toLocaleString("ro-RO",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});
   let relative=age<6e4?"acum":age<36e5?"acum "+Math.max(1,Math.floor(age/6e4))+" min":age<864e5?"acum "+Math.floor(age/36e5)+" h":"acum "+Math.floor(age/864e5)+" zile";
   label.textContent="Ultima verificare: "+exact+" · "+relative;
@@ -356,6 +356,6 @@ async function init(){
     });
     console.error(e);
   }
-  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=33",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
+  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=35",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
 }
 document.addEventListener("DOMContentLoaded",init);
