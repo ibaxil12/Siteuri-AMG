@@ -1468,3 +1468,11 @@ body.theme-campusmed.theme-dark .admin-page .admin-login,body.theme-campusmed.th
   .admin-page .admin-heading{align-items:flex-start;flex-direction:column}
   .admin-page .admin-heading .secondary-btn{align-self:flex-start}
 }
+
+
+/* === Theme preflight v38 === */
+html[data-theme="light"]{color-scheme:light;--bg:#f8fafb;--surface:#fff;--surface-2:#f2f5f7;--text:#172832;--muted:#60717c;--line:#dce4e8;--brand:#d62935;--brand-strong:#ad1723;--brand-soft:#fff0f1;--success:#11734b;--shadow:0 8px 24px rgba(23,40,50,.065);--shadow-hover:0 14px 34px rgba(23,40,50,.1)}
+html[data-theme="dark"]{color-scheme:dark;--bg:#110d0f;--surface:#1b1417;--surface-2:#25191d;--text:#fff4f5;--muted:#c9aeb2;--line:#493038;--brand:#ff5f69;--brand-strong:#ff7b83;--brand-soft:#442127;--success:#65d59d;--shadow:0 10px 30px rgba(0,0,0,.28);--shadow-hover:0 16px 38px rgba(0,0,0,.36)}
+.status-source.status-warning .status-dot{background:#d89523;box-shadow:0 0 0 4px color-mix(in srgb,#d89523 14%,transparent)}
+.status-source.status-warning strong{color:#b57714}
+body.theme-campusmed.theme-dark .status-source.status-warning strong{color:#f0b95b}

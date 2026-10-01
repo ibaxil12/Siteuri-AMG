@@ -74,8 +74,8 @@ def canonical_url(url):
     if not url:
         return ""
     p = urlparse(url)
-    tracking = {"utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "fbclid"}
-    query = [(k, v) for k, v in parse_qsl(p.query, keep_blank_values=True) if k.lower() not in tracking]
+    tracking = {"utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "utm_id", "gclid", "fbclid", "mc_cid", "mc_eid"}
+    query = sorted((k, v) for k, v in parse_qsl(p.query, keep_blank_values=True) if k.lower() not in tracking)
     path = p.path or "/"
     if path != "/":
         path = path.rstrip("/")

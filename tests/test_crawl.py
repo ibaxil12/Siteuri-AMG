@@ -54,6 +54,7 @@ class CrawlTests(unittest.TestCase):
     def test_canonical_url_removes_tracking_and_fragment(self):
         url = "https://Example.com/anunt/?utm_source=test&fbclid=123&id=42#sectiune"
         self.assertEqual(canonical_url(url), "https://example.com/anunt?id=42")
+        self.assertEqual(canonical_url("https://example.com/a?z=2&utm_id=x&a=1"), "https://example.com/a?a=1&z=2")
 
     def test_program_detection(self):
         self.assertEqual(programs("Anunț AMG", "")[0], ["AMG"])
