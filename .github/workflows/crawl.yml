@@ -1,7 +1,11 @@
 name: Actualizare index
 
 on:
-  schedule:\n    # Verificare rapidă la fiecare 3 ore (minute decalate pentru a evita aglomerația GitHub Actions).\n    - cron: "17 */3 * * *"\n    # Reconstrucție completă zilnică.\n    - cron: "47 2 * * *"
+  schedule:
+    # Verificare rapidă la fiecare 3 ore.
+    - cron: "17 */3 * * *"
+    # Reconstrucție completă zilnică.
+    - cron: "47 2 * * *"
   workflow_dispatch:
   push:
     paths:
