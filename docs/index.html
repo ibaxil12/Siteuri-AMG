@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=29">
+<link rel="stylesheet" href="style.css?v=30">
 </head>
 <body data-page="home">
 <a class="skip" href="#main">Sari la conținut</a>
@@ -47,9 +47,15 @@
   </div>
 </div></section>
 
-<section class="section-compact home-priority"><div class="shell">
-  <div class="section-actions"><div><span class="eyebrow">Acum</span><h2>Important pentru studenți</h2><p class="count">Cele mai relevante informații recente.</p></div><a class="text-action" href="anunturi.html">Toate anunțurile →</a></div>
-  <ol class="results home-news priority-list" id="importantNow"><li class="empty">Se încarcă…</li></ol>
+<section class="section-compact home-priority home-announcements"><div class="shell">
+  <div class="announcement-panel">
+    <div class="announcement-head">
+      <div class="announcement-title"><span class="eyebrow">Anunțuri</span><h2>Ce e important acum</h2><p class="count" id="announcementSummary">Se încarcă anunțurile…</p></div>
+      <div class="crawl-check" id="crawlCheck" data-state="loading" title="Momentul ultimei actualizări automate a indexului"><span class="crawl-check-dot" aria-hidden="true"></span><span class="crawl-check-copy"><small>Verificare automată</small><strong id="dataLastChecked">Se verifică…</strong></span></div>
+    </div>
+    <ol class="results home-news priority-list" id="importantNow"><li class="empty">Se încarcă…</li></ol>
+    <div class="announcement-foot"><a class="text-action" href="anunturi.html">Vezi toate anunțurile →</a></div>
+  </div>
 </div></section>
 
 <section class="section-compact home-personal"><div class="shell">
@@ -65,4 +71,4 @@
   <div class="updates-preview-grid home-updates-compact"><div><h3>Ultimul update</h3><div id="homeUpdates" class="update-mini-list"><div class="empty">Se încarcă…</div></div></div><div><h3>În plan</h3><div id="homeRoadmap" class="update-mini-list"><div class="empty">Se încarcă…</div></div></div></div>
   <div class="portal-secondary-links home-secondary-links"><span>Ai o sugestie?</span><a href="feedback.html">Trimite feedback →</a><span class="portal-secondary-sep">·</span><a href="admin-feedback.html">Admin</a></div>
 </div></section>
-</main><div id="siteFooter"></div><div id="mobileNav"></div><div id="drawerRoot"></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js?v=1"></script><script src="updates.js?v=2"></script><script src="app.js?v=21" defer></script></body></html>
+</main><div id="siteFooter"></div><div id="mobileNav"></div><div id="drawerRoot"></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js?v=1"></script><script src="updates.js?v=2"></script><script src="app.js?v=22" defer></script></body></html>

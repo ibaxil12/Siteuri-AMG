@@ -198,10 +198,18 @@ function bindMore(itemsProvider){
 }
 function bindProgramRefresh(fn){document.addEventListener("programchange",()=>{shown=PAGE_SIZE;fn()})}
 
+function updateHomeDataCheck(){
+  const box=$("crawlCheck"),label=$("dataLastChecked");if(!box||!label)return;
+  const d=new Date(DATA_META.updated||"");if(Number.isNaN(d.getTime())){box.dataset.state="error";label.textContent="Ultima verificare indisponibilă";return}
+  const age=Date.now()-d.getTime(),hours=age/36e5;box.dataset.state=hours<=36?"ok":hours<=72?"warn":"error";
+  const exact=d.toLocaleString("ro-RO",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});
+  let relative=age<6e4?"acum":age<36e5?"acum "+Math.max(1,Math.floor(age/6e4))+" min":age<864e5?"acum "+Math.floor(age/36e5)+" h":"acum "+Math.floor(age/864e5)+" zile";
+  label.textContent="Ultima verificare: "+exact+" · "+relative;
+}
 async function initHome(){
-  const data=await loadData();
+  const data=await loadData();updateHomeDataCheck();
   const refresh=()=>{
-    const announcements=data.filter(d=>inProgram(d)&&d.type==="anunt").sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+    const announcements=data.filter(d=>inProgram(d)&&d.type==="anunt").sort((a,b)=>(b.date||"").localeCompare(a.date||""));const summary=$("announcementSummary");if(summary)summary.textContent=announcements.length+" anunțuri indexate · afișăm cele mai relevante 3";
     const importantWords=["urgent","important","examen","restant","bursa","tax","practica","orar","sesiune"];
     const important=announcements.filter(d=>importantWords.some(w=>d._t.includes(w)||d._b.includes(w))).slice(0,3);
     renderList(important.length?important:announcements.slice(0,3),"importantNow",3);
