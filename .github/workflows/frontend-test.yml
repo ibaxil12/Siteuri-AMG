@@ -42,7 +42,7 @@ jobs:
         run: |
           for page in docs/*.html; do
             if grep -Fq 'style.css?v=' "$page"; then
-              if ! grep -Fq 'style.css?v=28' "$page" && ! grep -Fq 'style.css?v=29' "$page" && ! grep -Fq 'style.css?v=30' "$page" && ! grep -Fq 'style.css?v=31' "$page" && ! grep -Fq 'style.css?v=32' "$page"; then
+              if ! grep -Fq 'style.css?v=33' "$page"; then
                 echo "CSS vechi în $page"
                 exit 1
               fi
