@@ -3,12 +3,22 @@ name: Test frontend
 on:
   push:
     paths:
-      - "docs/**"
+      - "docs/*.html"
+      - "docs/*.js"
+      - "docs/*.css"
+      - "docs/*.webmanifest"
+      - "docs/*.png"
+      - "docs/.nojekyll"
       - "tests/frontend-*.test.cjs"
       - ".github/workflows/frontend-test.yml"
   pull_request:
     paths:
-      - "docs/**"
+      - "docs/*.html"
+      - "docs/*.js"
+      - "docs/*.css"
+      - "docs/*.webmanifest"
+      - "docs/*.png"
+      - "docs/.nojekyll"
       - "tests/frontend-*.test.cjs"
       - ".github/workflows/frontend-test.yml"
 

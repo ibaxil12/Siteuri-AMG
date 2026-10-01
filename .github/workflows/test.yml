@@ -4,13 +4,13 @@ on:
   push:
     paths:
       - "crawler/**"
-      - "tests/**"
+      - "tests/test_crawl.py"
       - "requirements.txt"
       - ".github/workflows/test.yml"
   pull_request:
     paths:
       - "crawler/**"
-      - "tests/**"
+      - "tests/test_crawl.py"
       - "requirements.txt"
 
 permissions:
