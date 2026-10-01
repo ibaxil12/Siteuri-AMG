@@ -308,7 +308,7 @@ async function initFirstYear(){
       const data=await loadData();
       const yearWords=/\b(anul\s*(i|1)|an\s*(i|1)|boboc|boboci|grup|orar|burs|cazare|tax|practic)/i;
       const items=data.filter(d=>inProgram(d)&&(d.type==="anunt"||d.spec)&&yearWords.test((d.title||"")+" "+(d.text||""))).sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,6);
-      renderList(box,items,"Nu sunt încă anunțuri specifice identificate pentru Anul I.");
+      renderList(items,box.id,6);
     }catch{box.innerHTML='<li class="empty">Nu am putut încărca anunțurile.</li>'}
   }
   document.querySelectorAll("[data-firstyear-check]").forEach(input=>{
@@ -323,7 +323,7 @@ async function initFirstYearNewsOnly(box){
     const data=await loadData();
     const re=/\b(anul\s*(i|1)|an\s*(i|1)|boboc|boboci|grup|orar|burs|cazare|tax|practic)/i;
     const items=data.filter(d=>inProgram(d)&&(d.type==="anunt"||d.spec)&&re.test((d.title||"")+" "+(d.text||""))).sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,6);
-    renderList(box,items,"Nu sunt încă anunțuri specifice identificate pentru Anul I.");
+    renderList(items,box.id,6);
   }catch{}
 }
 async function init(){
@@ -340,7 +340,14 @@ async function init(){
     if(page==="feedback")initFeedback();
   if(page==="anul1")initFirstYear();
     if(!DATA.length&&["calendar","feedback","faq"].includes(page)===false)await loadData();
-  }catch(e){const c=$("count");if(c)c.textContent="Datele nu au putut fi încărcate.";console.error(e)}
-  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=32",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
+  }catch(e){
+    const message="Datele nu au putut fi încărcate. Reîncarcă pagina pentru a încerca din nou.";
+    const c=$("count");if(c)c.textContent=message;
+    document.querySelectorAll("ol.results").forEach(box=>{
+      if(box.querySelector(".empty"))box.innerHTML=`<li class="empty">${message}</li>`;
+    });
+    console.error(e);
+  }
+  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=33",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
 }
 document.addEventListener("DOMContentLoaded",init);

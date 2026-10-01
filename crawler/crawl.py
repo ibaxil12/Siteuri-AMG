@@ -4,7 +4,7 @@
 Strategie, pentru fiecare sursă din SOURCES:
   1. Dacă site-ul e WordPress, folosește API-ul public /wp-json (rapid, curat).
   2. Altfel citește sitemap-ul, iar dacă nu există, urmărește linkurile din prima pagină.
-Rezultatul se scrie în docs/data.json, folosit de pagina de căutare.
+Rezultatul se scrie în docs/data.json și docs/data.json.gz, folosite de frontend.
 """
 import html
 import gzip
@@ -349,6 +349,7 @@ def main():
     raw = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     with gzip.open(OUT, "wb", compresslevel=9) as f:
         f.write(raw)
+    OUT.with_suffix("").write_bytes(raw)
     print(f"Gata: {len(items)} intrări în {OUT} ({len(raw):,} bytes necomprimat)")
 
 

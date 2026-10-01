@@ -4,10 +4,12 @@ on:
   push:
     paths:
       - "docs/**"
+      - "tests/frontend-data.test.cjs"
       - ".github/workflows/frontend-test.yml"
   pull_request:
     paths:
       - "docs/**"
+      - "tests/frontend-data.test.cjs"
       - ".github/workflows/frontend-test.yml"
 
 permissions:
@@ -18,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Test data loading and rendering
+        run: node --test tests/frontend-data.test.cjs
       - name: Check JavaScript syntax
         run: |
           node --check docs/app.js
@@ -32,7 +36,7 @@ jobs:
           test -f docs/icon-192.png
           test -f docs/icon-512.png
           grep -q 'CampusMed' docs/manifest.webmanifest
-          grep -q 'campusmed-v32' docs/sw.js
+          grep -q 'campusmed-v33' docs/sw.js
       - name: Check page asset versions
         run: |
           for page in docs/*.html; do
@@ -43,7 +47,7 @@ jobs:
               fi
             fi
             if grep -Fq 'app.js?v=' "$page"; then
-              if ! grep -Fq 'app.js?v=18' "$page" && ! grep -Fq 'app.js?v=19' "$page" && ! grep -Fq 'app.js?v=20' "$page"; then
+              if ! grep -Fq 'app.js?v=21' "$page"; then
                 echo "Versiune app.js invalidă în $page"
                 exit 1
               fi
