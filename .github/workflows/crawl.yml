@@ -56,6 +56,25 @@ jobs:
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
 
+      - name: Validează indexul generat
+        run: |
+          python - <<'PY'
+          import gzip, json
+          from pathlib import Path
+          plain = json.loads(Path("docs/data.json").read_text(encoding="utf-8"))
+          zipped = json.loads(gzip.decompress(Path("docs/data.json.gz").read_bytes()).decode("utf-8"))
+          assert plain == zipped, "JSON și GZIP nu conțin aceleași date"
+          items = plain.get("items", [])
+          assert len(items) >= 100, "Index suspect de mic"
+          assert plain.get("count") == len(items), "Count invalid"
+          assert plain.get("updated"), "Lipsește timestamp-ul"
+          assert plain.get("mode") in {"quick", "full"}, "Mod crawl invalid"
+          assert len({x.get("url") for x in items}) == len(items), "URL-uri duplicate"
+          status = plain.get("source_status", [])
+          assert status and all(x.get("total_count", 0) > 0 for x in status), "Status surse invalid"
+          print(f"Index valid: {len(items)} elemente, mod {plain['mode']}")
+          PY
+
       - name: Salvează ambele variante ale indexului
         id: save
         run: |
