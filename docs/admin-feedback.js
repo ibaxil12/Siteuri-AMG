@@ -1,5 +1,5 @@
 (()=>{"use strict";
-const uiTheme=localStorage.getItem("uiTheme")==="dark"?"dark":"light";
+const uiTheme=document.documentElement.dataset.theme==="dark"?"dark":"light";
 document.documentElement.dataset.theme=uiTheme;
 document.body.classList.add("theme-"+uiTheme);
 document.documentElement.style.colorScheme=uiTheme;

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script data-theme-preflight>try{document.documentElement.dataset.theme=localStorage.getItem("uiTheme")==="dark"?"dark":"light"}catch{document.documentElement.dataset.theme="light"}</script>
+<script data-theme-preflight>try{const m=localStorage.getItem("uiTheme");document.documentElement.dataset.theme=m==="dark"||(!["light","dark"].includes(m)&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";const p=localStorage.getItem("uiPalette");document.documentElement.dataset.palette=["medical","ocean","emerald","lavender","sunset","graphite","contrast"].includes(p)?p:"medical"}catch{document.documentElement.dataset.theme="light";document.documentElement.dataset.palette="medical"}</script>
 <meta name="theme-color" content="#f8fafb">
 <meta name="description" content="Examene, restanțe, burse, taxe și practică pentru studenții AMG și Tehnică Dentară.">
 <link rel="canonical" href="https://ibaxil12.github.io/Siteuri-AMG/utile.html">
@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=33">
+<link rel="stylesheet" href="style.css?v=34">
 </head>
 <body data-page="utile">
 <a class="skip" href="#main">Sari la conținut</a>
@@ -25,4 +25,4 @@
 <div class="topic-grid"><button class="topic-btn active" type="button" data-topic="examen">Examene</button><button class="topic-btn" type="button" data-topic="restante">Restanțe</button><button class="topic-btn" type="button" data-topic="burse">Burse</button><button class="topic-btn" type="button" data-topic="taxe">Taxe</button><button class="topic-btn" type="button" data-topic="practica">Practică</button></div>
 <div class="page-panel"><div class="section-actions"><h2 id="usefulTitle">Examene</h2><p class="count" id="count">Se încarcă…</p></div><ol class="results" id="results"></ol><button class="secondary-btn more" id="more" type="button" hidden>Arată mai multe</button></div>
 </div></section>
-</main><div id="siteFooter"></div><div id="mobileNav"></div><div id="drawerRoot"></div><script src="app.js?v=25" defer></script></body></html>
+</main><div id="siteFooter"></div><div id="mobileNav"></div><div id="drawerRoot"></div><script src="app.js?v=26" defer></script></body></html>

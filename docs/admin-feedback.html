@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <script data-theme-preflight>try{document.documentElement.dataset.theme=localStorage.getItem("uiTheme")==="dark"?"dark":"light"}catch{document.documentElement.dataset.theme="light"}</script>
+  <script data-theme-preflight>try{const m=localStorage.getItem("uiTheme");document.documentElement.dataset.theme=m==="dark"||(!["light","dark"].includes(m)&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";const p=localStorage.getItem("uiPalette");document.documentElement.dataset.palette=["medical","ocean","emerald","lavender","sunset","graphite","contrast"].includes(p)?p:"medical"}catch{document.documentElement.dataset.theme="light";document.documentElement.dataset.palette="medical"}</script>
   <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#f8fafb">
   <title>Admin · CampusMed</title>
-  <link rel="stylesheet" href="style.css?v=33">
+  <link rel="stylesheet" href="style.css?v=34">
 </head>
 <body class="admin-page theme-campusmed">
 <main class="admin-main">
@@ -82,5 +82,5 @@
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js?v=1"></script>
-<script src="admin-feedback.js?v=6"></script>
+<script src="admin-feedback.js?v=7"></script>
 </body></html>

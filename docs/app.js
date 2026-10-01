@@ -50,23 +50,35 @@ const iconPaths={
 function svg(name){return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${iconPaths[name]||iconPaths.arrow}</svg>`}
 
 function currentPage(){return document.body.dataset.page||"home"}
-function getUiTheme(){return ls.get("uiTheme")==="dark"?"dark":"light"}
+const PALETTES=[{"id":"medical","name":"Medical","color":"#0f766e"},{"id":"ocean","name":"Ocean","color":"#1d4ed8"},{"id":"emerald","name":"Smarald","color":"#166534"},{"id":"lavender","name":"Lavandă","color":"#6d28d9"},{"id":"sunset","name":"Apus","color":"#9a3412"},{"id":"graphite","name":"Grafit","color":"#475569"},{"id":"contrast","name":"Contrast ridicat","color":"#000000"}];
+function getUiTheme(){const mode=ls.get("uiTheme");return ["light","dark","auto"].includes(mode)?mode:"auto"}
+function getPalette(){const id=ls.get("uiPalette");return PALETTES.some(p=>p.id===id)?id:"medical"}
 function applyTheme(mode=getUiTheme()){
-  const theme=mode==="dark"?"dark":"light";
+  const theme=mode==="auto"?(window.matchMedia?.("(prefers-color-scheme: dark)").matches?"dark":"light"):mode==="dark"?"dark":"light";
   document.body.classList.remove("theme-amg","theme-td","theme-light","theme-dark");
   document.body.classList.add("theme-campusmed","theme-"+theme);
-  document.documentElement.style.colorScheme=theme;document.documentElement.dataset.theme=theme;
-  const themeMeta=document.querySelector('meta[name="theme-color"]');
-  if(themeMeta)themeMeta.setAttribute("content",theme==="dark"?"#110d0f":"#f8fafb");
-  document.querySelectorAll("[data-ui-theme]").forEach(b=>{
-    const on=b.dataset.uiTheme===theme;
-    b.classList.toggle("on",on);
-    b.setAttribute("aria-pressed",String(on));
-  });
+  document.documentElement.style.colorScheme=theme;
+  document.documentElement.dataset.theme=theme;
+  document.documentElement.dataset.palette=getPalette();
+  const meta=document.querySelector('meta[name="theme-color"]');
+  if(meta)meta.setAttribute("content",theme==="dark"?"#101820":"#f8fafb");
+  document.querySelectorAll("[data-ui-theme]").forEach(b=>{const on=b.dataset.uiTheme===mode;b.classList.toggle("on",on);b.setAttribute("aria-pressed",String(on))});
+  document.querySelectorAll("[data-palette-choice]").forEach(b=>{const on=b.dataset.paletteChoice===getPalette();b.classList.toggle("on",on);b.setAttribute("aria-pressed",String(on))});
 }
-function setUiTheme(mode){
-  ls.set("uiTheme",mode==="dark"?"dark":"light");
-  applyTheme(mode);
+function setUiTheme(mode){ls.set("uiTheme",["light","dark","auto"].includes(mode)?mode:"auto");applyTheme()}
+window.matchMedia?.("(prefers-color-scheme: dark)").addEventListener("change",()=>{if(getUiTheme()==="auto")applyTheme()});
+function appearanceMarkup(){
+  return '<button type="button" class="appearance-trigger" data-open-appearance aria-haspopup="dialog">◐ <span>Aspect</span></button>';
+}
+function initAppearance(){
+  if(!$("appearanceDialog"))document.body.insertAdjacentHTML("beforeend",`<dialog id="appearanceDialog" class="appearance-dialog" aria-labelledby="appearanceTitle"><div class="appearance-heading"><div><h2 id="appearanceTitle">Aspectul tău</h2><p>Alege culorile care îți plac.</p></div><button type="button" id="appearanceClose" aria-label="Închide setările de aspect">✕</button></div><h3>Mod de afișare</h3><div class="appearance-modes" role="group" aria-label="Mod de afișare"><button type="button" data-ui-theme="light">Luminos</button><button type="button" data-ui-theme="dark">Întunecat</button><button type="button" data-ui-theme="auto">Automat</button></div><h3>Paletă de culori</h3><div class="appearance-palettes" role="group" aria-label="Paletă de culori">${PALETTES.map(p=>`<button type="button" data-palette-choice="${p.id}" style="--swatch:${p.color}"><span class="palette-swatch" aria-hidden="true"></span><span>${p.name}</span><span class="palette-check" aria-hidden="true">✓</span></button>`).join("")}</div><div class="appearance-preview"><span class="badge">Previzualizare</span><strong>CampusMed, în culorile tale</strong><p>Anunțuri și informații ușor de citit.</p></div><p class="appearance-note">Alegerea se salvează automat pe acest dispozitiv.</p></dialog>`);
+  const dialog=$("appearanceDialog");
+  document.querySelectorAll("[data-open-appearance]").forEach(b=>b.onclick=()=>dialog.showModal());
+  $("appearanceClose").onclick=()=>dialog.close();
+  dialog.addEventListener("click",e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});
+  document.querySelectorAll("[data-ui-theme]").forEach(b=>b.onclick=()=>setUiTheme(b.dataset.uiTheme));
+  document.querySelectorAll("[data-palette-choice]").forEach(b=>b.onclick=()=>{ls.set("uiPalette",b.dataset.paletteChoice);applyTheme()});
+  applyTheme();
 }
 function renderShell(){
   const page=currentPage();
@@ -74,7 +86,7 @@ function renderShell(){
   $("siteHeader").innerHTML=`<header class="site-header"><div class="shell header-row">
     <a class="brand" href="index.html" aria-label="CampusMed, pagina principală"><span class="brand-mark">C+</span><span>CampusMed</span></a>
     <nav class="desktop-nav" aria-label="Navigație principală">${nav}</nav>
-    <div class="theme-switch" role="group" aria-label="Temă site"><button type="button" data-ui-theme="light">Light</button><button type="button" data-ui-theme="dark">Dark</button></div>
+    ${appearanceMarkup()}
     <button class="menu-btn" id="menuBtn" type="button" aria-label="Deschide meniul" aria-expanded="false">${svg("menu")}</button>
   </div></header>`;
 
@@ -101,10 +113,10 @@ function renderShell(){
 
   $("drawerRoot").innerHTML=`<div class="drawer-backdrop" id="drawerBackdrop"></div>
   <aside class="drawer" id="drawer" aria-label="Meniu mobil"><div class="drawer-head"><strong>Meniu</strong><button class="drawer-close" id="drawerClose" type="button" aria-label="Închide meniul">✕</button></div>
-  <div class="drawer-theme"><span>Temă</span><div class="theme-switch" role="group" aria-label="Temă site"><button type="button" data-ui-theme="light">Light</button><button type="button" data-ui-theme="dark">Dark</button></div></div>
+  <div class="drawer-theme"><span>Temă</span>${appearanceMarkup()}</div>
   <nav>${nav}<a href="anul1.html"${page==="anul1"?' class="active" aria-current="page"':""}>Anul I · Start aici</a><a href="linkuri.html"${page==="linkuri"?' class="active" aria-current="page"':""}>Linkuri oficiale</a><a href="faq.html"${page==="faq"?' class="active" aria-current="page"':""}>FAQ / Pentru boboci</a><a href="feedback.html"${page==="feedback"?' class="active" aria-current="page"':""}>Trimite feedback</a><a href="admin-feedback.html">Admin</a><a href="calendar.html"${page==="calendar"?' class="active" aria-current="page"':""}>Calendar academic</a><a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a></nav></aside>`;
 
-  applyTheme();
+  initAppearance();
   document.querySelectorAll("[data-ui-theme]").forEach(b=>b.onclick=()=>setUiTheme(b.dataset.uiTheme));
   const open=()=>{$("drawer").classList.add("open");$("drawerBackdrop").classList.add("open");document.body.classList.add("drawer-open");$("menuBtn").setAttribute("aria-expanded","true")};
   const close=()=>{$("drawer").classList.remove("open");$("drawerBackdrop").classList.remove("open");document.body.classList.remove("drawer-open");$("menuBtn").setAttribute("aria-expanded","false")};
@@ -370,6 +382,6 @@ async function init(){
     });
     console.error(e);
   }
-  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=40",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
+  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=41",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
 }
 document.addEventListener("DOMContentLoaded",init);
