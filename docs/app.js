@@ -20,8 +20,6 @@ const PAGES=[
   ["cautare","cautare.html","Căutare"],
   ["documente","documente.html","Documente"],
   ["utile","utile.html","Utile"],
-  ["linkuri","linkuri.html","Linkuri"],
-  ["feedback","feedback.html","Feedback"],
   ["updates","updates.html","Update-uri"]
 ];
 
@@ -57,7 +55,7 @@ function applyTheme(mode=getUiTheme()){
   const theme=mode==="dark"?"dark":"light";
   document.body.classList.remove("theme-amg","theme-td","theme-light","theme-dark");
   document.body.classList.add("theme-campusmed","theme-"+theme);
-  document.documentElement.style.colorScheme=theme;
+  document.documentElement.style.colorScheme=theme;document.documentElement.dataset.theme=theme;
   const themeMeta=document.querySelector('meta[name="theme-color"]');
   if(themeMeta)themeMeta.setAttribute("content",theme==="dark"?"#110d0f":"#f8fafb");
   document.querySelectorAll("[data-ui-theme]").forEach(b=>{
@@ -83,7 +81,7 @@ function renderShell(){
   if(!$("sideRail")){
     document.body.insertAdjacentHTML("beforeend",`<nav class="side-rail" id="sideRail" aria-label="Acces rapid important">
       <a href="linkuri.html" data-label="Linkuri"${page==="linkuri"?' class="active" aria-current="page"':""}>${svg("link")}<span>Linkuri</span></a>
-      <a href="faq.html" data-label="FAQ">${svg("help")}<span>FAQ</span></a>
+      <a href="faq.html" data-label="FAQ"${page==="faq"?' class="active" aria-current="page"':""}>${svg("help")}<span>FAQ</span></a>
       <a href="feedback.html" data-label="Feedback"${page==="feedback"?' class="active" aria-current="page"':""}>${svg("message")}<span>Feedback</span></a>
       <a href="admin-feedback.html" data-label="Admin">${svg("user")}<span>Admin</span></a>
     </nav>`);
@@ -104,7 +102,7 @@ function renderShell(){
   $("drawerRoot").innerHTML=`<div class="drawer-backdrop" id="drawerBackdrop"></div>
   <aside class="drawer" id="drawer" aria-label="Meniu mobil"><div class="drawer-head"><strong>Meniu</strong><button class="drawer-close" id="drawerClose" type="button" aria-label="Închide meniul">✕</button></div>
   <div class="drawer-theme"><span>Temă</span><div class="theme-switch" role="group" aria-label="Temă site"><button type="button" data-ui-theme="light">Light</button><button type="button" data-ui-theme="dark">Dark</button></div></div>
-  <nav>${nav}<a href="anul1.html"${page==="anul1"?' class="active" aria-current="page"':""}>Anul I · Start aici</a><a href="updates.html"${page==="updates"?' class="active" aria-current="page"':""}>Update-uri & Roadmap</a><a href="admin-feedback.html">Admin feedback</a><a href="calendar.html">Calendar academic</a><a href="faq.html">FAQ / Pentru boboci</a><a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a></nav></aside>`;
+  <nav>${nav}<a href="anul1.html"${page==="anul1"?' class="active" aria-current="page"':""}>Anul I · Start aici</a><a href="linkuri.html"${page==="linkuri"?' class="active" aria-current="page"':""}>Linkuri oficiale</a><a href="faq.html"${page==="faq"?' class="active" aria-current="page"':""}>FAQ / Pentru boboci</a><a href="feedback.html"${page==="feedback"?' class="active" aria-current="page"':""}>Trimite feedback</a><a href="admin-feedback.html">Admin</a><a href="calendar.html"${page==="calendar"?' class="active" aria-current="page"':""}>Calendar academic</a><a href="https://schedule.ulbsibiu.ro/" target="_blank" rel="noopener">Orare ULBS ↗</a></nav></aside>`;
 
   applyTheme();
   document.querySelectorAll("[data-ui-theme]").forEach(b=>b.onclick=()=>setUiTheme(b.dataset.uiTheme));
@@ -130,7 +128,7 @@ async function loadData(){
   if(DATA.length)return DATA;
   const [j,man]=await Promise.all([getCompressedJson("data.json.gz").catch(()=>getJson("data.json")),getJson("manual.json").catch(()=>[])]);
   if(!j||!Array.isArray(j.items))throw new Error("Format invalid");
-  DATA_META={count:j.count||j.items.length,updated:j.updated||""};
+  DATA_META={count:j.count||j.items.length,updated:j.updated||"",mode:j.mode||"",sourceStatus:Array.isArray(j.source_status)?j.source_status:[]};
   const manual=(Array.isArray(man)?man:[]).filter(m=>m&&m.title).map(m=>({title:m.title,url:m.url||"",date:m.date||"",text:m.text||"",source:"Adăugat manual",type:"anunt",prog:m.prog?.length?m.prog:["AMG","TD"],spec:true}));
   const auto=j.items.map(d=>({...d,prog:Array.isArray(d.prog)&&d.prog.length?d.prog:(d.amg?["AMG"]:["AMG","TD"]),spec:d.spec??!!d.amg}));
   DATA=[...manual,...auto].map(d=>({...d,_t:fold(d.title),_b:fold((d.text||"")+" "+safeDecode(d.url))}));
@@ -311,8 +309,9 @@ async function initLinks(){
   const status=$("sourceStatus");if(!status)return;
   const counts={};data.forEach(d=>{counts[d.source]=(counts[d.source]||0)+1});
   const updated=DATA_META.updated?new Date(DATA_META.updated).toLocaleString("ro-RO"):"necunoscut";
-  status.innerHTML=`<div class="status-summary"><strong>${DATA_META.count||data.length}</strong><span>elemente indexate</span><small>Ultima actualizare: ${esc(updated)}</small></div>`+
-    Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([s,n])=>`<div class="status-source"><span class="status-dot"></span><strong>${esc(s)}</strong><span>${n} elemente</span></div>`).join("");
+  const sourceMeta=new Map((DATA_META.sourceStatus||[]).map(x=>[x.name,x]));
+  status.innerHTML=`<div class="status-summary"><strong>${DATA_META.count||data.length}</strong><span>elemente indexate</span><small>Ultima actualizare: ${esc(updated)}${DATA_META.mode?" · "+esc(DATA_META.mode):""}</small></div>`+
+    Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([s,n])=>{const meta=sourceMeta.get(s),fallback=!!meta?.used_cache;return `<div class="status-source${fallback?" status-warning":""}"><span class="status-dot"></span><strong>${esc(s)}</strong><span>${n} elemente${meta?" · "+meta.fresh_count+" verificate acum":""}${fallback?" · date anterioare păstrate":""}</span></div>`}).join("");
 }
 function initFeedback(){
   const form=$("feedbackForm"),status=$("feedbackStatus");if(!form)return;
@@ -358,7 +357,7 @@ async function init(){
     if(page==="linkuri")await initLinks();
     if(page==="feedback")initFeedback();
   if(page==="anul1")initFirstYear();
-    if(!DATA.length&&["calendar","feedback","faq"].includes(page)===false)await loadData();
+    if(!DATA.length&&["calendar","feedback","faq","updates"].includes(page)===false)await loadData();
   }catch(e){
     const message="Datele nu au putut fi încărcate. Reîncarcă pagina pentru a încerca din nou.";
     const c=$("count");if(c)c.textContent=message;
@@ -367,6 +366,6 @@ async function init(){
     });
     console.error(e);
   }
-  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=35",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
+  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=38",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
 }
 document.addEventListener("DOMContentLoaded",init);
