@@ -51,7 +51,7 @@ function statusCard(title,state,detail,meta=""){return '<article class="site-sta
 async function fetchHealth(url){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),8000);try{const r=await fetch(url+(url.includes("?")?"&":"?")+"health="+Date.now(),{cache:"no-store",signal:controller.signal});return {ok:r.ok,status:r.status,response:r}}catch(e){return {ok:false,status:0,error:e}}finally{clearTimeout(timer)}}
 async function readHealthData(){
   let r=await fetchHealth("data.json.gz");
-  if(r.ok&&"DecompressionStream" in window&&r.response.body){try{return JSON.parse(await new Response(r.response.body.pipeThrough(new DecompressionStream("gzip"))).text())}catch{}}
+  if(r.ok){try{const bytes=await r.response.arrayBuffer(),plain=new TextDecoder().decode(bytes);try{return JSON.parse(plain)}catch{}if("DecompressionStream" in window)return JSON.parse(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"))).text())}catch{}}
   r=await fetchHealth("data.json");if(!r.ok)throw new Error("Indexul de date nu răspunde");
   const j=await r.response.json();if(!j||!j.updated||!Array.isArray(j.items))throw new Error("Indexul de date are format invalid");return j;
 }
@@ -73,6 +73,6 @@ async function loadSiteStatus(){
   const worst=checks.reduce((a,x)=>statusRank[x.state]>statusRank[a]?x.state:a,"ok");overall.dataset.state=worst;$("siteOverallText").textContent=worst==="ok"?"Toate sistemele sunt operaționale":worst==="warn"?"Site funcțional, dar necesită atenție":"A fost detectată o problemă";$("siteOverallNote").textContent=worst==="ok"?"Nu am găsit probleme în verificările automate.":worst==="warn"?"Vezi elementele marcate cu Atenție mai jos.":"Vezi componenta marcată cu Eroare pentru cauza probabilă.";$("statusCheckedAt").textContent="Diagnostic rulat: "+new Date().toLocaleString("ro-RO");
 }
 $("statusRefresh").onclick=loadSiteStatus;
-if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js?v=38",{updateViaCache:"none"}).then(r=>r.update()).catch(()=>{});
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js?v=40",{updateViaCache:"none"}).then(r=>r.update()).catch(()=>{});
 
 })();

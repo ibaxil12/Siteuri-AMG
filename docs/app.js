@@ -121,8 +121,10 @@ window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredIns
 const getJson=u=>fetch(u,{cache:"no-cache"}).then(async r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()});
 const getCompressedJson=async u=>{
   const r=await fetch(u,{cache:"no-cache"});if(!r.ok)throw new Error("HTTP "+r.status);
-  if(!("DecompressionStream" in window)||!r.body)throw new Error("gzip unsupported");
-  return JSON.parse(await new Response(r.body.pipeThrough(new DecompressionStream("gzip"))).text());
+  const bytes=await r.arrayBuffer(),plain=new TextDecoder().decode(bytes);
+  try{return JSON.parse(plain)}catch{}
+  if(!("DecompressionStream" in window))throw new Error("gzip unsupported");
+  return JSON.parse(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"))).text());
 };
 async function loadData(){
   if(DATA.length)return DATA;
@@ -368,6 +370,6 @@ async function init(){
     });
     console.error(e);
   }
-  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=39",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
+  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js?v=40",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{});}
 }
 document.addEventListener("DOMContentLoaded",init);

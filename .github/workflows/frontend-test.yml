@@ -37,8 +37,8 @@ jobs:
           test -f docs/icon-192.png
           test -f docs/icon-512.png
           grep -q 'CampusMed' docs/manifest.webmanifest
-          grep -q 'campusmed-v39' docs/sw.js
-          grep -q 'sw.js?v=39' docs/app.js
+          grep -q 'campusmed-v40' docs/sw.js
+          grep -q 'sw.js?v=40' docs/app.js
       - name: Check current asset versions
         run: |
           for page in docs/*.html; do

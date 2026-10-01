@@ -64,3 +64,13 @@ test('first-year news passes items before the target ID', async () => {
     assert.equal(limit, 6);
   }
 });
+
+test('loads JSON returned from the gzip URL when the server already decoded it', async () => {
+  const calls = [];
+  const ctx = context(async url => {
+    calls.push(url);
+    return new Response(url === 'manual.json' ? '[]' : JSON.stringify(payload));
+  });
+  assert.equal((await vm.runInContext('loadData()', ctx)).length, 1);
+  assert.equal(calls.includes('data.json'), false);
+});
