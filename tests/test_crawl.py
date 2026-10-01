@@ -19,7 +19,10 @@ class CrawlTests(unittest.TestCase):
                 crawl.main()
             plain = out.with_suffix("").read_bytes()
             self.assertEqual(plain, gzip.decompress(out.read_bytes()))
-            payload = json.loads(plain)\n            self.assertEqual(payload["mode"], "full")\n            self.assertEqual(payload["source_status"][0]["used_cache"], False)\n            self.assertEqual(payload["count"], 1)
+            payload = json.loads(plain)
+            self.assertEqual(payload["mode"], "full")
+            self.assertEqual(payload["source_status"][0]["used_cache"], False)
+            self.assertEqual(payload["count"], 1)
             self.assertEqual(payload["items"], [doc])
 
     def test_quick_mode_merges_fresh_items_with_previous_index(self):
