@@ -4,12 +4,12 @@ on:
   push:
     paths:
       - "docs/**"
-      - "tests/frontend-data.test.cjs"
+      - "tests/frontend-*.test.cjs"
       - ".github/workflows/frontend-test.yml"
   pull_request:
     paths:
       - "docs/**"
-      - "tests/frontend-data.test.cjs"
+      - "tests/frontend-*.test.cjs"
       - ".github/workflows/frontend-test.yml"
 
 permissions:
@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Test data loading and rendering
-        run: node --test tests/frontend-data.test.cjs
+      - name: Test data loading and frontend integrity
+        run: node --test tests/frontend-*.test.cjs
       - name: Check JavaScript syntax
         run: |
           node --check docs/app.js
@@ -30,27 +30,20 @@ jobs:
           node --check docs/admin-feedback.js
           node --check docs/updates.js
           node --check docs/supabase-config.js
-      - name: Check required PWA files
+      - name: Check PWA generation
         run: |
-          test -f docs/index.html
+          test -f docs/.nojekyll
           test -f docs/manifest.webmanifest
           test -f docs/icon-192.png
           test -f docs/icon-512.png
           grep -q 'CampusMed' docs/manifest.webmanifest
           grep -q 'campusmed-v38' docs/sw.js
-      - name: Check page asset versions
+          grep -q 'sw.js?v=38' docs/app.js
+      - name: Check current asset versions
         run: |
           for page in docs/*.html; do
-            if grep -Fq 'style.css?v=' "$page"; then
-              if ! grep -Fq 'style.css?v=33' "$page"; then
-                echo "CSS vechi în $page"
-                exit 1
-              fi
-            fi
-            if grep -Fq 'app.js?v=' "$page"; then
-              if ! grep -Fq 'app.js?v=25' "$page"; then
-                echo "Versiune app.js invalidă în $page"
-                exit 1
-              fi
+            grep -Fq 'style.css?v=33' "$page" || { echo "CSS vechi în $page"; exit 1; }
+            if grep -Fq 'app.js?v=' "$page" && ! grep -Fq 'app.js?v=25' "$page"; then
+              echo "Versiune app.js invalidă în $page"; exit 1
             fi
           done
